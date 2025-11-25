@@ -5,11 +5,11 @@
    - Spacing via flex/grid gap & logical props (no mt/mb hacks)
    - Components: headings, panels, cards, buttons, inputs, tables, alerts, badges
    - Container-query responsive helpers (no media breakpoints)
-   - Dark Mode scoped with .wpea-dark
+   - Dark Mode via CSS light-dark() function
    ========================================================= */
 
 /* =========================
-   TOKENS — CORE (LIGHT)
+   TOKENS — CORE
    ========================= */
    :root {
     /* Font family — system UI sans-serif stack */
@@ -22,9 +22,9 @@
     --wpea-scale: 1.333;
   
     /* Palette bases (hex for readability) */
-    --wpea-color--primary: #3366ff;    /* cobalt-ish */
-    --wpea-color--secondary: #17a2b8;  /* teal-ish */
-    --wpea-color--neutral: #777777;    /* mid gray */
+    --wpea-color--primary: light-dark(#3366ff, #7aa2ff);    /* cobalt-ish */
+    --wpea-color--secondary: light-dark(#17a2b8, #3fc0d3);  /* teal-ish */
+    --wpea-color--neutral: light-dark(#777777, #9aa0a6);    /* mid gray */
     --wpea-color--success: #22c55e;    /* green */
     --wpea-color--warning: #f59e0b;    /* amber */
     --wpea-color--danger: #ef4444;     /* red */
@@ -33,8 +33,8 @@
     /* Fixed colors */
     --wpea-color--black: #000000;
     --wpea-color--white: #ffffff;
-    --wpea-color--text: #111111;
-    --wpea-color--text-muted: #666666;
+    --wpea-color--text: light-dark(#111111, #f3f4f6);
+    --wpea-color--text-muted: light-dark(#666666, #b7bcc5);
   
     /* ---------- Primary: 10 light / 10 dark / 10 transparencies ---------- */
     --wpea-color--primary-l-1:  color-mix(in oklab, var(--wpea-color--primary), white 10%);
@@ -302,119 +302,45 @@
     --wpea-anim-distance--medium: calc(var(--wpea-fs-base) * 0.5);
     --wpea-anim-distance--long: calc(var(--wpea-fs-base) * 1);
   
-    /* Shadows (light mode uses black shadows) */
-    --wpea-shadow--s: 0 1px 2px color-mix(in oklab, var(--wpea-color--black), transparent 90%);
-    --wpea-shadow--l: 0 4px 8px color-mix(in oklab, var(--wpea-color--black), transparent 85%);
-    --wpea-shadow--xl: 0 8px 16px color-mix(in oklab, var(--wpea-color--black), transparent 80%);
+    /* Shadows (light mode uses black shadows, dark mode uses subtle colored glows) */
+    --wpea-shadow--s: light-dark(
+      0 1px 2px color-mix(in oklab, var(--wpea-color--black), transparent 90%),
+      0 1px 3px color-mix(in oklab, var(--wpea-color--primary), transparent 85%), 0 1px 2px color-mix(in oklab, var(--wpea-color--black), transparent 40%)
+    );
+    --wpea-shadow--l: light-dark(
+      0 4px 8px color-mix(in oklab, var(--wpea-color--black), transparent 85%),
+      0 4px 12px color-mix(in oklab, var(--wpea-color--primary), transparent 80%), 0 2px 6px color-mix(in oklab, var(--wpea-color--black), transparent 30%)
+    );
+    --wpea-shadow--xl: light-dark(
+      0 8px 16px color-mix(in oklab, var(--wpea-color--black), transparent 80%),
+      0 8px 24px color-mix(in oklab, var(--wpea-color--primary), transparent 75%), 0 4px 12px color-mix(in oklab, var(--wpea-color--black), transparent 20%)
+    );
   
-    /* Surfaces (LIGHT) */
-    --wpea-surface--bg: var(--wpea-color--white);
-    --wpea-surface--muted: var(--wpea-color--neutral-l-9);
-    --wpea-surface--panel: var(--wpea-color--white);
-    --wpea-surface--border: var(--wpea-color--neutral-l-7);
-    --wpea-surface--divider: var(--wpea-color--neutral-l-7);
+    /* Surfaces */
+    --wpea-surface--bg: light-dark(var(--wpea-color--white), #0f1115);
+    --wpea-surface--muted: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-d-9));
+    --wpea-surface--panel: light-dark(var(--wpea-color--white), var(--wpea-color--neutral-d-8));
+    --wpea-surface--border: light-dark(var(--wpea-color--neutral-l-7), color-mix(in oklab, #ffffff, transparent 84%));
+    --wpea-surface--divider: light-dark(var(--wpea-color--neutral-l-7), color-mix(in oklab, #ffffff, transparent 80%));
     --wpea-surface--text: var(--wpea-color--text);
     --wpea-surface--text-muted: var(--wpea-color--text-muted);
-    --wpea-surface--focus: var(--wpea-color--primary-t-50);
+    --wpea-surface--focus: light-dark(var(--wpea-color--primary-t-50), color-mix(in oklab, var(--wpea-color--primary), transparent 55%));
     --wpea-focus-shadow: 0 0 0 3px var(--wpea-surface--focus);
-  
-    /* Elevations mapped to neutral ladder */
-    --wpea-surface--elev-1: var(--wpea-color--neutral-l-9);
-    --wpea-surface--elev-2: var(--wpea-color--neutral-l-8);
-    --wpea-surface--elev-3: var(--wpea-color--neutral-l-7);
 
-    /* Badge tokens (light mode) */
-    --wpea-badge--bg: var(--wpea-color--neutral-l-9);
-    --wpea-badge--fg: var(--wpea-surface--text);
+    /* Elevations mapped to neutral ladder */
+    --wpea-surface--elev-1: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-d-8));
+    --wpea-surface--elev-2: light-dark(var(--wpea-color--neutral-l-8), var(--wpea-color--neutral-d-7));
+    --wpea-surface--elev-3: light-dark(var(--wpea-color--neutral-l-7), var(--wpea-color--neutral-d-6));
+
+    /* Badge tokens */
+    --wpea-badge--bg: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-d-3));
+    --wpea-badge--fg: light-dark(var(--wpea-surface--text), var(--wpea-color--white));
 
     /* Radii */
     --wpea-radius--sm: 6px;
     --wpea-radius--md: 10px;
     --wpea-radius--lg: 16px;
     --wpea-radius--xl: 999px; /* pills */
-  }
-  
-  /* =========================
-     DARK MODE — scoped & OS preference
-     ========================= */
-
-  /* Dark mode with OS preference support */
-  :root:not([data-color-scheme]) {
-    @media (prefers-color-scheme: dark) {
-      /* Base palette colors (variants auto-recalculate via color-mix) */
-      --wpea-color--primary: #7aa2ff;
-      --wpea-color--secondary: #3fc0d3;
-      --wpea-color--neutral: #9aa0a6;
-      --wpea-color--text: #f3f4f6;
-      --wpea-color--text-muted: #b7bcc5;
-
-      /* Surface semantic tokens */
-      --wpea-surface--bg: #0f1115;
-      --wpea-surface--muted: var(--wpea-color--neutral-d-9);
-      --wpea-surface--panel: var(--wpea-color--neutral-d-8);
-      --wpea-surface--border: color-mix(in oklab, #ffffff, transparent 84%);
-      --wpea-surface--divider: color-mix(in oklab, #ffffff, transparent 80%);
-      --wpea-surface--text: var(--wpea-color--text);
-      --wpea-surface--text-muted: var(--wpea-color--text-muted);
-      --wpea-surface--focus: color-mix(in oklab, var(--wpea-color--primary), transparent 55%);
-      --wpea-focus-shadow: 0 0 0 3px var(--wpea-surface--focus);
-
-      /* Elevation tokens */
-      --wpea-surface--elev-1: var(--wpea-color--neutral-d-8);
-      --wpea-surface--elev-2: var(--wpea-color--neutral-d-7);
-      --wpea-surface--elev-3: var(--wpea-color--neutral-d-6);
-
-      /* Shadow tokens (dark mode uses subtle colored glows) */
-      --wpea-shadow--s: 0 1px 3px color-mix(in oklab, var(--wpea-color--primary), transparent 85%),
-                        0 1px 2px color-mix(in oklab, var(--wpea-color--black), transparent 40%);
-      --wpea-shadow--l: 0 4px 12px color-mix(in oklab, var(--wpea-color--primary), transparent 80%),
-                        0 2px 6px color-mix(in oklab, var(--wpea-color--black), transparent 30%);
-      --wpea-shadow--xl: 0 8px 24px color-mix(in oklab, var(--wpea-color--primary), transparent 75%),
-                         0 4px 12px color-mix(in oklab, var(--wpea-color--black), transparent 20%);
-
-      /* Badge tokens */
-      --wpea-badge--bg: var(--wpea-color--neutral-d-3);
-      --wpea-badge--fg: var(--wpea-color--white);
-    }
-  }
-
-  /* Explicit dark mode (forced via data-color-scheme="dark") */
-  [data-color-scheme="dark"],
-  .wpea-dark {
-    /* Base palette colors (variants auto-recalculate via color-mix) */
-    --wpea-color--primary: #7aa2ff;
-    --wpea-color--secondary: #3fc0d3;
-    --wpea-color--neutral: #9aa0a6;
-    --wpea-color--text: #f3f4f6;
-    --wpea-color--text-muted: #b7bcc5;
-
-    /* Surface semantic tokens */
-    --wpea-surface--bg: #0f1115;
-    --wpea-surface--muted: var(--wpea-color--neutral-d-9);
-    --wpea-surface--panel: var(--wpea-color--neutral-d-8);
-    --wpea-surface--border: color-mix(in oklab, #ffffff, transparent 84%);
-    --wpea-surface--divider: color-mix(in oklab, #ffffff, transparent 80%);
-    --wpea-surface--text: var(--wpea-color--text);
-    --wpea-surface--text-muted: var(--wpea-color--text-muted);
-    --wpea-surface--focus: color-mix(in oklab, var(--wpea-color--primary), transparent 55%);
-    --wpea-focus-shadow: 0 0 0 3px var(--wpea-surface--focus);
-
-    /* Elevation tokens */
-    --wpea-surface--elev-1: var(--wpea-color--neutral-d-8);
-    --wpea-surface--elev-2: var(--wpea-color--neutral-d-7);
-    --wpea-surface--elev-3: var(--wpea-color--neutral-d-6);
-
-    /* Shadow tokens (dark mode uses subtle colored glows) */
-    --wpea-shadow--s: 0 1px 3px color-mix(in oklab, var(--wpea-color--primary), transparent 85%),
-                      0 1px 2px color-mix(in oklab, var(--wpea-color--black), transparent 40%);
-    --wpea-shadow--l: 0 4px 12px color-mix(in oklab, var(--wpea-color--primary), transparent 80%),
-                      0 2px 6px color-mix(in oklab, var(--wpea-color--black), transparent 30%);
-    --wpea-shadow--xl: 0 8px 24px color-mix(in oklab, var(--wpea-color--primary), transparent 75%),
-                       0 4px 12px color-mix(in oklab, var(--wpea-color--black), transparent 20%);
-
-    /* Badge tokens */
-    --wpea-badge--bg: var(--wpea-color--neutral-d-3);
-    --wpea-badge--fg: var(--wpea-color--white);
   }
   
   /* =========================
@@ -708,8 +634,7 @@
   
   .wpea-btn--primary   { --_bg: var(--wpea-color--primary);   --_bg-hover: var(--wpea-color--primary-d-2); }
   .wpea-btn--secondary { --_bg: var(--wpea-color--secondary); --_bg-hover: var(--wpea-color--secondary-d-2); }
-  .wpea-btn--ghost     { --_bg: transparent; --_bg-hover: var(--wpea-color--primary-t-10); --_fg: var(--wpea-color--primary); border: 1px solid var(--wpea-color--primary-t-40); }
-  .wpea-dark .wpea-btn--ghost:hover { background: var(--wpea-color--primary-t-20); }
+  .wpea-btn--ghost     { --_bg: transparent; --_bg-hover: light-dark(var(--wpea-color--primary-t-10), var(--wpea-color--primary-t-20)); --_fg: var(--wpea-color--primary); border: 1px solid var(--wpea-color--primary-t-40); }
   
   .wpea-btn--sm { font-size: var(--wpea-text--sm); padding-block: calc(var(--wpea-s-2) * .45); padding-inline: var(--wpea-s-2); }
   .wpea-btn--lg { font-size: var(--wpea-text--lg); padding-block: var(--wpea-s-2); padding-inline: var(--wpea-s-4); }
@@ -743,66 +668,21 @@
     font-size: var(--wpea-text--xs);
     line-height: 1.25;
   }
-  .badge--primary { background: var(--wpea-color--primary-t-20); color: var(--wpea-color--primary); }
-  .badge--success { background: color-mix(in oklab, #16a34a, transparent 85%); color: #16a34a; }
-  .badge--warning { background: color-mix(in oklab, #f59e0b, transparent 85%); color: #f59e0b; }
-  .badge--danger  { background: color-mix(in oklab, #ef4444, transparent 85%); color: #ef4444; }
-
-  /* Dark mode badge variants */
-  [data-color-scheme="dark"] .badge--primary,
-  :root:not([data-color-scheme]) .badge--primary,
-  .wpea-dark .badge--primary {
-    background: color-mix(in oklab, var(--wpea-color--primary-d-3), transparent 15%);
-    color: var(--wpea-color--white);
+  .badge--primary {
+    background: light-dark(var(--wpea-color--primary-t-20), color-mix(in oklab, var(--wpea-color--primary-d-3), transparent 15%));
+    color: light-dark(var(--wpea-color--primary), var(--wpea-color--white));
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-color-scheme]) .badge--primary {
-      background: color-mix(in oklab, var(--wpea-color--primary-d-3), transparent 15%);
-      color: var(--wpea-color--white);
-    }
+  .badge--success {
+    background: light-dark(color-mix(in oklab, #16a34a, transparent 85%), color-mix(in oklab, #16a34a, transparent 30%));
+    color: light-dark(#16a34a, #e8fce9);
   }
-
-  [data-color-scheme="dark"] .badge--success,
-  :root:not([data-color-scheme]) .badge--success,
-  .wpea-dark .badge--success {
-    background: color-mix(in oklab, #16a34a, transparent 30%);
-    color: #e8fce9;
+  .badge--warning {
+    background: light-dark(color-mix(in oklab, #f59e0b, transparent 85%), color-mix(in oklab, #f59e0b, transparent 35%));
+    color: light-dark(#f59e0b, #fff7e6);
   }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-color-scheme]) .badge--success {
-      background: color-mix(in oklab, #16a34a, transparent 30%);
-      color: #e8fce9;
-    }
-  }
-
-  [data-color-scheme="dark"] .badge--warning,
-  :root:not([data-color-scheme]) .badge--warning,
-  .wpea-dark .badge--warning {
-    background: color-mix(in oklab, #f59e0b, transparent 35%);
-    color: #fff7e6;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-color-scheme]) .badge--warning {
-      background: color-mix(in oklab, #f59e0b, transparent 35%);
-      color: #fff7e6;
-    }
-  }
-
-  [data-color-scheme="dark"] .badge--danger,
-  :root:not([data-color-scheme]) .badge--danger,
-  .wpea-dark .badge--danger {
-    background: color-mix(in oklab, #ef4444, transparent 30%);
-    color: #ffecec;
-  }
-
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-color-scheme]) .badge--danger {
-      background: color-mix(in oklab, #ef4444, transparent 30%);
-      color: #ffecec;
-    }
+  .badge--danger  {
+    background: light-dark(color-mix(in oklab, #ef4444, transparent 85%), color-mix(in oklab, #ef4444, transparent 30%));
+    color: light-dark(#ef4444, #ffecec);
   }
   
 

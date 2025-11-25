@@ -79,8 +79,8 @@
   </style>
 </head>
 
-<!-- Toggle dark mode by adding/removing .wpea-dark on <body> -->
-<body class="wpea wpea-cq" style="--wpea-density: comfy;">
+<!-- Color scheme controlled via CSS color-scheme property -->
+<body class="wpea wpea-cq" style="--wpea-density: comfy; color-scheme: light dark;">
   <div class="demo-shell">
 
     <!-- HEADER -->
@@ -92,7 +92,11 @@
       <div class="wpea-cluster">
         <button class="wpea-btn wpea-btn--ghost wpea-hide-md-down" id="btn-compact">Compact</button>
         <button class="wpea-btn wpea-btn--secondary">New Item</button>
-        <button class="wpea-btn wpea-btn--primary" id="btn-dark">Dark Mode</button>
+        <select id="theme-selector" class="wpea-select" style="width: auto;">
+          <option value="auto">Respect OS</option>
+          <option value="light">Light</option>
+          <option value="dark">Dark</option>
+        </select>
       </div>
     </header>
 
@@ -138,7 +142,7 @@
         <div class="wpea-cluster">
           <span class="badge badge--primary">CQ: on</span>
           <span class="badge" id="badge-density">Density: comfy</span>
-          <span class="badge" id="badge-theme">Theme: light</span>
+          <span class="badge" id="badge-theme">Theme: Respect OS</span>
         </div>
       </div>
     </aside>
@@ -360,28 +364,56 @@
     </main>
   </div>
 
-  <!-- Demo JS: dark mode & compact toggles, switch behavior -->
+  <!-- Demo JS: theme selector, compact toggles, switch behavior -->
   <script>
     (function () {
-      const btnDark = document.getElementById('btn-dark');
+      const themeSelector = document.getElementById('theme-selector');
       const btnCompact = document.getElementById('btn-compact');
       const badgeDensity = document.getElementById('badge-density');
       const badgeTheme = document.getElementById('badge-theme');
       const shell = document.body; // .wpea lives on body
 
-      function isDark() { return shell.classList.contains('wpea-dark'); }
+      function getTheme() {
+        const colorScheme = shell.style.getPropertyValue('color-scheme').trim();
+        if (colorScheme === 'light dark' || colorScheme === 'dark light') return 'auto';
+        if (colorScheme === 'light only' || colorScheme === 'light') return 'light';
+        if (colorScheme === 'dark only' || colorScheme === 'dark') return 'dark';
+        return 'auto';
+      }
+
+      function setTheme(theme) {
+        switch(theme) {
+          case 'light':
+            shell.style.setProperty('color-scheme', 'light only');
+            break;
+          case 'dark':
+            shell.style.setProperty('color-scheme', 'dark only');
+            break;
+          case 'auto':
+          default:
+            shell.style.setProperty('color-scheme', 'light dark');
+            break;
+        }
+      }
+
       function getDensity() { return (shell.style.getPropertyValue('--wpea-density') || 'comfy').trim(); }
       function setDensity(v) { shell.style.setProperty('--wpea-density', v); }
 
       function updateBadges() {
-        if (badgeTheme)  badgeTheme.textContent  = 'Theme: ' + (isDark() ? 'dark' : 'light');
+        const theme = getTheme();
+        const themeLabel = theme === 'auto' ? 'Respect OS' : theme.charAt(0).toUpperCase() + theme.slice(1);
+        if (badgeTheme) badgeTheme.textContent = 'Theme: ' + themeLabel;
         if (badgeDensity) badgeDensity.textContent = 'Density: ' + (getDensity() || 'comfy');
       }
 
-      if (btnDark) btnDark.addEventListener('click', () => {
-        shell.classList.toggle('wpea-dark');
-        updateBadges();
-      });
+      if (themeSelector) {
+        themeSelector.addEventListener('change', () => {
+          setTheme(themeSelector.value);
+          updateBadges();
+        });
+        // Initialize selector to current theme
+        themeSelector.value = getTheme();
+      }
 
       if (btnCompact) btnCompact.addEventListener('click', () => {
         setDensity(getDensity() === 'compact' ? 'comfy' : 'compact');

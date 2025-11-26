@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(git fetch:*)",
-      "Bash(git pull:*)"
+      "Bash(git pull:*)",
+      "Bash(dir /b /s .vscode)",
+      "Bash(npm create:*)",
+      "Bash(npm install)",
+      "Bash(xcopy:*)"
     ],
     "deny": [],
     "ask": []

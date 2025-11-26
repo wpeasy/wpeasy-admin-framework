@@ -1,0 +1,7 @@
+{
+  "svelte.enable-ts-plugin": true,
+  "files.associations": {
+    "*.svelte": "svelte"
+  },
+  "typescript.tsdk": "svelte/node_modules/typescript/lib"
+}

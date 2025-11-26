@@ -10,6 +10,8 @@
 
   <!-- Demo-only layout (container-query, no media) -->
   <style>
+    html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+
     .demo-shell { /* grid shell with header + sidebar + main */
       container-type: inline-size;
       display: grid;
@@ -22,7 +24,7 @@
     }
     .demo-header {
       grid-column: 1 / -1; grid-row: 1;
-      position: sticky; top: 0; z-index: 20;
+      position: sticky; top: 0; z-index: 30;
       background: var(--wpea-surface--panel);
       border-block-end: 1px solid var(--wpea-surface--border);
       padding-block: var(--wpea-space--sm);
@@ -31,63 +33,139 @@
     }
     .demo-sidebar {
       grid-column: 1; grid-row: 2;
+      position: sticky;
+      top: 60px;
+      height: calc(100vh - 60px);
+      overflow-y: auto;
       background: var(--wpea-surface--panel);
       border-inline-end: 1px solid var(--wpea-surface--border);
-      display: flex; flex-direction: column; gap: var(--wpea-space--md);
+      display: flex; flex-direction: column;
       padding-block: var(--wpea-space--lg);
       padding-inline: var(--wpea-space--md);
-      /* sidebar mode for density tweaks */
       --wpea-mode: sidebar;
     }
     .demo-main {
       grid-column: 2; grid-row: 2;
       padding-block: var(--wpea-space--lg);
       padding-inline: var(--wpea-space--lg);
-      display: flex; flex-direction: column; gap: var(--wpea-space--lg);
+      display: flex; flex-direction: column; gap: var(--wpea-space--2xl);
     }
 
-    /* Container-query collapse (no media) */
+    /* Section styling */
+    .demo-section {
+      scroll-margin-top: 80px;
+    }
+    .demo-section__title {
+      font-size: var(--wpea-text--2xl);
+      font-weight: 700;
+      color: var(--wpea-color--heading);
+      margin-block-end: var(--wpea-space--lg);
+      padding-block-end: var(--wpea-space--sm);
+      border-block-end: 2px solid var(--wpea-surface--border);
+    }
+
+    /* Hamburger menu */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      padding: 8px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+    .hamburger span {
+      width: 24px;
+      height: 2px;
+      background: var(--wpea-surface--text);
+      transition: all 0.3s;
+    }
+    .hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    .hamburger.active span:nth-child(2) { opacity: 0; }
+    .hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+
+    /* Demo nav */
+    .demo-nav { display: flex; flex-direction: column; gap: var(--wpea-space--xs); }
+    .demo-nav__section {
+      font-size: var(--wpea-text--xs);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--wpea-surface--text-muted);
+      margin-block-start: var(--wpea-space--md);
+      margin-block-end: var(--wpea-space--xs);
+    }
+    .demo-nav__section:first-child { margin-block-start: 0; }
+    .demo-nav a {
+      display: block; text-decoration: none; color: inherit;
+      padding-block: .5rem; padding-inline: .7rem;
+      border-radius: var(--wpea-radius--sm);
+      transition: background var(--wpea-anim-duration--fast), color var(--wpea-anim-duration--fast);
+      font-size: var(--wpea-text--sm);
+    }
+    .demo-nav a:hover { background: var(--wpea-surface--muted); }
+    .demo-nav a.active {
+      background: var(--wpea-color--primary-t-20);
+      color: var(--wpea-color--primary);
+      font-weight: 600;
+    }
+
+    /* Mobile responsive */
     @container (max-width: 47.99rem) {
       .demo-shell {
         grid-template-columns: 1fr;
-        grid-template-rows: auto auto auto;
+        grid-template-rows: auto 1fr;
       }
-      .demo-header  { grid-column: 1; grid-row: 1; }
-      .demo-main    { grid-column: 1; grid-row: 2; }
-      .demo-sidebar { grid-column: 1; grid-row: 3; border-inline-end: 0; border-block-start: 1px solid var(--wpea-surface--border); }
-    }
-
-    /* Demo nav */
-    .demo-nav a {
-      display: block; text-decoration: none; color: inherit;
-      padding-block: .55rem; padding-inline: .7rem;
-      border-radius: var(--wpea-radius--sm);
-      transition: background var(--wpea-anim-duration--fast);
-    }
-    .demo-nav a:hover { background: var(--wpea-surface--muted); }
-    .demo-nav a[aria-current="page"] {
-      background: var(--wpea-color--primary-t-20);
-      color: var(--wpea-color--primary);
-    }
-
-    /* Subtle lifts on cards in main */
-    .demo-main .wpea-card:hover {
-      box-shadow: var(--wpea-shadow--l);
-      transform: translateY(-2px);
-      transition: transform var(--wpea-anim-duration--fast), box-shadow var(--wpea-anim-duration--fast);
+      .demo-header { grid-column: 1; grid-row: 1; }
+      .demo-main { grid-column: 1; grid-row: 2; }
+      .demo-sidebar {
+        position: fixed;
+        top: 60px;
+        left: -280px;
+        width: 260px;
+        height: calc(100vh - 60px);
+        z-index: 20;
+        border-inline-end: 1px solid var(--wpea-surface--border);
+        box-shadow: var(--wpea-shadow--xl);
+        transition: left 0.3s ease;
+      }
+      .demo-sidebar.open {
+        left: 0;
+      }
+      .hamburger {
+        display: flex;
+      }
+      .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        height: calc(100vh - 60px);
+        background: color-mix(in oklab, var(--wpea-color--black), transparent 50%);
+        z-index: 15;
+      }
+      .sidebar-overlay.open {
+        display: block;
+      }
     }
   </style>
 </head>
 
 <!-- Color scheme controlled via CSS color-scheme property -->
-<body class="wpea wpea-cq" style="--wpea-density: comfy; color-scheme: light dark;">
+<body class="wpea wpea-cq" style="--wpea-density: comfy; color-scheme: light dark; padding:0; margin:0">
   <div class="demo-shell">
 
     <!-- HEADER -->
     <header class="demo-header">
       <div class="wpea-cluster">
+        <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
         <strong class="wpea-text-lg">WPE_Admin</strong>
-        <span class="badge badge--primary">v1.0</span>
+        <span class="badge badge--primary">v2.0</span>
       </div>
       <div class="wpea-cluster">
         <button class="wpea-btn wpea-btn--ghost wpea-hide-md-down" id="btn-compact">Compact</button>
@@ -100,118 +178,353 @@
       </div>
     </header>
 
+    <!-- Sidebar overlay for mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <!-- SIDEBAR -->
-    <aside class="demo-sidebar">
-      <nav class="demo-nav wpea-stack">
-        <div class="wpea-label">Navigation</div>
-        <a href="#" aria-current="page">Dashboard</a>
-        <a href="#">Orders</a>
-        <a href="#">Customers</a>
-        <a href="#">Reports</a>
-        <a href="#">Settings</a>
+    <aside class="demo-sidebar" id="sidebar">
+      <nav class="demo-nav">
+        <div class="demo-nav__section">Components</div>
+        <a href="#alerts-badges">Alerts & Badges</a>
+        <a href="#toasts">Toasts</a>
+        <a href="#typography">Typography</a>
+        <a href="#buttons">Buttons</a>
+        <a href="#forms-inputs">Forms & Inputs</a>
+        <a href="#tables">Tables</a>
+        <a href="#tabs">Tabs</a>
+        <a href="#accordions">Accordions</a>
+        <a href="#cards-panels">Cards & Panels</a>
       </nav>
-
-      <div class="wpea-panel">
-        <div class="wpea-panel__header">
-          <div class="wpea-heading wpea-heading--sm">Quick Filters</div>
-        </div>
-        <div class="wpea-stack">
-          <div class="wpea-field">
-            <label class="wpea-label" for="q">Search</label>
-            <input id="q" class="wpea-input" placeholder="Type to filter…" />
-          </div>
-          <div class="wpea-field">
-            <label class="wpea-label" for="seg">Segment</label>
-            <select id="seg" class="wpea-select">
-              <option>All</option>
-              <option>Active</option>
-              <option>Churn risk</option>
-            </select>
-          </div>
-          <div class="wpea-control" aria-label="Only with issues">
-            <div class="wpea-switch" role="switch" aria-checked="false" tabindex="0" id="sw-issues"></div>
-            <label for="sw-issues">Only with issues</label>
-          </div>
-        </div>
-      </div>
-
-      <div class="wpea-card">
-        <div class="wpea-card__title">Usage</div>
-        <div class="wpea-text-muted">Container queries at work — resize me.</div>
-        <hr class="wpea-divider" />
-        <div class="wpea-cluster">
-          <span class="badge badge--primary">CQ: on</span>
-          <span class="badge" id="badge-density">Density: comfy</span>
-          <span class="badge" id="badge-theme">Theme: Respect OS</span>
-        </div>
-      </div>
     </aside>
 
     <!-- MAIN -->
     <main class="demo-main">
-      <!-- ALERTS -->
-      <section class="wpea-cluster">
-        <div class="wpea-alert wpea-alert--success">All systems nominal.</div>
-        <div class="wpea-alert wpea-alert--warning">2 integrations need attention.</div>
-        <div class="wpea-alert wpea-alert--danger">API rate limit nearing quota.</div>
+      <!-- ALERTS & BADGES -->
+      <section id="alerts-badges" class="demo-section">
+        <h2 class="demo-section__title">Alerts & Badges</h2>
+
+        <div class="wpea-stack">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Alerts</div>
+            <div class="wpea-stack">
+              <div class="wpea-alert wpea-alert--success">All systems nominal.</div>
+              <div class="wpea-alert wpea-alert--warning">2 integrations need attention.</div>
+              <div class="wpea-alert wpea-alert--danger">API rate limit nearing quota.</div>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Badges</div>
+            <div class="wpea-cluster">
+              <span class="badge">Default</span>
+              <span class="badge badge--primary">Primary</span>
+              <span class="badge badge--success">Success</span>
+              <span class="badge badge--warning">Warning</span>
+              <span class="badge badge--danger">Danger</span>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Framework Info</div>
+            <div class="wpea-text-muted">Container queries at work — resize me.</div>
+            <hr class="wpea-divider" />
+            <div class="wpea-cluster">
+              <span class="badge badge--primary">CQ: on</span>
+              <span class="badge" id="badge-density">Density: comfy</span>
+              <span class="badge" id="badge-theme">Theme: Respect OS</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- TOASTS -->
+      <section id="toasts" class="demo-section">
+        <h2 class="demo-section__title">Toasts</h2>
+
+        <div class="wpea-stack">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Toast Positions</div>
+            <div class="wpea-cluster">
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="top-left">Top Left</button>
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="top-center">Top Center</button>
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="top-right">Top Right</button>
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="bottom-left">Bottom Left</button>
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="bottom-center">Bottom Center</button>
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="bottom-right">Bottom Right</button>
+              <button class="wpea-btn wpea-btn--primary" data-toast-position="center">Center</button>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Toast Types</div>
+            <div class="wpea-cluster">
+              <button class="wpea-btn wpea-btn--secondary" data-toast-type="default">Default</button>
+              <button class="wpea-btn wpea-btn--secondary" data-toast-type="success">Success</button>
+              <button class="wpea-btn wpea-btn--secondary" data-toast-type="warning">Warning</button>
+              <button class="wpea-btn wpea-btn--secondary" data-toast-type="danger">Danger</button>
+              <button class="wpea-btn wpea-btn--secondary" data-toast-type="info">Info</button>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- TYPOGRAPHY -->
-      <section class="wpea-card">
-        <div class="wpea-card__header">
-          <div class="wpea-card__title">Typography</div>
+      <section id="typography" class="demo-section">
+        <h2 class="demo-section__title">Typography</h2>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">Text Sizes</div>
+          <div class="wpea-stack">
+            <div class="wpea-text-4xl">Text 4XL</div>
+            <div class="wpea-text-3xl">Text 3XL</div>
+            <div class="wpea-text-2xl">Text 2XL</div>
+            <div class="wpea-text-xl">Text XL</div>
+            <div class="wpea-text-lg">Text LG</div>
+            <div class="wpea-text-md">Text MD (base)</div>
+            <div class="wpea-text-sm">Text SM</div>
+            <div class="wpea-text-xs">Text XS</div>
+          </div>
         </div>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">Headings</div>
+          <div class="wpea-stack">
+            <div class="wpea-heading wpea-heading--lg">Large Heading</div>
+            <div class="wpea-heading wpea-heading--md">Medium Heading</div>
+            <div class="wpea-heading wpea-heading--sm">Small Heading</div>
+            <div class="wpea-heading">Default Heading</div>
+            <div class="wpea-heading wpea-heading--muted">Muted Heading</div>
+          </div>
+        </div>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">Color Variables</div>
+          <div class="wpea-stack">
+            <div style="color: var(--wpea-color--heading);">Heading Color (--wpea-color--heading)</div>
+            <div style="color: var(--wpea-color--text);">Text Color (--wpea-color--text)</div>
+            <div style="color: var(--wpea-color--text-muted);">Muted Text (--wpea-color--text-muted)</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- BUTTONS -->
+      <section id="buttons" class="demo-section">
+        <h2 class="demo-section__title">Buttons</h2>
+
         <div class="wpea-stack">
-          <div class="wpea-text-4xl">Text 4XL</div>
-          <div class="wpea-text-3xl">Text 3XL</div>
-          <div class="wpea-text-2xl">Text 2XL</div>
-          <div class="wpea-text-xl">Text XL</div>
-          <div class="wpea-text-lg">Text LG</div>
-          <div class="wpea-text-md">Text MD (base)</div>
-          <div class="wpea-text-sm">Text SM</div>
-          <div class="wpea-text-xs">Text XS</div>
+          <div class="wpea-card">
+            <div class="wpea-card__title">Button Variants</div>
+            <div class="wpea-cluster">
+              <button class="wpea-btn">Default</button>
+              <button class="wpea-btn wpea-btn--primary">Primary</button>
+              <button class="wpea-btn wpea-btn--secondary">Secondary</button>
+              <button class="wpea-btn wpea-btn--ghost">Ghost</button>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Button Sizes</div>
+            <div class="wpea-cluster">
+              <button class="wpea-btn wpea-btn--primary wpea-btn--sm">Small</button>
+              <button class="wpea-btn wpea-btn--primary">Default</button>
+              <button class="wpea-btn wpea-btn--primary wpea-btn--lg">Large</button>
+            </div>
+          </div>
+
         </div>
       </section>
 
-      <!-- METRIC CARDS -->
-      <section class="wpea-grid-responsive">
+      <!-- FORMS & INPUTS -->
+      <section id="forms-inputs" class="demo-section">
+        <h2 class="demo-section__title">Forms & Inputs</h2>
+
         <div class="wpea-card">
-          <div class="wpea-card__title">Revenue</div>
-          <div class="wpea-heading wpea-heading--lg">$84,120</div>
-          <div class="wpea-card__sub">Last 30 days</div>
-          <div class="wpea-card__actions">
-            <button class="wpea-btn wpea-btn--ghost">Details</button>
-            <button class="wpea-btn wpea-btn--secondary">Export</button>
+          <div class="wpea-card__title">Switches</div>
+          <div class="wpea-stack">
+            <div>
+              <strong>Size Variants</strong>
+              <div class="wpea-cluster" style="margin-top: 12px;">
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--xs" for="sw-xs1">
+                    <input type="checkbox" id="sw-xs1" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-xs1">Extra Small</label>
+                </div>
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--s" for="sw-s1">
+                    <input type="checkbox" id="sw-s1" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-s1">Small</label>
+                </div>
+                <div class="wpea-control">
+                  <label class="wpea-switch" for="sw-default">
+                    <input type="checkbox" id="sw-default" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-default">Default</label>
+                </div>
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--m" for="sw-m1">
+                    <input type="checkbox" id="sw-m1" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-m1">Medium</label>
+                </div>
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--l" for="sw-l1">
+                    <input type="checkbox" id="sw-l1" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-l1">Large</label>
+                </div>
+              </div>
+            </div>
+            <hr class="wpea-divider">
+            <div>
+              <strong>Color Variants</strong>
+              <div class="wpea-cluster" style="margin-top: 12px;">
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--neutral" for="sw-neutral">
+                    <input type="checkbox" id="sw-neutral" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-neutral">Neutral</label>
+                </div>
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--primary" for="sw-primary">
+                    <input type="checkbox" id="sw-primary" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-primary">Primary</label>
+                </div>
+                <div class="wpea-control">
+                  <label class="wpea-switch wpea-switch--secondary" for="sw-secondary">
+                    <input type="checkbox" id="sw-secondary" checked>
+                    <span class="wpea-switch__slider"></span>
+                  </label>
+                  <label for="sw-secondary">Secondary</label>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="wpea-card">
-          <div class="wpea-card__title">Active Users</div>
-          <div class="wpea-heading wpea-heading--lg">12,431</div>
-          <div class="wpea-card__sub">+4.1% WoW</div>
-          <div class="wpea-card__actions">
-            <button class="wpea-btn wpea-btn--ghost">Details</button>
+
+        <div class="wpea-panel">
+          <div class="wpea-panel__header">
+            <div class="wpea-heading wpea-heading--sm">Quick Filters</div>
+          </div>
+          <div class="wpea-stack">
+            <div class="wpea-field">
+              <label class="wpea-label" for="q">Search</label>
+              <input id="q" class="wpea-input" placeholder="Type to filter…" />
+            </div>
+            <div class="wpea-field">
+              <label class="wpea-label" for="seg">Segment</label>
+              <select id="seg" class="wpea-select">
+                <option>All</option>
+                <option>Active</option>
+                <option>Churn risk</option>
+              </select>
+            </div>
+            <div class="wpea-control">
+              <label class="wpea-switch" for="sw-issues">
+                <input type="checkbox" id="sw-issues">
+                <span class="wpea-switch__slider"></span>
+              </label>
+              <label for="sw-issues">Only with issues</label>
+            </div>
           </div>
         </div>
-        <div class="wpea-card wpea-card--hover">
-          <div class="wpea-card__title">Errors</div>
-          <div class="wpea-heading wpea-heading--lg">37</div>
-          <div class="wpea-card__sub">Last 24h</div>
-          <div class="wpea-card__actions">
-            <button class="wpea-btn wpea-btn--primary">Investigate</button>
+
+        <div class="wpea-panel">
+          <div class="wpea-panel__header">
+            <div class="wpea-heading wpea-heading--md">Edit Product</div>
+            <div class="wpea-cluster">
+              <button class="wpea-btn wpea-btn--ghost">Discard</button>
+              <button class="wpea-btn wpea-btn--primary">Save</button>
+            </div>
           </div>
-        </div>
-        <div class="wpea-card">
-          <div class="wpea-card__title">NPS</div>
-          <div class="wpea-heading wpea-heading--lg">58</div>
-          <div class="wpea-card__sub">Good</div>
-          <div class="wpea-card__actions">
-            <button class="wpea-btn wpea-btn--ghost">Breakdown</button>
+
+          <div class="wpea-grid-responsive">
+            <div class="wpea-card">
+              <div class="wpea-heading wpea-heading--sm">Basic Info</div>
+              <div class="wpea-stack">
+                <div class="wpea-field">
+                  <label for="name" class="wpea-label">Name</label>
+                  <input id="name" class="wpea-input" placeholder="e.g. Cozy Hoodie" />
+                  <p class="wpea-help">Shown to customers.</p>
+                </div>
+                <div class="wpea-field">
+                  <label for="sku" class="wpea-label">SKU</label>
+                  <input id="sku" class="wpea-input" placeholder="SKU-001" />
+                </div>
+                <div class="wpea-field">
+                  <label for="desc" class="wpea-label">Description</label>
+                  <textarea id="desc" class="wpea-textarea" rows="4" placeholder="Write a short description…"></textarea>
+                </div>
+              </div>
+            </div>
+
+            <div class="wpea-card">
+              <div class="wpea-heading wpea-heading--sm">Pricing</div>
+              <div class="wpea-grid-2">
+                <div class="wpea-field">
+                  <label for="price" class="wpea-label">Price</label>
+                  <input id="price" class="wpea-input" type="number" step="0.01" value="59.00" />
+                </div>
+                <div class="wpea-field">
+                  <label for="sale" class="wpea-label">Sale Price</label>
+                  <input id="sale" class="wpea-input" type="number" step="0.01" />
+                </div>
+              </div>
+              <div class="wpea-field">
+                <label for="tax" class="wpea-label">Tax Class</label>
+                <select id="tax" class="wpea-select">
+                  <option>Standard</option>
+                  <option>Reduced</option>
+                  <option>Zero</option>
+                </select>
+              </div>
+              <div class="wpea-control">
+                <label class="wpea-switch" for="sw-shipping">
+                  <input type="checkbox" id="sw-shipping" checked>
+                  <span class="wpea-switch__slider"></span>
+                </label>
+                <label for="sw-shipping">Requires shipping</label>
+              </div>
+            </div>
+
+            <div class="wpea-card">
+              <div class="wpea-heading wpea-heading--sm">Inventory</div>
+              <div class="wpea-grid-3">
+                <div class="wpea-field">
+                  <label class="wpea-label" for="stock">In Stock</label>
+                  <input id="stock" class="wpea-input" type="number" value="120" />
+                </div>
+                <div class="wpea-field">
+                  <label class="wpea-label" for="wh">Warehouse</label>
+                  <select id="wh" class="wpea-select">
+                    <option>Main</option>
+                    <option>EU</option>
+                  </select>
+                </div>
+                <div class="wpea-field">
+                  <label class="wpea-label" for="reorder">Reorder Level</label>
+                  <input id="reorder" class="wpea-input" type="number" value="20" />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      <!-- TABLE -->
-      <section class="wpea-card">
+      <!-- TABLES -->
+      <section id="tables" class="demo-section">
+        <h2 class="demo-section__title">Tables</h2>
+
+        <div class="wpea-card">
         <div class="wpea-card__header">
           <div class="wpea-card__title">Recent Orders</div>
           <div class="wpea-cluster">
@@ -271,100 +584,274 @@
             </tr>
           </tbody>
         </table>
-      </section>
-
-      <!-- FORM PANEL -->
-      <section class="wpea-panel">
-        <div class="wpea-panel__header">
-          <div class="wpea-heading wpea-heading--md">Edit Product</div>
-          <div class="wpea-cluster">
-            <button class="wpea-btn wpea-btn--ghost">Discard</button>
-            <button class="wpea-btn wpea-btn--primary">Save</button>
-          </div>
-        </div>
-
-        <div class="wpea-grid-responsive">
-          <div class="wpea-card">
-            <div class="wpea-heading wpea-heading--sm">Basic Info</div>
-            <div class="wpea-stack">
-              <div class="wpea-field">
-                <label for="name" class="wpea-label">Name</label>
-                <input id="name" class="wpea-input" placeholder="e.g. Cozy Hoodie" />
-                <p class="wpea-help">Shown to customers.</p>
-              </div>
-              <div class="wpea-field">
-                <label for="sku" class="wpea-label">SKU</label>
-                <input id="sku" class="wpea-input" placeholder="SKU-001" />
-              </div>
-              <div class="wpea-field">
-                <label for="desc" class="wpea-label">Description</label>
-                <textarea id="desc" class="wpea-textarea" rows="4" placeholder="Write a short description…"></textarea>
-              </div>
-            </div>
-          </div>
-
-          <div class="wpea-card">
-            <div class="wpea-heading wpea-heading--sm">Pricing</div>
-            <div class="wpea-grid-2">
-              <div class="wpea-field">
-                <label for="price" class="wpea-label">Price</label>
-                <input id="price" class="wpea-input" type="number" step="0.01" value="59.00" />
-              </div>
-              <div class="wpea-field">
-                <label for="sale" class="wpea-label">Sale Price</label>
-                <input id="sale" class="wpea-input" type="number" step="0.01" />
-              </div>
-            </div>
-            <div class="wpea-field">
-              <label for="tax" class="wpea-label">Tax Class</label>
-              <select id="tax" class="wpea-select">
-                <option>Standard</option>
-                <option>Reduced</option>
-                <option>Zero</option>
-              </select>
-            </div>
-            <div class="wpea-control" aria-label="Charge shipping">
-              <div class="wpea-switch" role="switch" aria-checked="true" tabindex="0"></div>
-              <label>Requires shipping</label>
-            </div>
-          </div>
-
-          <div class="wpea-card">
-            <div class="wpea-heading wpea-heading--sm">Inventory</div>
-            <div class="wpea-grid-3">
-              <div class="wpea-field">
-                <label class="wpea-label" for="stock">In Stock</label>
-                <input id="stock" class="wpea-input" type="number" value="120" />
-              </div>
-              <div class="wpea-field">
-                <label class="wpea-label" for="wh">Warehouse</label>
-                <select id="wh" class="wpea-select">
-                  <option>Main</option>
-                  <option>EU</option>
-                </select>
-              </div>
-              <div class="wpea-field">
-                <label class="wpea-label" for="reorder">Reorder Level</label>
-                <input id="reorder" class="wpea-input" type="number" value="20" />
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
-      <!-- FOOTER CARD -->
-      <section class="wpea-card">
-        <div class="wpea-card__title">Need help?</div>
-        <div class="wpea-card__sub">Check the docs or contact support.</div>
-        <div class="wpea-card__actions">
-          <button class="wpea-btn wpea-btn--ghost">Documentation</button>
-          <button class="wpea-btn wpea-btn--secondary">Contact Support</button>
+      <!-- TABS -->
+      <section id="tabs" class="demo-section">
+        <h2 class="demo-section__title">Tabs</h2>
+
+        <div class="wpea-stack">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Default Tabs</div>
+            <div class="wpea-tabs" role="tablist">
+              <div class="wpea-tabs__list" role="tablist">
+                <button class="wpea-tabs__tab" role="tab" aria-selected="true" aria-controls="tab1-panel" id="tab1">Overview</button>
+                <button class="wpea-tabs__tab" role="tab" aria-selected="false" aria-controls="tab2-panel" id="tab2">Features</button>
+                <button class="wpea-tabs__tab" role="tab" aria-selected="false" aria-controls="tab3-panel" id="tab3">Settings</button>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="false" aria-labelledby="tab1" id="tab1-panel">
+                <div class="wpea-stack">
+                  <p>This is the overview tab content. Tabs provide a clean way to organize related content into separate views.</p>
+                  <p>Click on the other tabs to see the content change.</p>
+                </div>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="true" aria-labelledby="tab2" id="tab2-panel">
+                <div class="wpea-stack">
+                  <p>This tab shows the features. Tabs are fully accessible with ARIA attributes.</p>
+                  <ul>
+                    <li>Smooth transitions</li>
+                    <li>Keyboard navigation</li>
+                    <li>Multiple color variants</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="true" aria-labelledby="tab3" id="tab3-panel">
+                <div class="wpea-stack">
+                  <p>Settings tab content goes here. You can put any content inside tab panels.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Primary Tabs</div>
+            <div class="wpea-tabs wpea-tabs--primary">
+              <div class="wpea-tabs__list" role="tablist">
+                <button class="wpea-tabs__tab" role="tab" aria-selected="true" aria-controls="tab4-panel" id="tab4">Dashboard</button>
+                <button class="wpea-tabs__tab" role="tab" aria-selected="false" aria-controls="tab5-panel" id="tab5">Analytics</button>
+                <button class="wpea-tabs__tab" role="tab" aria-selected="false" aria-controls="tab6-panel" id="tab6">Reports</button>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="false" aria-labelledby="tab4" id="tab4-panel">
+                <p>Dashboard content with primary color accent.</p>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="true" aria-labelledby="tab5" id="tab5-panel">
+                <p>Analytics data and charts would go here.</p>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="true" aria-labelledby="tab6" id="tab6-panel">
+                <p>Reports and export options.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Secondary Tabs</div>
+            <div class="wpea-tabs wpea-tabs--secondary">
+              <div class="wpea-tabs__list" role="tablist">
+                <button class="wpea-tabs__tab" role="tab" aria-selected="true" aria-controls="tab7-panel" id="tab7">Account</button>
+                <button class="wpea-tabs__tab" role="tab" aria-selected="false" aria-controls="tab8-panel" id="tab8">Security</button>
+                <button class="wpea-tabs__tab" role="tab" aria-selected="false" aria-controls="tab9-panel" id="tab9">Billing</button>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="false" aria-labelledby="tab7" id="tab7-panel">
+                <p>Account settings with secondary color accent.</p>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="true" aria-labelledby="tab8" id="tab8-panel">
+                <p>Security and privacy settings.</p>
+              </div>
+              <div class="wpea-tabs__panel" role="tabpanel" aria-hidden="true" aria-labelledby="tab9" id="tab9-panel">
+                <p>Billing information and payment methods.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ACCORDIONS -->
+      <section id="accordions" class="demo-section">
+        <h2 class="demo-section__title">Accordions</h2>
+
+        <div class="wpea-stack">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Default Accordion</div>
+            <div class="wpea-accordion">
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc1-content">
+                  <span>What is the WPE Admin Framework?</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc1-content">
+                  <div class="wpea-accordion__body">
+                    <p>WPE Admin Framework is a modern, lightweight CSS framework designed specifically for WordPress admin interfaces. It provides a comprehensive set of components and utilities.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc2-content">
+                  <span>How do I customize the theme?</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc2-content">
+                  <div class="wpea-accordion__body">
+                    <p>The framework uses CSS custom properties (variables) for easy theming. You can override the color tokens to match your brand.</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc3-content">
+                  <span>Is it responsive?</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc3-content">
+                  <div class="wpea-accordion__body">
+                    <p>Yes! The framework uses container queries for responsive layouts, making it perfect for modern WordPress admin interfaces.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Primary Accordion</div>
+            <div class="wpea-accordion wpea-accordion--primary">
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc4-content">
+                  <span>Features Overview</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc4-content">
+                  <div class="wpea-accordion__body">
+                    <ul>
+                      <li>Modern component library</li>
+                      <li>Dark mode support with light-dark()</li>
+                      <li>Container-based responsive design</li>
+                      <li>Accessible components</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc5-content">
+                  <span>Browser Support</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc5-content">
+                  <div class="wpea-accordion__body">
+                    <p>Works in all modern browsers including Chrome, Firefox, Safari, and Edge.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Secondary Accordion</div>
+            <div class="wpea-accordion wpea-accordion--secondary">
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc6-content">
+                  <span>Getting Started</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc6-content">
+                  <div class="wpea-accordion__body">
+                    <p>Include the framework CSS file in your WordPress plugin or theme, then start using the components!</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="wpea-accordion__item">
+                <button class="wpea-accordion__header" aria-expanded="false" aria-controls="acc7-content">
+                  <span>Documentation</span>
+                  <span class="wpea-accordion__icon">▼</span>
+                </button>
+                <div class="wpea-accordion__content" aria-hidden="true" id="acc7-content">
+                  <div class="wpea-accordion__body">
+                    <p>Full documentation is available in the claude.md file included with the framework.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CARDS & PANELS -->
+      <section id="cards-panels" class="demo-section">
+        <h2 class="demo-section__title">Cards & Panels</h2>
+
+        <div class="wpea-stack">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Simple Card</div>
+            <div class="wpea-card__sub">This is a basic card with title and subtitle.</div>
+            <div class="wpea-card__actions">
+              <button class="wpea-btn wpea-btn--ghost">Cancel</button>
+              <button class="wpea-btn wpea-btn--primary">Confirm</button>
+            </div>
+          </div>
+
+          <div class="wpea-grid-responsive">
+            <div class="wpea-card">
+              <div class="wpea-card__title">Revenue</div>
+              <div class="wpea-heading wpea-heading--lg">$84,120</div>
+              <div class="wpea-card__sub">Last 30 days</div>
+              <div class="wpea-card__actions">
+                <button class="wpea-btn wpea-btn--ghost">Details</button>
+                <button class="wpea-btn wpea-btn--secondary">Export</button>
+              </div>
+            </div>
+            <div class="wpea-card">
+              <div class="wpea-card__title">Active Users</div>
+              <div class="wpea-heading wpea-heading--lg">12,431</div>
+              <div class="wpea-card__sub">+4.1% WoW</div>
+              <div class="wpea-card__actions">
+                <button class="wpea-btn wpea-btn--ghost">Details</button>
+              </div>
+            </div>
+            <div class="wpea-card wpea-card--hover">
+              <div class="wpea-card__title">Errors</div>
+              <div class="wpea-heading wpea-heading--lg">37</div>
+              <div class="wpea-card__sub">Last 24h</div>
+              <div class="wpea-card__actions">
+                <button class="wpea-btn wpea-btn--primary">Investigate</button>
+              </div>
+            </div>
+            <div class="wpea-card">
+              <div class="wpea-card__title">NPS</div>
+              <div class="wpea-heading wpea-heading--lg">58</div>
+              <div class="wpea-card__sub">Good</div>
+              <div class="wpea-card__actions">
+                <button class="wpea-btn wpea-btn--ghost">Breakdown</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="wpea-panel">
+            <div class="wpea-panel__header">
+              <div class="wpea-heading wpea-heading--sm">Panel Example</div>
+            </div>
+            <p>Panels are useful for grouping related content with a subtle background.</p>
+            <div class="wpea-cluster">
+              <button class="wpea-btn wpea-btn--ghost">Learn More</button>
+              <button class="wpea-btn wpea-btn--secondary">Get Started</button>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Need help?</div>
+            <div class="wpea-card__sub">Check the docs or contact support.</div>
+            <div class="wpea-card__actions">
+              <button class="wpea-btn wpea-btn--ghost">Documentation</button>
+              <button class="wpea-btn wpea-btn--secondary">Contact Support</button>
+            </div>
+          </div>
         </div>
       </section>
     </main>
   </div>
 
-  <!-- Demo JS: theme selector, compact toggles, switch behavior -->
+  <!-- Demo JS: theme selector, compact toggles, switch behavior, nav highlighting, hamburger -->
   <script>
     (function () {
       const themeSelector = document.getElementById('theme-selector');
@@ -372,7 +859,13 @@
       const badgeDensity = document.getElementById('badge-density');
       const badgeTheme = document.getElementById('badge-theme');
       const shell = document.body; // .wpea lives on body
+      const hamburger = document.getElementById('hamburger');
+      const sidebar = document.getElementById('sidebar');
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      const navLinks = document.querySelectorAll('.demo-nav a[href^="#"]');
+      const sections = document.querySelectorAll('.demo-section');
 
+      // Theme management
       function getTheme() {
         const colorScheme = shell.style.getPropertyValue('color-scheme').trim();
         if (colorScheme === 'light dark' || colorScheme === 'dark light') return 'auto';
@@ -411,7 +904,6 @@
           setTheme(themeSelector.value);
           updateBadges();
         });
-        // Initialize selector to current theme
         themeSelector.value = getTheme();
       }
 
@@ -420,12 +912,175 @@
         updateBadges();
       });
 
-      // Switch toggles
-      document.querySelectorAll('.wpea-switch').forEach(sw => {
-        const toggle = () => sw.setAttribute('aria-checked', sw.getAttribute('aria-checked') === 'true' ? 'false' : 'true');
-        sw.addEventListener('click', toggle);
-        sw.addEventListener('keydown', (e) => {
-          if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); }
+      // Hamburger menu
+      function toggleSidebar() {
+        sidebar.classList.toggle('open');
+        sidebarOverlay.classList.toggle('open');
+        hamburger.classList.toggle('active');
+      }
+
+      if (hamburger) {
+        hamburger.addEventListener('click', toggleSidebar);
+      }
+
+      if (sidebarOverlay) {
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+      }
+
+      // Close sidebar on nav link click (mobile)
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          if (sidebar.classList.contains('open')) {
+            toggleSidebar();
+          }
+        });
+      });
+
+      // Intersection Observer for active section highlighting
+      const observerOptions = {
+        root: null,
+        rootMargin: '-80px 0px -60% 0px',
+        threshold: 0
+      };
+
+      const observerCallback = (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const id = entry.target.getAttribute('id');
+            navLinks.forEach(link => {
+              link.classList.remove('active');
+              if (link.getAttribute('href') === `#${id}`) {
+                link.classList.add('active');
+              }
+            });
+          }
+        });
+      };
+
+      const observer = new IntersectionObserver(observerCallback, observerOptions);
+      sections.forEach(section => observer.observe(section));
+
+      // Toast functionality
+      const toastContainers = {};
+
+      function getToastContainer(position) {
+        if (!toastContainers[position]) {
+          const container = document.createElement('div');
+          container.className = `wpea-toast-container wpea-toast-container--${position}`;
+          document.body.appendChild(container);
+          toastContainers[position] = container;
+        }
+        return toastContainers[position];
+      }
+
+      function showToast(options = {}) {
+        const {
+          title = 'Notification',
+          message = 'This is a toast message',
+          type = 'default',
+          position = 'top-right',
+          duration = 3000
+        } = options;
+
+        const container = getToastContainer(position);
+        const toast = document.createElement('div');
+        toast.className = `wpea-toast${type !== 'default' ? ' wpea-toast--' + type : ''}`;
+
+        toast.innerHTML = `
+          <div class="wpea-toast__content">
+            <div class="wpea-toast__title">${title}</div>
+            <div class="wpea-toast__message">${message}</div>
+          </div>
+          <button class="wpea-toast__close" aria-label="Close">&times;</button>
+        `;
+
+        const closeBtn = toast.querySelector('.wpea-toast__close');
+        closeBtn.addEventListener('click', () => removeToast(toast));
+
+        container.appendChild(toast);
+
+        setTimeout(() => {
+          removeToast(toast);
+        }, duration);
+      }
+
+      function removeToast(toast) {
+        toast.classList.add('wpea-toast--closing');
+        setTimeout(() => {
+          toast.remove();
+        }, 300);
+      }
+
+      // Toast button handlers
+      document.querySelectorAll('[data-toast-position]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const position = btn.getAttribute('data-toast-position');
+          showToast({
+            title: 'Position Demo',
+            message: `This toast appears at ${position.replace('-', ' ')}`,
+            position: position
+          });
+        });
+      });
+
+      document.querySelectorAll('[data-toast-type]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const type = btn.getAttribute('data-toast-type');
+          const messages = {
+            default: 'This is a default notification',
+            success: 'Operation completed successfully!',
+            warning: 'Please review this action',
+            danger: 'An error has occurred',
+            info: 'Here is some useful information'
+          };
+          showToast({
+            title: type.charAt(0).toUpperCase() + type.slice(1),
+            message: messages[type],
+            type: type,
+            position: 'top-right'
+          });
+        });
+      });
+
+      // Tabs functionality
+      document.querySelectorAll('.wpea-tabs').forEach(tabsContainer => {
+        const tabs = tabsContainer.querySelectorAll('.wpea-tabs__tab');
+        const panels = tabsContainer.querySelectorAll('.wpea-tabs__panel');
+
+        tabs.forEach(tab => {
+          tab.addEventListener('click', () => {
+            const panelId = tab.getAttribute('aria-controls');
+
+            // Update tabs
+            tabs.forEach(t => t.setAttribute('aria-selected', 'false'));
+            tab.setAttribute('aria-selected', 'true');
+
+            // Update panels
+            panels.forEach(p => p.setAttribute('aria-hidden', 'true'));
+            const activePanel = document.getElementById(panelId);
+            if (activePanel) {
+              activePanel.setAttribute('aria-hidden', 'false');
+            }
+          });
+        });
+      });
+
+      // Accordion functionality
+      document.querySelectorAll('.wpea-accordion').forEach(accordion => {
+        const headers = accordion.querySelectorAll('.wpea-accordion__header');
+
+        headers.forEach(header => {
+          header.addEventListener('click', () => {
+            const isExpanded = header.getAttribute('aria-expanded') === 'true';
+            const contentId = header.getAttribute('aria-controls');
+            const content = document.getElementById(contentId);
+
+            // Toggle this accordion item
+            header.setAttribute('aria-expanded', !isExpanded);
+            if (content) {
+              content.setAttribute('aria-hidden', isExpanded);
+            }
+          });
         });
       });
 

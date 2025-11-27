@@ -319,8 +319,27 @@
     /* Badge tokens */
     --wpea-badge--bg: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-d-3));
     --wpea-badge--fg: light-dark(var(--wpea-surface--text), var(--wpea-color--white));
+
+    /* Form input tokens */
+    --wpea-input--bg: light-dark(var(--wpea-input--bg-light), var(--wpea-input--bg-dark));
+    --wpea-input--bg-hover: light-dark(var(--wpea-input--bg-hover-light), var(--wpea-input--bg-hover-dark));
+    --wpea-input--bg-focus: light-dark(var(--wpea-input--bg-focus-light), var(--wpea-input--bg-focus-dark));
+    --wpea-input--border: light-dark(var(--wpea-input--border-light), var(--wpea-input--border-dark));
+    --wpea-input--border-hover: light-dark(var(--wpea-input--border-hover-light), var(--wpea-input--border-hover-dark));
+    --wpea-input--border-focus: light-dark(var(--wpea-input--border-focus-light), var(--wpea-input--border-focus-dark));
+    --wpea-input--placeholder: light-dark(var(--wpea-input--placeholder-light), var(--wpea-input--placeholder-dark));
+    --wpea-input--focus-shadow: 0 0 0 3px light-dark(
+      color-mix(in oklab, var(--wpea-color--primary), transparent 85%),
+      color-mix(in oklab, var(--wpea-color--primary), transparent 70%)
+    );
+    --wpea-select-option--bg: light-dark(var(--wpea-select-option--bg-light), var(--wpea-select-option--bg-dark));
+
+    /* Popover tokens */
+    --wpea-popover--bg: light-dark(var(--wpea-popover--bg-light), var(--wpea-popover--bg-dark));
+    --wpea-popover--text: light-dark(var(--wpea-popover--text-light), var(--wpea-popover--text-dark));
+    --wpea-popover--border: light-dark(var(--wpea-popover--border-light), var(--wpea-popover--border-dark));
   }
-  
+
   /* =========================
      BASE / ROOT WRAPPER
      ========================= */
@@ -372,13 +391,142 @@
   
   /* Density (container-style query) */
   @container style(--wpea-density: compact) {
-    .wpea-stack { gap: var(--wpea-space--sm); }
-    .wpea-stack--lg { gap: var(--wpea-space--md); }
-    .wpea-cluster { gap: var(--wpea-space--xs); }
-    .wpea-panel, .wpea-card { padding-block: var(--wpea-space--sm); padding-inline: var(--wpea-space--md); }
-    .wpea-input, .wpea-select, .wpea-textarea { padding-block: .35rem; padding-inline: .55rem; }
-    .wpea-btn { padding-block: .35rem; padding-inline: .8rem; }
-    .wpea-table th, .wpea-table td { padding-block: .5rem; padding-inline: .6rem; }
+    /* Apply to all elements inside the container */
+    * {
+      /* Reduce spacing scale variables */
+      --wpea-space--xs: calc(var(--wpea-fs-base) * 0.375);
+      --wpea-space--sm: calc(var(--wpea-space--xs) * var(--wpea-scale) * 0.9);
+      --wpea-space--md: calc(var(--wpea-space--sm) * var(--wpea-scale) * 0.9);
+      --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-scale) * 0.9);
+      --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-scale) * 0.9);
+      --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-scale) * 0.9);
+
+      /* Reduce typography scale variables */
+      --wpea-text--xs: calc(var(--wpea-fs-base) * 0.75 * 0.875);
+      --wpea-text--sm: calc(var(--wpea-text--xs) * var(--wpea-scale));
+      --wpea-text--md: calc(var(--wpea-text--sm) * var(--wpea-scale));
+      --wpea-text--lg: calc(var(--wpea-text--md) * var(--wpea-scale));
+      --wpea-text--xl: calc(var(--wpea-text--lg) * var(--wpea-scale));
+      --wpea-text--2xl: calc(var(--wpea-text--xl) * var(--wpea-scale));
+      --wpea-text--3xl: calc(var(--wpea-text--2xl) * var(--wpea-scale));
+      --wpea-text--4xl: calc(var(--wpea-text--3xl) * var(--wpea-scale));
+    }
+
+    /* Layout components - tighter spacing */
+    .wpea-stack { gap: calc(var(--wpea-space--md) * 0.7); }
+    .wpea-stack--sm { gap: calc(var(--wpea-space--sm) * 0.7); }
+    .wpea-stack--lg { gap: calc(var(--wpea-space--lg) * 0.8); }
+    .wpea-cluster { gap: calc(var(--wpea-space--sm) * 0.6); }
+    .wpea-cluster--md { gap: calc(var(--wpea-space--md) * 0.7); }
+    .wpea-cluster--lg { gap: calc(var(--wpea-space--lg) * 0.7); }
+
+    /* Panels & Cards - reduced padding */
+    .wpea-panel, .wpea-card {
+      padding-block: calc(var(--wpea-space--md) * 0.7);
+      padding-inline: calc(var(--wpea-space--md) * 0.8);
+      gap: calc(var(--wpea-space--md) * 0.7);
+    }
+    .wpea-panel__header, .wpea-card__header {
+      padding-block-end: calc(var(--wpea-space--sm) * 0.7);
+      gap: calc(var(--wpea-space--sm) * 0.7);
+    }
+    .wpea-card__title { font-size: var(--wpea-text--md); }
+    .wpea-card__actions { gap: calc(var(--wpea-space--sm) * 0.6); }
+
+    /* Headings - smaller sizes */
+    .wpea-heading--sm { font-size: var(--wpea-text--md); }
+    .wpea-heading--md { font-size: var(--wpea-text--lg); }
+    .wpea-heading--lg { font-size: var(--wpea-text--xl); }
+
+    /* Forms - tighter inputs */
+    .wpea-field { gap: .25rem; }
+    .wpea-input, .wpea-select, .wpea-textarea {
+      padding-block: calc(var(--wpea-space--sm) * 0.4);
+      padding-inline: calc(var(--wpea-space--sm) * 0.7);
+    }
+    .wpea-input--sm {
+      padding-block: calc(var(--wpea-space--xs) * 0.5);
+      padding-inline: calc(var(--wpea-space--sm) * 0.6);
+    }
+    .wpea-input--lg {
+      padding-block: calc(var(--wpea-space--sm) * 0.7);
+      padding-inline: calc(var(--wpea-space--md) * 0.7);
+    }
+
+    /* Buttons - more compact */
+    .wpea-btn {
+      padding-block: calc(var(--wpea-s-2) * 0.4);
+      padding-inline: calc(var(--wpea-s-3) * 0.75);
+      gap: .4em;
+    }
+    .wpea-btn--sm {
+      padding-block: calc(var(--wpea-s-2) * 0.3);
+      padding-inline: calc(var(--wpea-s-2) * 0.7);
+    }
+    .wpea-btn--lg {
+      padding-block: calc(var(--wpea-s-2) * 0.6);
+      padding-inline: calc(var(--wpea-s-4) * 0.8);
+    }
+
+    /* Tables - tighter cells */
+    .wpea-table th, .wpea-table td {
+      padding-block: .4rem;
+      padding-inline: .6rem;
+    }
+
+    /* Alerts - reduced padding */
+    .wpea-alert {
+      padding-block: calc(var(--wpea-space--sm) * 0.7);
+      padding-inline: calc(var(--wpea-space--sm) * 0.8);
+    }
+
+    /* Badges - smaller */
+    .badge {
+      padding-block: .15em;
+      padding-inline: .45em;
+      font-size: calc(var(--wpea-text--xs) * 0.9);
+    }
+
+    /* Tabs - tighter spacing */
+    .wpea-tabs { gap: calc(var(--wpea-space--md) * 0.7); }
+    .wpea-tabs__list { gap: calc(var(--wpea-space--xs) * 0.6); }
+    .wpea-tabs__tab {
+      padding: calc(var(--wpea-space--sm) * 0.6) calc(var(--wpea-space--md) * 0.7);
+      font-size: var(--wpea-text--sm);
+    }
+
+    /* Accordions - reduced spacing */
+    .wpea-accordion { gap: calc(var(--wpea-space--sm) * 0.6); }
+    .wpea-accordion__header {
+      padding: calc(var(--wpea-space--md) * 0.7);
+      font-size: var(--wpea-text--sm);
+    }
+    .wpea-accordion__body { padding: calc(var(--wpea-space--md) * 0.7); }
+
+    /* Toasts - smaller */
+    .wpea-toast-container {
+      gap: calc(var(--wpea-space--sm) * 0.6);
+      padding: calc(var(--wpea-space--md) * 0.7);
+      max-width: 350px;
+    }
+    .wpea-toast {
+      padding: calc(var(--wpea-space--md) * 0.7);
+      gap: calc(var(--wpea-space--sm) * 0.6);
+      min-width: 250px;
+    }
+    .wpea-toast__title { font-size: calc(var(--wpea-text--sm) * 0.95); }
+    .wpea-toast__message { font-size: calc(var(--wpea-text--sm) * 0.9); }
+
+    /* Modals - tighter spacing */
+    .wpea-modal:not(.wpea-modal--fullscreen) {
+      padding: calc(var(--wpea-space--lg) * 0.7);
+    }
+    .wpea-modal__header, .wpea-modal__body, .wpea-modal__footer {
+      padding: calc(var(--wpea-space--lg) * 0.7);
+    }
+    .wpea-modal__header { gap: calc(var(--wpea-space--md) * 0.7); }
+    .wpea-modal__title { font-size: var(--wpea-text--lg); }
+    .wpea-modal__footer { gap: calc(var(--wpea-space--sm) * 0.7); }
   }
   
   /* Mode flags (container-style query) */
@@ -466,27 +614,54 @@
     width: 100%;
     font: inherit;
     color: var(--wpea-surface--text);
-    background: var(--wpea-surface--panel);
-    border: 1px solid var(--wpea-surface--border);
+    background: var(--wpea-input--bg);
+    border: 1px solid var(--wpea-input--border);
     border-radius: var(--wpea-radius--sm);
     padding-block: calc(var(--wpea-space--sm) * .6);
     padding-inline: var(--wpea-space--sm);
     transition: box-shadow var(--wpea-anim-duration--fast), border-color var(--wpea-anim-duration--fast), background var(--wpea-anim-duration--fast);
   }
+
   .wpea-input::placeholder,
-  .wpea-textarea::placeholder { color: var(--wpea-surface--text-muted); }
-  
+  .wpea-textarea::placeholder { color: var(--wpea-input--placeholder); }
+
+  .wpea-input:hover:not(:disabled),
+  .wpea-select:hover:not(:disabled),
+  .wpea-textarea:hover:not(:disabled) {
+    background: var(--wpea-input--bg-hover);
+    border-color: var(--wpea-input--border-hover);
+  }
+
+  .wpea-input:focus,
+  .wpea-select:focus,
+  .wpea-textarea:focus,
   .wpea-input:focus-visible,
   .wpea-select:focus-visible,
   .wpea-textarea:focus-visible {
-    border-color: var(--wpea-color--primary);
-    box-shadow: var(--wpea-focus-shadow);
+    background: var(--wpea-input--bg-focus);
+    border-color: var(--wpea-input--border-focus);
+    box-shadow: var(--wpea-input--focus-shadow);
     outline: none;
   }
   .wpea-input[disabled],
   .wpea-select[disabled],
   .wpea-textarea[disabled] { opacity: .6; cursor: not-allowed; }
-  
+
+  /* Select option styling - remove browser defaults */
+  .wpea-select option {
+    background: var(--wpea-select-option--bg) !important;
+    color: var(--wpea-surface--text) !important;
+  }
+
+  .wpea-select option:checked,
+  .wpea-select option:hover,
+  .wpea-select option:focus,
+  .wpea-select option[selected] {
+    background: var(--wpea-select-option--bg) !important;
+    background-color: var(--wpea-select-option--bg) !important;
+    color: var(--wpea-surface--text) !important;
+  }
+
   /* Input sizes */
   .wpea-input--sm { padding-block: calc(var(--wpea-space--xs) * .7); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--sm); }
   .wpea-input--lg { padding-block: var(--wpea-space--sm); padding-inline: var(--wpea-space--md); font-size: var(--wpea-text--lg); }
@@ -759,16 +934,16 @@
   line-height: 1.4;
 
   color: var(--wpea-surface--text);
-  background: var(--wpea-surface--panel);
+  background: var(--wpea-input--bg);
   background-clip: padding-box;
 
-  border: 1px solid var(--wpea-surface--border);
+  border: 1px solid var(--wpea-input--border);
   border-radius: var(--wpea-radius--sm);
 
   padding-block: calc(var(--wpea-space--sm) * .6);
   padding-inline: var(--wpea-space--sm);
 
-  /* Nix WP’s default inner/outer box-shadows and outlines */
+  /* Nix WP's default inner/outer box-shadows and outlines */
   box-shadow: none;
   outline: none;
 
@@ -780,17 +955,35 @@
 
 /* Placeholder color */
 .wpea .wpea-input::placeholder,
-.wpea .wpea-textarea::placeholder { color: var(--wpea-surface--text-muted); }
+.wpea .wpea-textarea::placeholder { color: var(--wpea-input--placeholder); }
 
-/* Focus — beat WP’s focus rules by matching both :focus and :focus-visible */
+/* Hover state */
+.wpea .wpea-input:hover:not(:disabled),
+.wpea input.wpea-input:hover:not(:disabled),
+.wpea .wpea-select:hover:not(:disabled),
+.wpea select.wpea-select:hover:not(:disabled),
+.wpea .wpea-textarea:hover:not(:disabled),
+.wpea textarea.wpea-textarea:hover:not(:disabled) {
+  background: var(--wpea-input--bg-hover);
+  border-color: var(--wpea-input--border-hover);
+}
+
+/* Focus — beat WP's focus rules by matching both :focus and :focus-visible */
 .wpea .wpea-input:focus,
 .wpea .wpea-input:focus-visible,
+.wpea input.wpea-input:focus,
+.wpea input.wpea-input:focus-visible,
 .wpea .wpea-select:focus,
 .wpea .wpea-select:focus-visible,
+.wpea select.wpea-select:focus,
+.wpea select.wpea-select:focus-visible,
 .wpea .wpea-textarea:focus,
-.wpea .wpea-textarea:focus-visible {
-  border-color: var(--wpea-color--primary);
-  box-shadow: var(--wpea-focus-shadow);
+.wpea .wpea-textarea:focus-visible,
+.wpea textarea.wpea-textarea:focus,
+.wpea textarea.wpea-textarea:focus-visible {
+  background: var(--wpea-input--bg-focus);
+  border-color: var(--wpea-input--border-focus);
+  box-shadow: var(--wpea-input--focus-shadow);
   outline: none;
 }
 
@@ -800,6 +993,27 @@
 .wpea .wpea-textarea[disabled] {
   opacity: .6;
   cursor: not-allowed;
+}
+
+/* Select option styling - remove browser defaults */
+.wpea .wpea-select option,
+.wpea select.wpea-select option {
+  background: var(--wpea-select-option--bg) !important;
+  background-color: var(--wpea-select-option--bg) !important;
+  color: var(--wpea-surface--text) !important;
+}
+
+.wpea .wpea-select option:checked,
+.wpea select.wpea-select option:checked,
+.wpea .wpea-select option:hover,
+.wpea select.wpea-select option:hover,
+.wpea .wpea-select option:focus,
+.wpea select.wpea-select option:focus,
+.wpea .wpea-select option[selected],
+.wpea select.wpea-select option[selected] {
+  background: var(--wpea-select-option--bg) !important;
+  background-color: var(--wpea-select-option--bg) !important;
+  color: var(--wpea-surface--text) !important;
 }
 
 /* Sizes */
@@ -822,6 +1036,453 @@
   background-size: .45rem .45rem, .45rem .45rem, 2.5rem 100%;
   background-repeat: no-repeat;
   padding-inline-end: 2.4rem;
+}
+
+/* =========================
+   3-STATE TOGGLE BUTTON
+   ========================= */
+
+/* Container for the 3-state toggle button group */
+.wpea .wpea-toggle-3state {
+  display: inline-flex;
+  border: 1px solid var(--wpea-surface--border);
+  border-radius: var(--wpea-radius--md);
+  background: var(--wpea-surface--panel);
+  overflow: hidden;
+}
+
+/* Individual toggle button */
+.wpea .wpea-toggle-3state__btn {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: transparent;
+  border: none;
+  border-inline-end: 1px solid var(--wpea-surface--border);
+  color: var(--wpea-surface--text-muted);
+  cursor: pointer;
+
+  padding-block: var(--wpea-space--xs);
+  padding-inline: var(--wpea-space--sm);
+
+  font: inherit;
+  font-size: var(--wpea-text--sm);
+
+  display: flex;
+  align-items: center;
+  gap: var(--wpea-space--xs);
+
+  transition: background 150ms ease, color 150ms ease;
+
+  position: relative;
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Remove border from last button */
+.wpea .wpea-toggle-3state__btn:last-child {
+  border-inline-end: none;
+}
+
+/* Ensure all buttons have no rounding by default */
+.wpea .wpea-toggle-3state__btn {
+  border-radius: 0;
+}
+
+/* Round corners for first button only - left side */
+.wpea .wpea-toggle-3state__btn:first-child {
+  border-top-left-radius: var(--wpea-radius--md);
+  border-bottom-left-radius: var(--wpea-radius--md);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+/* Round corners for last button only - right side */
+.wpea .wpea-toggle-3state__btn:last-child {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--wpea-radius--md);
+  border-bottom-right-radius: var(--wpea-radius--md);
+}
+
+/* Hover state */
+.wpea .wpea-toggle-3state__btn:hover:not([aria-pressed="true"]):not(:disabled) {
+  background: var(--wpea-input--bg-hover);
+  color: var(--wpea-surface--text);
+}
+
+/* Active/pressed state */
+.wpea .wpea-toggle-3state__btn[aria-pressed="true"] {
+  background: var(--wpea-color--primary);
+  color: var(--wpea-color--white);
+}
+
+/* Focus state */
+.wpea .wpea-toggle-3state__btn:focus-visible {
+  outline: 2px solid var(--wpea-color--primary);
+  outline-offset: -2px;
+  z-index: 1;
+}
+
+/* Disabled state */
+.wpea .wpea-toggle-3state__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* SVG icon sizing */
+.wpea .wpea-toggle-3state__btn svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+}
+
+/* Icon-only variant - no padding, icon only */
+.wpea .wpea-toggle-3state--icon-only .wpea-toggle-3state__btn {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+  gap: 0;
+}
+
+.wpea .wpea-toggle-3state--icon-only .wpea-toggle-3state__btn span {
+  display: none;
+}
+
+.wpea .wpea-toggle-3state--icon-only .wpea-toggle-3state__btn svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* Popover wrapper inside toggle group */
+.wpea .wpea-toggle-3state > .wpea-popover {
+  position: relative;
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.wpea .wpea-toggle-3state > .wpea-popover .wpea-toggle-3state__btn {
+  border-inline-end: 1px solid var(--wpea-surface--border);
+  flex: 1;
+}
+
+.wpea .wpea-toggle-3state > .wpea-popover:last-child .wpea-toggle-3state__btn {
+  border-inline-end: none;
+}
+
+/* Round corners for first and last buttons when in popover wrapper */
+.wpea .wpea-toggle-3state > .wpea-popover .wpea-toggle-3state__btn {
+  border-radius: 0;
+}
+
+.wpea .wpea-toggle-3state > .wpea-popover:first-child .wpea-toggle-3state__btn {
+  border-top-left-radius: var(--wpea-radius--md);
+  border-bottom-left-radius: var(--wpea-radius--md);
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.wpea .wpea-toggle-3state > .wpea-popover:last-child .wpea-toggle-3state__btn {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: var(--wpea-radius--md);
+  border-bottom-right-radius: var(--wpea-radius--md);
+}
+
+/* Allow popover to overflow when toggle has popover children */
+.wpea .wpea-toggle-3state:has(> .wpea-popover) {
+  overflow: visible;
+}
+
+/* =========================
+   DOUBLE OPT-IN BUTTON
+   ========================= */
+
+/* Double opt-in button with confirmation state */
+.wpea .wpea-btn-double-opt-in {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  position: relative;
+  overflow: hidden;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--wpea-space--xs);
+
+  padding-block: var(--wpea-space--xs);
+  padding-inline: var(--wpea-space--md);
+
+  font: inherit;
+  font-size: var(--wpea-text--sm);
+  font-weight: 500;
+  line-height: 1.4;
+
+  border: 1px solid var(--wpea-surface--border);
+  border-radius: var(--wpea-radius--md);
+
+  background: var(--wpea-surface--panel);
+  color: var(--wpea-surface--text);
+
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, color 150ms ease;
+
+  min-width: 44px;
+  min-height: 44px;
+}
+
+/* Hover state (only when not in confirm state) */
+.wpea .wpea-btn-double-opt-in:hover:not([data-confirm="true"]):not(:disabled) {
+  background: var(--wpea-input--bg-hover);
+  border-color: var(--wpea-surface--border-hover);
+}
+
+/* Confirm state (after first click) */
+.wpea .wpea-btn-double-opt-in[data-confirm="true"] {
+  background: var(--wpea-color--danger);
+  border-color: var(--wpea-color--danger);
+  color: var(--wpea-color--white);
+}
+
+/* Confirm state hover */
+.wpea .wpea-btn-double-opt-in[data-confirm="true"]:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--wpea-color--danger), black 15%);
+  border-color: color-mix(in oklab, var(--wpea-color--danger), black 15%);
+}
+
+/* Focus state */
+.wpea .wpea-btn-double-opt-in:focus-visible {
+  outline: 2px solid var(--wpea-color--primary);
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.wpea .wpea-btn-double-opt-in:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* SVG icon sizing */
+.wpea .wpea-btn-double-opt-in svg {
+  width: 1.125rem;
+  height: 1.125rem;
+  flex-shrink: 0;
+  transition: transform 150ms ease;
+}
+
+/* Icon animation on confirm */
+.wpea .wpea-btn-double-opt-in[data-confirm="true"] svg {
+  transform: scale(1.1);
+}
+
+/* Success variant (optional) */
+.wpea .wpea-btn-double-opt-in--success[data-confirm="true"] {
+  background: var(--wpea-color--success);
+  border-color: var(--wpea-color--success);
+}
+
+.wpea .wpea-btn-double-opt-in--success[data-confirm="true"]:hover:not(:disabled) {
+  background: color-mix(in oklab, var(--wpea-color--success), black 15%);
+  border-color: color-mix(in oklab, var(--wpea-color--success), black 15%);
+}
+
+/* Icon-only variant - no padding, icon only */
+.wpea .wpea-btn-double-opt-in--icon-only {
+  padding: 0;
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  min-height: 44px;
+  justify-content: center;
+  gap: 0;
+}
+
+.wpea .wpea-btn-double-opt-in--icon-only .btn-text {
+  display: none;
+}
+
+.wpea .wpea-btn-double-opt-in--icon-only svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* =========================
+   POPOVER
+   ========================= */
+
+/* Popover container (relative positioned parent) */
+.wpea .wpea-popover {
+  position: relative;
+  display: inline-block;
+}
+
+/* Popover content */
+.wpea .wpea-popover__content {
+  position: absolute;
+  z-index: 1000;
+
+  background: var(--wpea-popover--bg);
+  color: var(--wpea-popover--text);
+  border: 1px solid var(--wpea-popover--border);
+  border-radius: var(--wpea-radius--md);
+  box-shadow: var(--wpea-shadow--lg);
+
+  padding: var(--wpea-space--sm);
+  font-size: var(--wpea-text--sm);
+  line-height: 1.4;
+  white-space: nowrap;
+
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 150ms ease, visibility 150ms ease;
+  pointer-events: none;
+}
+
+/* Show popover on hover/focus */
+.wpea .wpea-popover:hover .wpea-popover__content,
+.wpea .wpea-popover:focus-within .wpea-popover__content,
+.wpea .wpea-popover__content--visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* Arrow/caret */
+.wpea .wpea-popover__content::before {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+/* Positioning - Top */
+.wpea .wpea-popover__content--top {
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wpea .wpea-popover__content--top::before {
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 6px 6px 0 6px;
+  border-color: var(--wpea-popover--bg) transparent transparent transparent;
+}
+
+.wpea .wpea-popover__content--top-start {
+  bottom: calc(100% + 8px);
+  left: 0;
+}
+
+.wpea .wpea-popover__content--top-start::before {
+  bottom: -6px;
+  left: 12px;
+  border-width: 6px 6px 0 6px;
+  border-color: var(--wpea-popover--bg) transparent transparent transparent;
+}
+
+.wpea .wpea-popover__content--top-end {
+  bottom: calc(100% + 8px);
+  right: 0;
+}
+
+.wpea .wpea-popover__content--top-end::before {
+  bottom: -6px;
+  right: 12px;
+  border-width: 6px 6px 0 6px;
+  border-color: var(--wpea-popover--bg) transparent transparent transparent;
+}
+
+/* Positioning - Bottom */
+.wpea .wpea-popover__content--bottom {
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.wpea .wpea-popover__content--bottom::before {
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--wpea-popover--bg) transparent;
+}
+
+.wpea .wpea-popover__content--bottom-start {
+  top: calc(100% + 8px);
+  left: 0;
+}
+
+.wpea .wpea-popover__content--bottom-start::before {
+  top: -6px;
+  left: 12px;
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--wpea-popover--bg) transparent;
+}
+
+.wpea .wpea-popover__content--bottom-end {
+  top: calc(100% + 8px);
+  right: 0;
+}
+
+.wpea .wpea-popover__content--bottom-end::before {
+  top: -6px;
+  right: 12px;
+  border-width: 0 6px 6px 6px;
+  border-color: transparent transparent var(--wpea-popover--bg) transparent;
+}
+
+/* Positioning - Left */
+.wpea .wpea-popover__content--left {
+  right: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wpea .wpea-popover__content--left::before {
+  right: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px 0 6px 6px;
+  border-color: transparent transparent transparent var(--wpea-popover--bg);
+}
+
+/* Positioning - Right */
+.wpea .wpea-popover__content--right {
+  left: calc(100% + 8px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.wpea .wpea-popover__content--right::before {
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px 6px 6px 0;
+  border-color: transparent var(--wpea-popover--bg) transparent transparent;
+}
+
+/* Size variants */
+.wpea .wpea-popover__content--xs {
+  padding: var(--wpea-space--xs);
+  font-size: var(--wpea-text--xs);
+}
+
+.wpea .wpea-popover__content--s {
+  padding: calc(var(--wpea-space--xs) * 1.25);
+  font-size: var(--wpea-text--sm);
+}
+
+.wpea .wpea-popover__content--m {
+  padding: var(--wpea-space--sm);
+  font-size: var(--wpea-text--sm);
 }
 
 /* =========================
@@ -1085,4 +1746,168 @@
 .wpea-accordion--secondary .wpea-accordion__header[aria-expanded="true"] {
   background: var(--wpea-color--secondary-t-10);
   color: var(--wpea-color--secondary);
+}
+
+/* =========================
+   MODAL
+   ========================= */
+.wpea-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: var(--wpea-space--lg);
+}
+
+.wpea-modal--open {
+  display: flex;
+}
+
+.wpea-modal__backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: color-mix(in oklab, var(--wpea-color--black), transparent 50%);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.wpea-modal__container {
+  position: relative;
+  background: var(--wpea-surface--panel);
+  border: 1px solid var(--wpea-surface--border);
+  border-radius: var(--wpea-radius--lg);
+  box-shadow: var(--wpea-shadow--xl);
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100vh - var(--wpea-space--2xl));
+  width: calc(100% - var(--wpea-space--2xl));
+  max-width: 600px;
+  z-index: 1;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* Modal size variants */
+.wpea-modal--large .wpea-modal__container {
+  max-width: 900px;
+}
+
+.wpea-modal--fullscreen {
+  padding: 0;
+}
+
+.wpea-modal--fullscreen .wpea-modal__container {
+  max-width: none;
+  max-height: none;
+  width: 100vw;
+  height: 100vh;
+  border-radius: 0;
+  border: none;
+}
+
+.wpea-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--wpea-space--md);
+  padding: var(--wpea-space--lg);
+  border-bottom: 1px solid var(--wpea-surface--border);
+  flex-shrink: 0;
+}
+
+.wpea-modal__title {
+  font-size: var(--wpea-text--xl);
+  font-weight: 700;
+  color: var(--wpea-color--heading);
+  margin: 0;
+}
+
+.wpea-modal__close {
+  background: transparent;
+  border: none;
+  color: var(--wpea-surface--text-muted);
+  cursor: pointer;
+  padding: var(--wpea-space--xs);
+  line-height: 1;
+  font-size: 1.5rem;
+  border-radius: var(--wpea-radius--sm);
+  transition: background var(--wpea-anim-duration--fast), color var(--wpea-anim-duration--fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+}
+
+.wpea-modal__close:hover {
+  background: var(--wpea-surface--muted);
+  color: var(--wpea-surface--text);
+}
+
+.wpea-modal__close:focus-visible {
+  outline: 2px solid var(--wpea-color--primary);
+  outline-offset: 2px;
+}
+
+.wpea-modal__body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--wpea-space--lg);
+  color: var(--wpea-surface--text);
+}
+
+.wpea-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--wpea-space--sm);
+  padding: var(--wpea-space--lg);
+  border-top: 1px solid var(--wpea-surface--border);
+  flex-shrink: 0;
+}
+
+/* Modal animations removed - use Svelte transitions in Svelte app,
+   or implement JS-based animations in vanilla HTML if needed */
+
+/* =========================
+   SCROLLBAR CUSTOMIZATION
+   ========================= */
+/* Custom scrollbars for modal body and other scrollable containers */
+.wpea-modal__body::-webkit-scrollbar,
+.wpea-scrollable::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.wpea-modal__body::-webkit-scrollbar-track,
+.wpea-scrollable::-webkit-scrollbar-track {
+  background: var(--wpea-color--neutral-t-20);
+  border-radius: var(--wpea-radius--sm);
+}
+
+.wpea-modal__body::-webkit-scrollbar-thumb,
+.wpea-scrollable::-webkit-scrollbar-thumb {
+  background: var(--wpea-color--primary-t-60);
+  border-radius: var(--wpea-radius--sm);
+  transition: background var(--wpea-anim-duration--fast);
+}
+
+.wpea-modal__body::-webkit-scrollbar-thumb:hover,
+.wpea-scrollable::-webkit-scrollbar-thumb:hover {
+  background: var(--wpea-color--primary-t-80);
+}
+
+/* Firefox scrollbar */
+.wpea-modal__body,
+.wpea-scrollable {
+  scrollbar-width: thin;
+  scrollbar-color: var(--wpea-color--primary-t-60) var(--wpea-color--neutral-t-20);
 }

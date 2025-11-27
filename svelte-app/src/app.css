@@ -202,3 +202,43 @@ html {
     display: block;
   }
 }
+
+/* Compact mode adjustments for demo-specific styles */
+@container style(--wpea-density: compact) {
+  .demo-header {
+    padding-block: calc(var(--wpea-space--sm) * 0.7);
+    padding-inline: calc(var(--wpea-space--lg) * 0.7);
+  }
+
+  .demo-sidebar {
+    padding-block: calc(var(--wpea-space--lg) * 0.7);
+    padding-inline: calc(var(--wpea-space--md) * 0.7);
+  }
+
+  .demo-main {
+    padding-block: calc(var(--wpea-space--lg) * 0.7);
+    padding-inline: calc(var(--wpea-space--lg) * 0.7);
+    gap: calc(var(--wpea-space--2xl) * 0.7);
+  }
+
+  .demo-section__title {
+    margin-block-end: calc(var(--wpea-space--lg) * 0.7);
+    padding-block-end: calc(var(--wpea-space--sm) * 0.7);
+    font-size: var(--wpea-text--xl);
+  }
+
+  .demo-nav {
+    gap: calc(var(--wpea-space--xs) * 0.7);
+  }
+
+  .demo-nav__section {
+    margin-block-start: calc(var(--wpea-space--md) * 0.7);
+    margin-block-end: calc(var(--wpea-space--xs) * 0.7);
+  }
+
+  .demo-nav a {
+    padding-block: 0.35rem;
+    padding-inline: 0.5rem;
+    font-size: calc(var(--wpea-text--sm) * 0.9);
+  }
+}

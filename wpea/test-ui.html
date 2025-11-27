@@ -194,6 +194,7 @@
         <a href="#tabs">Tabs</a>
         <a href="#accordions">Accordions</a>
         <a href="#cards-panels">Cards & Panels</a>
+        <a href="#modals">Modals</a>
       </nav>
     </aside>
 
@@ -338,7 +339,8 @@
       <section id="forms-inputs" class="demo-section">
         <h2 class="demo-section__title">Forms & Inputs</h2>
 
-        <div class="wpea-card">
+        <div class="wpea-stack">
+          <div class="wpea-card">
           <div class="wpea-card__title">Switches</div>
           <div class="wpea-stack">
             <div>
@@ -405,6 +407,265 @@
                     <span class="wpea-switch__slider"></span>
                   </label>
                   <label for="sw-secondary">Secondary</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">3-State Toggle Button</div>
+          <div class="wpea-stack">
+            <div>
+              <strong>Theme Selector</strong>
+              <div style="margin-top: 12px;">
+                <div class="wpea-toggle-3state" role="group" aria-label="Theme selection">
+                  <button
+                    type="button"
+                    class="wpea-toggle-3state__btn"
+                    id="theme-light"
+                    aria-pressed="false"
+                    data-theme="light"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                      <path stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+                    </svg>
+                    <span>Light</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="wpea-toggle-3state__btn"
+                    id="theme-dark"
+                    aria-pressed="false"
+                    data-theme="dark"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                    </svg>
+                    <span>Dark</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="wpea-toggle-3state__btn"
+                    id="theme-auto"
+                    aria-pressed="true"
+                    data-theme="auto"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                    </svg>
+                    <span>Auto</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <hr class="wpea-divider">
+            <div>
+              <strong>View Mode Selector</strong>
+              <div style="margin-top: 12px;">
+                <div class="wpea-toggle-3state" role="group" aria-label="View mode selection">
+                  <button
+                    type="button"
+                    class="wpea-toggle-3state__btn"
+                    aria-pressed="true"
+                    data-view="grid"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/>
+                    </svg>
+                    <span>Grid</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="wpea-toggle-3state__btn"
+                    aria-pressed="false"
+                    data-view="list"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                    <span>List</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="wpea-toggle-3state__btn"
+                    aria-pressed="false"
+                    data-view="table"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span>Table</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">Double Opt-In Button</div>
+          <div class="wpea-stack">
+            <div>
+              <strong>Delete Action (Danger)</strong>
+              <div style="margin-top: 12px;">
+                <button
+                  type="button"
+                  class="wpea-btn-double-opt-in"
+                  id="delete-btn"
+                  data-confirm="false"
+                  data-timeout="2000"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-trash">
+                    <path stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-check" style="display: none;">
+                    <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span class="btn-text">Delete</span>
+                </button>
+              </div>
+            </div>
+            <hr class="wpea-divider">
+            <div>
+              <strong>Archive Action (Success variant)</strong>
+              <div style="margin-top: 12px;">
+                <button
+                  type="button"
+                  class="wpea-btn-double-opt-in wpea-btn-double-opt-in--success"
+                  id="archive-btn"
+                  data-confirm="false"
+                  data-timeout="3000"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-archive">
+                    <path stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                  </svg>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-check" style="display: none;">
+                    <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                  <span class="btn-text">Archive</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">3-State Toggle (Icon Only)</div>
+          <div class="wpea-stack">
+            <div>
+              <strong>Theme Selector (Icon Only with popovers)</strong>
+              <div style="margin-top: 12px;">
+                <div class="wpea-toggle-3state wpea-toggle-3state--icon-only" role="group" aria-label="Theme selection">
+                  <div class="wpea-popover">
+                    <button
+                      type="button"
+                      class="wpea-toggle-3state__btn"
+                      id="theme-light-icon"
+                      aria-pressed="false"
+                      aria-label="Light theme"
+                      data-theme="light"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <circle cx="12" cy="12" r="4" stroke-width="2"/>
+                        <path stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/>
+                      </svg>
+                      <span>Light</span>
+                    </button>
+                    <div class="wpea-popover__content wpea-popover__content--top wpea-popover__content--xs">
+                      Light
+                    </div>
+                  </div>
+                  <div class="wpea-popover">
+                    <button
+                      type="button"
+                      class="wpea-toggle-3state__btn"
+                      id="theme-dark-icon"
+                      aria-pressed="false"
+                      aria-label="Dark theme"
+                      data-theme="dark"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/>
+                      </svg>
+                      <span>Dark</span>
+                    </button>
+                    <div class="wpea-popover__content wpea-popover__content--top wpea-popover__content--xs">
+                      Dark
+                    </div>
+                  </div>
+                  <div class="wpea-popover">
+                    <button
+                      type="button"
+                      class="wpea-toggle-3state__btn"
+                      id="theme-auto-icon"
+                      aria-pressed="true"
+                      aria-label="Auto theme"
+                      data-theme="auto"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                      </svg>
+                      <span>Auto</span>
+                    </button>
+                    <div class="wpea-popover__content wpea-popover__content--top wpea-popover__content--xs">
+                      Auto
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="wpea-card">
+          <div class="wpea-card__title">Double Opt-In Button (Icon Only)</div>
+          <div class="wpea-stack">
+            <div>
+              <strong>Icon Only Buttons (with popovers)</strong>
+              <div class="wpea-cluster" style="margin-top: 12px;">
+                <div class="wpea-popover">
+                  <button
+                    type="button"
+                    class="wpea-btn-double-opt-in wpea-btn-double-opt-in--icon-only"
+                    id="delete-btn-icon"
+                    data-confirm="false"
+                    data-timeout="2000"
+                    aria-label="Delete"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-trash">
+                      <path stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-check" style="display: none;">
+                      <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="btn-text">Delete</span>
+                  </button>
+                  <div class="wpea-popover__content wpea-popover__content--top wpea-popover__content--xs">
+                    Delete
+                  </div>
+                </div>
+                <div class="wpea-popover">
+                  <button
+                    type="button"
+                    class="wpea-btn-double-opt-in wpea-btn-double-opt-in--success wpea-btn-double-opt-in--icon-only"
+                    id="archive-btn-icon"
+                    data-confirm="false"
+                    data-timeout="3000"
+                    aria-label="Archive"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-archive">
+                      <path stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                    </svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="icon-check" style="display: none;">
+                      <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                    </svg>
+                    <span class="btn-text">Archive</span>
+                  </button>
+                  <div class="wpea-popover__content wpea-popover__content--top wpea-popover__content--xs">
+                    Archive
+                  </div>
                 </div>
               </div>
             </div>
@@ -517,6 +778,7 @@
               </div>
             </div>
           </div>
+        </div>
         </div>
       </section>
 
@@ -848,7 +1110,176 @@
           </div>
         </div>
       </section>
+
+      <!-- MODALS -->
+      <section id="modals" class="demo-section">
+        <h2 class="demo-section__title">Modals</h2>
+
+        <div class="wpea-stack">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Modal Sizes</div>
+            <div class="wpea-cluster">
+              <button class="wpea-btn wpea-btn--primary" data-modal="modal-standard">Standard Modal</button>
+              <button class="wpea-btn wpea-btn--secondary" data-modal="modal-large">Large Modal</button>
+              <button class="wpea-btn wpea-btn--ghost" data-modal="modal-fullscreen">Fullscreen Modal</button>
+            </div>
+          </div>
+
+          <div class="wpea-card">
+            <div class="wpea-card__title">Scrollable Content</div>
+            <p class="wpea-text-muted">Modals with content that exceeds viewport height will have scrollable bodies with custom styled scrollbars.</p>
+            <button class="wpea-btn wpea-btn--primary" data-modal="modal-scrollable">Scrollable Modal</button>
+          </div>
+        </div>
+      </section>
     </main>
+  </div>
+
+  <!-- Modal Templates -->
+  <!-- Standard Modal -->
+  <div id="modal-standard" class="wpea-modal">
+    <div class="wpea-modal__backdrop"></div>
+    <div class="wpea-modal__container">
+      <div class="wpea-modal__header">
+        <h3 class="wpea-modal__title">Standard Modal</h3>
+        <button class="wpea-modal__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="wpea-modal__body">
+        <p>This is a standard modal dialog. It's perfect for confirmations, short forms, or displaying concise information.</p>
+        <div class="wpea-stack">
+          <div class="wpea-field">
+            <label class="wpea-label" for="modal-input">Your Name</label>
+            <input id="modal-input" class="wpea-input" placeholder="Enter your name" />
+          </div>
+          <div class="wpea-field">
+            <label class="wpea-label" for="modal-select">Choose an option</label>
+            <select id="modal-select" class="wpea-select">
+              <option>Option 1</option>
+              <option>Option 2</option>
+              <option>Option 3</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="wpea-modal__footer">
+        <button class="wpea-btn wpea-btn--ghost">Cancel</button>
+        <button class="wpea-btn wpea-btn--primary">Save Changes</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Large Modal -->
+  <div id="modal-large" class="wpea-modal wpea-modal--large">
+    <div class="wpea-modal__backdrop"></div>
+    <div class="wpea-modal__container">
+      <div class="wpea-modal__header">
+        <h3 class="wpea-modal__title">Large Modal</h3>
+        <button class="wpea-modal__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="wpea-modal__body">
+        <p>This is a large modal, perfect for more complex forms or detailed content displays.</p>
+        <div class="wpea-grid-2">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Section 1</div>
+            <p>Content for the first section of your large modal.</p>
+          </div>
+          <div class="wpea-card">
+            <div class="wpea-card__title">Section 2</div>
+            <p>Content for the second section of your large modal.</p>
+          </div>
+        </div>
+        <div class="wpea-stack" style="margin-top: var(--wpea-space--lg);">
+          <div class="wpea-field">
+            <label class="wpea-label" for="modal-textarea">Description</label>
+            <textarea id="modal-textarea" class="wpea-textarea" rows="4" placeholder="Enter a description..."></textarea>
+          </div>
+        </div>
+      </div>
+      <div class="wpea-modal__footer">
+        <button class="wpea-btn wpea-btn--ghost">Cancel</button>
+        <button class="wpea-btn wpea-btn--secondary">Save Draft</button>
+        <button class="wpea-btn wpea-btn--primary">Publish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Fullscreen Modal -->
+  <div id="modal-fullscreen" class="wpea-modal wpea-modal--fullscreen">
+    <div class="wpea-modal__backdrop"></div>
+    <div class="wpea-modal__container">
+      <div class="wpea-modal__header">
+        <h3 class="wpea-modal__title">Fullscreen Modal</h3>
+        <button class="wpea-modal__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="wpea-modal__body">
+        <p>This is a fullscreen modal, taking up the entire viewport. Great for immersive experiences or complex workflows.</p>
+        <div class="wpea-grid-3" style="margin-top: var(--wpea-space--lg);">
+          <div class="wpea-card">
+            <div class="wpea-card__title">Feature 1</div>
+            <p>Description of the first feature.</p>
+            <div class="wpea-card__actions">
+              <button class="wpea-btn wpea-btn--primary">Learn More</button>
+            </div>
+          </div>
+          <div class="wpea-card">
+            <div class="wpea-card__title">Feature 2</div>
+            <p>Description of the second feature.</p>
+            <div class="wpea-card__actions">
+              <button class="wpea-btn wpea-btn--primary">Learn More</button>
+            </div>
+          </div>
+          <div class="wpea-card">
+            <div class="wpea-card__title">Feature 3</div>
+            <p>Description of the third feature.</p>
+            <div class="wpea-card__actions">
+              <button class="wpea-btn wpea-btn--primary">Learn More</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wpea-modal__footer">
+        <button class="wpea-btn wpea-btn--ghost">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scrollable Modal -->
+  <div id="modal-scrollable" class="wpea-modal">
+    <div class="wpea-modal__backdrop"></div>
+    <div class="wpea-modal__container">
+      <div class="wpea-modal__header">
+        <h3 class="wpea-modal__title">Scrollable Content Modal</h3>
+        <button class="wpea-modal__close" aria-label="Close">&times;</button>
+      </div>
+      <div class="wpea-modal__body">
+        <h4 class="wpea-heading wpea-heading--sm">Custom Scrollbars</h4>
+        <p>This modal demonstrates custom styled scrollbars. The scrollbar has a neutral background and primary color thumb.</p>
+
+        <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Lorem Ipsum</h4>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+
+        <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">More Content</h4>
+        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+        <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Additional Section</h4>
+        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+
+        <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Even More Content</h4>
+        <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+
+        <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Final Section</h4>
+        <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
+
+        <div class="wpea-alert wpea-alert--success" style="margin-top: var(--wpea-space--lg);">
+          Scroll down to see the custom scrollbar styling!
+        </div>
+
+        <p style="margin-top: var(--wpea-space--lg);">More content to make this modal scrollable. The scrollbar should be thin with a neutral background and primary color thumb that becomes more opaque on hover.</p>
+      </div>
+      <div class="wpea-modal__footer">
+        <button class="wpea-btn wpea-btn--primary">Got it!</button>
+      </div>
+    </div>
   </div>
 
   <!-- Demo JS: theme selector, compact toggles, switch behavior, nav highlighting, hamburger -->
@@ -890,7 +1321,16 @@
       }
 
       function getDensity() { return (shell.style.getPropertyValue('--wpea-density') || 'comfy').trim(); }
-      function setDensity(v) { shell.style.setProperty('--wpea-density', v); }
+      function setDensity(v) {
+        shell.style.setProperty('--wpea-density', v);
+        // Set font-size and font-family based on density
+        if (v === 'compact') {
+          shell.style.fontSize = 'calc(var(--wpea-fs-base) * 0.875)';
+        } else {
+          shell.style.fontSize = 'var(--wpea-fs-base)';
+        }
+        shell.style.fontFamily = 'var(--wpea-font-sans)';
+      }
 
       function updateBadges() {
         const theme = getTheme();
@@ -1085,6 +1525,151 @@
       });
 
       updateBadges();
+
+      // Modal functionality
+      const modalTriggers = document.querySelectorAll('[data-modal]');
+      const modals = document.querySelectorAll('.wpea-modal');
+
+      function openModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.classList.add('wpea-modal--open');
+          document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        }
+      }
+
+      function closeModal(modal) {
+        modal.classList.add('wpea-modal--closing');
+        setTimeout(() => {
+          modal.classList.remove('wpea-modal--open', 'wpea-modal--closing');
+          document.body.style.overflow = ''; // Restore scrolling
+        }, 200);
+      }
+
+      // Open modal on button click
+      modalTriggers.forEach(trigger => {
+        trigger.addEventListener('click', () => {
+          const modalId = trigger.getAttribute('data-modal');
+          openModal(modalId);
+        });
+      });
+
+      // Close modal functionality
+      modals.forEach(modal => {
+        const backdrop = modal.querySelector('.wpea-modal__backdrop');
+        const closeBtn = modal.querySelector('.wpea-modal__close');
+        const cancelBtns = modal.querySelectorAll('.wpea-btn--ghost');
+
+        // Close on backdrop click
+        if (backdrop) {
+          backdrop.addEventListener('click', () => closeModal(modal));
+        }
+
+        // Close on X button click
+        if (closeBtn) {
+          closeBtn.addEventListener('click', () => closeModal(modal));
+        }
+
+        // Close on Cancel/Close button click
+        cancelBtns.forEach(btn => {
+          btn.addEventListener('click', () => closeModal(modal));
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && modal.classList.contains('wpea-modal--open')) {
+            closeModal(modal);
+          }
+        });
+      });
+
+      // 3-State Toggle Button functionality
+      document.querySelectorAll('.wpea-toggle-3state').forEach(toggleGroup => {
+        const buttons = toggleGroup.querySelectorAll('.wpea-toggle-3state__btn');
+
+        buttons.forEach(button => {
+          button.addEventListener('click', () => {
+            // Update aria-pressed states
+            buttons.forEach(btn => btn.setAttribute('aria-pressed', 'false'));
+            button.setAttribute('aria-pressed', 'true');
+
+            // Handle theme toggle (if it's the theme selector)
+            const theme = button.getAttribute('data-theme');
+            if (theme) {
+              setTheme(theme);
+              updateBadges();
+            }
+
+            // Handle view mode toggle (if it's the view selector)
+            const view = button.getAttribute('data-view');
+            if (view) {
+              console.log('View mode changed to:', view);
+              // Add your view mode handling logic here
+            }
+          });
+        });
+      });
+
+      // Double Opt-In Button functionality
+      document.querySelectorAll('.wpea-btn-double-opt-in').forEach(button => {
+        let confirmTimeout = null;
+
+        button.addEventListener('click', () => {
+          const isConfirm = button.getAttribute('data-confirm') === 'true';
+          const timeoutDuration = parseInt(button.getAttribute('data-timeout')) || 2000;
+
+          if (!isConfirm) {
+            // First click - enter confirm state
+            button.setAttribute('data-confirm', 'true');
+
+            // Swap icons
+            const iconTrash = button.querySelector('.icon-trash, .icon-archive');
+            const iconCheck = button.querySelector('.icon-check');
+            const btnText = button.querySelector('.btn-text');
+
+            if (iconTrash) iconTrash.style.display = 'none';
+            if (iconCheck) iconCheck.style.display = 'block';
+            if (btnText) btnText.textContent = 'Confirm?';
+
+            // Set timeout to reset
+            confirmTimeout = setTimeout(() => {
+              resetButton(button);
+            }, timeoutDuration);
+          } else {
+            // Second click - execute action
+            clearTimeout(confirmTimeout);
+
+            // Execute the action
+            const actionType = button.querySelector('.icon-trash') ? 'delete' : 'archive';
+
+            // Show toast notification
+            showToast({
+              title: actionType === 'delete' ? 'Deleted' : 'Archived',
+              message: `Item has been ${actionType}d successfully!`,
+              type: actionType === 'delete' ? 'danger' : 'success',
+              position: 'center'
+            });
+
+            // Reset button
+            resetButton(button);
+          }
+        });
+
+        // Reset button to initial state
+        function resetButton(btn) {
+          btn.setAttribute('data-confirm', 'false');
+
+          const iconTrash = btn.querySelector('.icon-trash, .icon-archive');
+          const iconCheck = btn.querySelector('.icon-check');
+          const btnText = btn.querySelector('.btn-text');
+
+          if (iconTrash) iconTrash.style.display = 'block';
+          if (iconCheck) iconCheck.style.display = 'none';
+          if (btnText) {
+            btnText.textContent = btn.querySelector('.icon-trash') ? 'Delete' : 'Archive';
+          }
+        }
+      });
     })();
   </script>
 </body>

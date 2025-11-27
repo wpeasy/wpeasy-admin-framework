@@ -89,4 +89,34 @@
 
   /* Control gap */
   --wpea-control-gap: 10px;
+
+  /* Form input colors - light mode */
+  --wpea-input--bg-light: #ffffff;
+  --wpea-input--bg-hover-light: #f9fafb;
+  --wpea-input--bg-focus-light: #ffffff;
+  --wpea-input--border-light: #d1d5db;
+  --wpea-input--border-hover-light: #9ca3af;
+  --wpea-input--border-focus-light: var(--wpea-color--primary-light);
+  --wpea-input--placeholder-light: #9ca3af;
+
+  /* Form input colors - dark mode */
+  --wpea-input--bg-dark: #222222;
+  --wpea-input--bg-hover-dark: #2a2a2a;
+  --wpea-input--bg-focus-dark: #000000;
+  --wpea-input--border-dark: #374151;
+  --wpea-input--border-hover-dark: #4b5563;
+  --wpea-input--border-focus-dark: black;
+  --wpea-input--placeholder-dark: #6b7280;
+
+  /* Select option colors */
+  --wpea-select-option--bg-light: #ffffff;
+  --wpea-select-option--bg-dark: #222222;
+
+  /* Popover colors */
+  --wpea-popover--bg-light: #ffffff;
+  --wpea-popover--bg-dark: #5a5a5a;
+  --wpea-popover--text-light: #111111;
+  --wpea-popover--text-dark: #e5e5e5;
+  --wpea-popover--border-light: #d1d5db;
+  --wpea-popover--border-dark: #374151;
 }

@@ -3,9 +3,7 @@ import '../../wpea/wpea-framework.css'
 import './app.css'
 import App from './App.svelte'
 
-// Set body classes and initial styles
-document.body.className = 'wpea wpea-cq';
-document.body.style.setProperty('--wpea-density', 'comfy');
+// Set body initial styles
 document.body.style.setProperty('color-scheme', 'light dark');
 document.body.style.padding = '0';
 document.body.style.margin = '0';

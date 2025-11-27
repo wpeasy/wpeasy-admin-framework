@@ -14,6 +14,10 @@
   import Table from './lib/Table.svelte';
   import Stack from './lib/Stack.svelte';
   import Cluster from './lib/Cluster.svelte';
+  import Modal from './lib/Modal.svelte';
+  import Toggle3State from './lib/Toggle3State.svelte';
+  import DoubleOptInButton from './lib/DoubleOptInButton.svelte';
+  import Popover from './lib/Popover.svelte';
 
   let theme = $state<'auto' | 'light' | 'dark'>('auto');
   let density = $state<'comfy' | 'compact'>('comfy');
@@ -45,6 +49,15 @@
   let switchPrimary = $state(true);
   let switchSecondary = $state(true);
 
+  // Modal states
+  let modalStandard = $state(false);
+  let modalLarge = $state(false);
+  let modalFullscreen = $state(false);
+  let modalScrollable = $state(false);
+
+  // 3-state toggle and double opt-in button states
+  let viewMode = $state('grid');
+
   const themeLabel = $derived(
     theme === 'auto' ? 'Respect OS' : theme.charAt(0).toUpperCase() + theme.slice(1)
   );
@@ -68,11 +81,17 @@
 
   function toggleDensity() {
     density = density === 'compact' ? 'comfy' : 'compact';
-    document.body.style.setProperty('--wpea-density', density);
   }
 
   function toggleSidebar() {
     sidebarOpen = !sidebarOpen;
+  }
+
+  function handleOverlayKeydown(e: KeyboardEvent) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      toggleSidebar();
+    }
   }
 
   function showToast(position: string, type: string = 'default') {
@@ -298,7 +317,7 @@
   });
 </script>
 
-<div class="demo-shell">
+<div class="wpea wpea-cq demo-shell" style="--wpea-density: {density}; font-size: {density === 'compact' ? 'calc(var(--wpea-fs-base) * 0.875)' : 'var(--wpea-fs-base)'}; font-family: var(--wpea-font-sans);">
   <!-- HEADER -->
   <header class="demo-header">
     <Cluster>
@@ -335,7 +354,11 @@
   <!-- Sidebar overlay -->
   <div
     class="sidebar-overlay {sidebarOpen ? 'open' : ''}"
+    role="button"
+    tabindex={sidebarOpen ? 0 : -1}
     onclick={toggleSidebar}
+    onkeydown={handleOverlayKeydown}
+    aria-label="Close sidebar"
   ></div>
 
   <!-- SIDEBAR -->
@@ -351,6 +374,7 @@
       <a href="#tabs" class={activeSection === 'tabs' ? 'active' : ''}>Tabs</a>
       <a href="#accordions" class={activeSection === 'accordions' ? 'active' : ''}>Accordions</a>
       <a href="#cards-panels" class={activeSection === 'cards-panels' ? 'active' : ''}>Cards & Panels</a>
+      <a href="#modals" class={activeSection === 'modals' ? 'active' : ''}>Modals</a>
     </nav>
   </aside>
 
@@ -486,7 +510,8 @@
     <section id="forms-inputs" class="demo-section">
       <h2 class="demo-section__title">Forms & Inputs</h2>
 
-      <Card title="Switches">
+      <Stack>
+        <Card title="Switches">
         <Stack>
           <div>
             <strong>Size Variants</strong>
@@ -505,6 +530,215 @@
               <Switch id="sw-neutral" color="neutral" bind:checked={switchNeutral} label="Neutral" />
               <Switch id="sw-primary" color="primary" bind:checked={switchPrimary} label="Primary" />
               <Switch id="sw-secondary" color="secondary" bind:checked={switchSecondary} label="Secondary" />
+            </Cluster>
+          </div>
+        </Stack>
+      </Card>
+
+      <Card title="3-State Toggle Button">
+        <Stack>
+          <div>
+            <strong>Theme Selector</strong>
+            <div style="margin-top: 12px;">
+              <Toggle3State
+                bind:value={theme}
+                ariaLabel="Theme selection"
+                onChange={(value) => setTheme(value as 'auto' | 'light' | 'dark')}
+                options={[
+                  {
+                    value: 'light',
+                    label: 'Light',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>`
+                    }))
+                  },
+                  {
+                    value: 'dark',
+                    label: 'Dark',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`
+                    }))
+                  },
+                  {
+                    value: 'auto',
+                    label: 'Auto',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>`
+                    }))
+                  }
+                ]}
+              />
+            </div>
+          </div>
+          <hr class="wpea-divider">
+          <div>
+            <strong>View Mode Selector</strong>
+            <div style="margin-top: 12px;">
+              <Toggle3State
+                bind:value={viewMode}
+                ariaLabel="View mode selection"
+                options={[
+                  {
+                    value: 'grid',
+                    label: 'Grid',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zm10 0a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>`
+                    }))
+                  },
+                  {
+                    value: 'list',
+                    label: 'List',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>`
+                    }))
+                  },
+                  {
+                    value: 'table',
+                    label: 'Table',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>`
+                    }))
+                  }
+                ]}
+              />
+            </div>
+          </div>
+          <hr class="wpea-divider">
+          <div>
+            <strong>Icon Only (with popovers)</strong>
+            <div style="margin-top: 12px;">
+              <Toggle3State
+                bind:value={theme}
+                ariaLabel="Theme selection"
+                iconOnly={true}
+                showPopover={true}
+                popoverPosition="top"
+                popoverSize="xs"
+                onChange={(value) => setTheme(value as 'auto' | 'light' | 'dark')}
+                options={[
+                  {
+                    value: 'light',
+                    label: 'Light',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><circle cx="12" cy="12" r="4" stroke-width="2"/><path stroke-width="2" d="M12 2v2m0 16v2M4.93 4.93l1.41 1.41m11.32 11.32l1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41m11.32-11.32l1.41-1.41"/></svg>`
+                    }))
+                  },
+                  {
+                    value: 'dark',
+                    label: 'Dark',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>`
+                    }))
+                  },
+                  {
+                    value: 'auto',
+                    label: 'Auto',
+                    icon: createRawSnippet(() => ({
+                      render: () => `<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>`
+                    }))
+                  }
+                ]}
+              />
+            </div>
+          </div>
+        </Stack>
+      </Card>
+
+      <Card title="Double Opt-In Button">
+        <Stack>
+          <div>
+            <strong>Delete Action (Danger)</strong>
+            <div style="margin-top: 12px;">
+              <DoubleOptInButton
+                defaultLabel="Delete"
+                confirmLabel="Confirm?"
+                timeout={2000}
+                onClick={() => showToast('center', 'danger')}
+              >
+                {#snippet defaultIcon()}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                  </svg>
+                {/snippet}
+                {#snippet confirmIcon()}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                {/snippet}
+              </DoubleOptInButton>
+            </div>
+          </div>
+          <hr class="wpea-divider">
+          <div>
+            <strong>Archive Action (Success variant)</strong>
+            <div style="margin-top: 12px;">
+              <DoubleOptInButton
+                defaultLabel="Archive"
+                confirmLabel="Confirm?"
+                timeout={3000}
+                variant="success"
+                onClick={() => showToast('center', 'success')}
+              >
+                {#snippet defaultIcon()}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                  </svg>
+                {/snippet}
+                {#snippet confirmIcon()}
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                  </svg>
+                {/snippet}
+              </DoubleOptInButton>
+            </div>
+          </div>
+          <hr class="wpea-divider">
+          <div>
+            <strong>Icon Only (with popovers)</strong>
+            <Cluster style="margin-top: 12px;">
+              <Popover content="Delete" position="top" size="xs">
+                {#snippet children()}
+                  <DoubleOptInButton
+                    iconOnly={true}
+                    ariaLabel="Delete"
+                    timeout={2000}
+                    onClick={() => showToast('center', 'danger')}
+                  >
+                    {#snippet defaultIcon()}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                      </svg>
+                    {/snippet}
+                    {#snippet confirmIcon()}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    {/snippet}
+                  </DoubleOptInButton>
+                {/snippet}
+              </Popover>
+              <Popover content="Archive" position="top" size="xs">
+                {#snippet children()}
+                  <DoubleOptInButton
+                    iconOnly={true}
+                    ariaLabel="Archive"
+                    timeout={3000}
+                    variant="success"
+                    onClick={() => showToast('center', 'success')}
+                  >
+                    {#snippet defaultIcon()}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/>
+                      </svg>
+                    {/snippet}
+                    {#snippet confirmIcon()}
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-width="2" d="M5 13l4 4L19 7"/>
+                      </svg>
+                    {/snippet}
+                  </DoubleOptInButton>
+                {/snippet}
+              </Popover>
             </Cluster>
           </div>
         </Stack>
@@ -628,6 +862,7 @@
           </Card>
         </div>
       </Panel>
+      </Stack>
     </section>
 
     <!-- TABLES -->
@@ -770,5 +1005,143 @@
         </Card>
       </Stack>
     </section>
+
+    <!-- MODALS -->
+    <section id="modals" class="demo-section">
+      <h2 class="demo-section__title">Modals</h2>
+
+      <Stack>
+        <Card title="Modal Sizes">
+          <Cluster>
+            <Button variant="primary" onclick={() => modalStandard = true}>Standard Modal</Button>
+            <Button variant="secondary" onclick={() => modalLarge = true}>Large Modal</Button>
+            <Button variant="ghost" onclick={() => modalFullscreen = true}>Fullscreen Modal</Button>
+          </Cluster>
+        </Card>
+
+        <Card title="Scrollable Content">
+          <p class="wpea-text-muted">Modals with content that exceeds viewport height will have scrollable bodies with custom styled scrollbars.</p>
+          <Button variant="primary" onclick={() => modalScrollable = true}>Scrollable Modal</Button>
+        </Card>
+      </Stack>
+    </section>
   </main>
 </div>
+
+<!-- Modal Components -->
+<!-- Standard Modal -->
+<Modal bind:open={modalStandard} title="Standard Modal" size="standard">
+  {#snippet children()}
+    <p>This is a standard modal dialog. It's perfect for confirmations, short forms, or displaying concise information.</p>
+    <Stack>
+      <Input
+        id="svelte-modal-input"
+        label="Your Name"
+        placeholder="Enter your name"
+      />
+      <Select
+        id="svelte-modal-select"
+        label="Choose an option"
+        options={[
+          { value: '1', label: 'Option 1' },
+          { value: '2', label: 'Option 2' },
+          { value: '3', label: 'Option 3' }
+        ]}
+      />
+    </Stack>
+  {/snippet}
+  {#snippet footer()}
+    <Button variant="ghost" onclick={() => modalStandard = false}>Cancel</Button>
+    <Button variant="primary">Save Changes</Button>
+  {/snippet}
+</Modal>
+
+<!-- Large Modal -->
+<Modal bind:open={modalLarge} title="Large Modal" size="large">
+  {#snippet children()}
+    <p>This is a large modal, perfect for more complex forms or detailed content displays.</p>
+    <div class="wpea-grid-2">
+      <Card title="Section 1">
+        <p>Content for the first section of your large modal.</p>
+      </Card>
+      <Card title="Section 2">
+        <p>Content for the second section of your large modal.</p>
+      </Card>
+    </div>
+    <div style="margin-top: var(--wpea-space--lg);">
+      <Textarea
+        id="svelte-modal-textarea"
+        label="Description"
+        rows={4}
+        placeholder="Enter a description..."
+      />
+    </div>
+  {/snippet}
+  {#snippet footer()}
+    <Button variant="ghost" onclick={() => modalLarge = false}>Cancel</Button>
+    <Button variant="secondary">Save Draft</Button>
+    <Button variant="primary">Publish</Button>
+  {/snippet}
+</Modal>
+
+<!-- Fullscreen Modal -->
+<Modal bind:open={modalFullscreen} title="Fullscreen Modal" size="fullscreen">
+  {#snippet children()}
+    <p>This is a fullscreen modal, taking up the entire viewport. Great for immersive experiences or complex workflows.</p>
+    <div class="wpea-grid-3" style="margin-top: var(--wpea-space--lg);">
+      <Card title="Feature 1">
+        <p>Description of the first feature.</p>
+        {#snippet actions()}
+          <Button variant="primary">Learn More</Button>
+        {/snippet}
+      </Card>
+      <Card title="Feature 2">
+        <p>Description of the second feature.</p>
+        {#snippet actions()}
+          <Button variant="primary">Learn More</Button>
+        {/snippet}
+      </Card>
+      <Card title="Feature 3">
+        <p>Description of the third feature.</p>
+        {#snippet actions()}
+          <Button variant="primary">Learn More</Button>
+        {/snippet}
+      </Card>
+    </div>
+  {/snippet}
+  {#snippet footer()}
+    <Button variant="ghost" onclick={() => modalFullscreen = false}>Close</Button>
+  {/snippet}
+</Modal>
+
+<!-- Scrollable Modal -->
+<Modal bind:open={modalScrollable} title="Scrollable Content Modal" size="standard">
+  {#snippet children()}
+    <div class="wpea-heading wpea-heading--sm">Custom Scrollbars</div>
+    <p>This modal demonstrates custom styled scrollbars. The scrollbar has a neutral background and primary color thumb.</p>
+
+    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Lorem Ipsum</div>
+    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
+
+    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">More Content</div>
+    <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+
+    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Additional Section</div>
+    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
+
+    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Even More Content</div>
+    <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
+
+    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Final Section</div>
+    <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
+
+    <Alert variant="success" style="margin-top: var(--wpea-space--lg);">
+      Scroll down to see the custom scrollbar styling!
+    </Alert>
+
+    <p style="margin-top: var(--wpea-space--lg);">More content to make this modal scrollable. The scrollbar should be thin with a neutral background and primary color thumb that becomes more opaque on hover.</p>
+  {/snippet}
+  {#snippet footer()}
+    <Button variant="primary" onclick={() => modalScrollable = false}>Got it!</Button>
+  {/snippet}
+</Modal>

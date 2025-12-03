@@ -317,7 +317,7 @@
   });
 </script>
 
-<div class="wpea wpea-cq demo-shell" style="--wpea-density: {density}; font-size: {density === 'compact' ? 'calc(var(--wpea-fs-base) * 0.875)' : 'var(--wpea-fs-base)'}; font-family: var(--wpea-font-sans);">
+<div class="wpea-app wpea-cq demo-shell" style="--wpea-density: {density}; font-size: {density === 'compact' ? 'calc(var(--wpea-fs-base) * 0.875)' : 'var(--wpea-fs-base)'}; font-family: var(--wpea-font-sans);">
   <!-- HEADER -->
   <header class="demo-header">
     <Cluster>

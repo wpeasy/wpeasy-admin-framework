@@ -343,7 +343,17 @@
   /* =========================
      BASE / ROOT WRAPPER
      ========================= */
+  /* Base styling - use this for typography without layout constraints */
   .wpea {
+    font-family: var(--wpea-font-sans);
+    font-size: var(--wpea-fs-base);
+    line-height: 1.5;
+    color: var(--wpea-surface--text);
+    background: var(--wpea-surface--bg);
+  }
+
+  /* Full-page application container - use this for root-level layouts */
+  .wpea-app {
     font-family: var(--wpea-font-sans);
     font-size: var(--wpea-fs-base);
     line-height: 1.5;

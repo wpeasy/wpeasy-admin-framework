@@ -135,6 +135,6 @@ The built files will be in the dist/ directory.
 
 ## Framework Reference
 
-The app uses the WPE Admin Framework CSS from ../wpea/wpea-framework.css.
+The app uses the WPE Admin Framework CSS from ../wpea-framework.css.
 
-For more information about the framework, see the main documentation in ../wpea/CLAUDE.md.
+For more information about the framework, see the main documentation in ../claude.md.

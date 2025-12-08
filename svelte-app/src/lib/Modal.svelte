@@ -68,7 +68,7 @@
 
 {#if open}
   <div
-    class="wpea-app wpea-modal wpea-modal--open {sizeClass}"
+    class="wpea wpea-full wpea-modal wpea-modal--open {sizeClass}"
     style="font-family: var(--wpea-font-sans);"
     transition:fade={{ duration: 200 }}
   >

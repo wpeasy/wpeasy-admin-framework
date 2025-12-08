@@ -254,12 +254,7 @@
     --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-scale));
     --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-scale));
     --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-scale));
-    --wpea-s-1: var(--wpea-space--xs);
-    --wpea-s-2: var(--wpea-space--sm);
-    --wpea-s-3: var(--wpea-space--md);
-    --wpea-s-4: var(--wpea-space--lg);
-    --wpea-s-5: var(--wpea-space--xl);
-  
+
     /* Typography sizes */
     --wpea-text--xs: calc(var(--wpea-fs-base) * 0.75);
     --wpea-text--sm: calc(var(--wpea-text--xs) * var(--wpea-scale));
@@ -343,25 +338,20 @@
   /* =========================
      BASE / ROOT WRAPPER
      ========================= */
-  /* Base styling - use this for typography without layout constraints */
+  /* Base styling - use on top-level layout wrapper and modals mounted in document.body */
   .wpea {
     font-family: var(--wpea-font-sans);
     font-size: var(--wpea-fs-base);
     line-height: 1.5;
     color: var(--wpea-surface--text);
     background: var(--wpea-surface--bg);
-  }
-
-  /* Full-page application container - use this for root-level layouts */
-  .wpea-app {
-    font-family: var(--wpea-font-sans);
-    font-size: var(--wpea-fs-base);
-    line-height: 1.5;
-    color: var(--wpea-surface--text);
-    background: var(--wpea-surface--bg);
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
+  }
+
+  /* Full-screen container - use for full-page apps and modals */
+  .wpea-full {
+    min-height: 100vh;
   }
   
   /* =========================
@@ -454,29 +444,25 @@
       padding-block: calc(var(--wpea-space--sm) * 0.4);
       padding-inline: calc(var(--wpea-space--sm) * 0.7);
     }
-    .wpea-input--sm {
-      padding-block: calc(var(--wpea-space--xs) * 0.5);
-      padding-inline: calc(var(--wpea-space--sm) * 0.6);
-    }
-    .wpea-input--lg {
-      padding-block: calc(var(--wpea-space--sm) * 0.7);
-      padding-inline: calc(var(--wpea-space--md) * 0.7);
-    }
+    .wpea-input--xs  { padding-block: calc(var(--wpea-space--xs) * 0.3); padding-inline: calc(var(--wpea-space--sm) * 0.5); }
+    .wpea-input--s   { padding-block: calc(var(--wpea-space--xs) * 0.5); padding-inline: calc(var(--wpea-space--sm) * 0.6); }
+    .wpea-input--m   { padding-block: calc(var(--wpea-space--xs) * 0.7); padding-inline: calc(var(--wpea-space--sm) * 0.7); }
+    .wpea-input--l   { padding-block: calc(var(--wpea-space--sm) * 0.7); padding-inline: calc(var(--wpea-space--md) * 0.7); }
+    .wpea-input--xl  { padding-block: calc(var(--wpea-space--sm) * 0.85); padding-inline: calc(var(--wpea-space--md) * 0.85); }
+    .wpea-input--2xl { padding-block: calc(var(--wpea-space--sm) * 1.0); padding-inline: calc(var(--wpea-space--md) * 1.0); }
 
     /* Buttons - more compact */
     .wpea-btn {
-      padding-block: calc(var(--wpea-s-2) * 0.4);
-      padding-inline: calc(var(--wpea-s-3) * 0.75);
+      padding-block: calc(var(--wpea-space--sm) * 0.4);
+      padding-inline: calc(var(--wpea-space--md) * 0.75);
       gap: .4em;
     }
-    .wpea-btn--sm {
-      padding-block: calc(var(--wpea-s-2) * 0.3);
-      padding-inline: calc(var(--wpea-s-2) * 0.7);
-    }
-    .wpea-btn--lg {
-      padding-block: calc(var(--wpea-s-2) * 0.6);
-      padding-inline: calc(var(--wpea-s-4) * 0.8);
-    }
+    .wpea-btn--xs  { padding-block: calc(var(--wpea-space--sm) * 0.2);  padding-inline: calc(var(--wpea-space--sm) * 0.5); }
+    .wpea-btn--s   { padding-block: calc(var(--wpea-space--sm) * 0.3);  padding-inline: calc(var(--wpea-space--sm) * 0.7); }
+    .wpea-btn--m   { padding-block: calc(var(--wpea-space--sm) * 0.4);  padding-inline: calc(var(--wpea-space--md) * 0.75); }
+    .wpea-btn--l   { padding-block: calc(var(--wpea-space--sm) * 0.6);  padding-inline: calc(var(--wpea-space--lg) * 0.8); }
+    .wpea-btn--xl  { padding-block: calc(var(--wpea-space--sm) * 0.8);  padding-inline: calc(var(--wpea-space--lg) * 0.9); }
+    .wpea-btn--2xl { padding-block: calc(var(--wpea-space--sm) * 1.0);  padding-inline: calc(var(--wpea-space--lg) * 1.1); }
 
     /* Tables - tighter cells */
     .wpea-table th, .wpea-table td {
@@ -673,8 +659,12 @@
   }
 
   /* Input sizes */
-  .wpea-input--sm { padding-block: calc(var(--wpea-space--xs) * .7); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--sm); }
-  .wpea-input--lg { padding-block: var(--wpea-space--sm); padding-inline: var(--wpea-space--md); font-size: var(--wpea-text--lg); }
+  .wpea-input--xs  { padding-block: calc(var(--wpea-space--xs) * .5); padding-inline: calc(var(--wpea-space--sm) * .7); font-size: var(--wpea-text--xs); }
+  .wpea-input--s   { padding-block: calc(var(--wpea-space--xs) * .7); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--sm); }
+  .wpea-input--m   { padding-block: var(--wpea-space--xs); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--md); }
+  .wpea-input--l   { padding-block: var(--wpea-space--sm); padding-inline: var(--wpea-space--md); font-size: var(--wpea-text--lg); }
+  .wpea-input--xl  { padding-block: calc(var(--wpea-space--sm) * 1.2); padding-inline: calc(var(--wpea-space--md) * 1.2); font-size: var(--wpea-text--xl); }
+  .wpea-input--2xl { padding-block: calc(var(--wpea-space--sm) * 1.4); padding-inline: calc(var(--wpea-space--md) * 1.4); font-size: var(--wpea-text--2xl); }
   
   /* Switch */
   .wpea-control { display:flex; align-items:center; gap: var(--wpea-control-gap); }
@@ -848,8 +838,8 @@
   
     display:inline-flex; align-items:center; justify-content:center; gap:.6em;
     font-size: var(--wpea-text--md);
-    padding-block: calc(var(--wpea-s-2) * .6);
-    padding-inline: var(--wpea-s-3);
+    padding-block: calc(var(--wpea-space--sm) * .6);
+    padding-inline: var(--wpea-space--md);
     border-radius: var(--wpea-radius--xl);
     border: 0; background: var(--_bg); color: var(--_fg);
     box-shadow: var(--_shadow); cursor: pointer;
@@ -863,9 +853,13 @@
   .wpea-btn--secondary { --_bg: var(--wpea-color--secondary); --_bg-hover: var(--wpea-color--secondary-d-2); }
   .wpea-btn--ghost     { --_bg: transparent; --_bg-hover: light-dark(var(--wpea-color--primary-t-10), var(--wpea-color--primary-t-20)); --_fg: var(--wpea-color--primary); border: 1px solid var(--wpea-color--primary-t-40); }
   
-  .wpea-btn--sm { font-size: var(--wpea-text--sm); padding-block: calc(var(--wpea-s-2) * .45); padding-inline: var(--wpea-s-2); }
-  .wpea-btn--lg { font-size: var(--wpea-text--lg); padding-block: var(--wpea-s-2); padding-inline: var(--wpea-s-4); }
-  
+  .wpea-btn--xs  { font-size: var(--wpea-text--xs);  padding-block: calc(var(--wpea-space--sm) * .3);  padding-inline: calc(var(--wpea-space--sm) * .7); }
+  .wpea-btn--s   { font-size: var(--wpea-text--sm);  padding-block: calc(var(--wpea-space--sm) * .45); padding-inline: var(--wpea-space--sm); }
+  .wpea-btn--m   { font-size: var(--wpea-text--md);  padding-block: calc(var(--wpea-space--sm) * .6);  padding-inline: var(--wpea-space--md); }
+  .wpea-btn--l   { font-size: var(--wpea-text--lg);  padding-block: var(--wpea-space--sm);            padding-inline: var(--wpea-space--lg); }
+  .wpea-btn--xl  { font-size: var(--wpea-text--xl);  padding-block: calc(var(--wpea-space--sm) * 1.2); padding-inline: calc(var(--wpea-space--lg) * 1.2); }
+  .wpea-btn--2xl { font-size: var(--wpea-text--2xl); padding-block: calc(var(--wpea-space--sm) * 1.4); padding-inline: calc(var(--wpea-space--lg) * 1.4); }
+
   /* Tables */
   .wpea-table {
     inline-size:100%;
@@ -1027,11 +1021,23 @@
 }
 
 /* Sizes */
-.wpea .wpea-input--sm,
-.wpea input.wpea-input--sm { padding-block: calc(var(--wpea-space--xs) * .7); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--sm); }
+.wpea .wpea-input--xs,
+.wpea input.wpea-input--xs { padding-block: calc(var(--wpea-space--xs) * .5); padding-inline: calc(var(--wpea-space--sm) * .7); font-size: var(--wpea-text--xs); }
 
-.wpea .wpea-input--lg,
-.wpea input.wpea-input--lg { padding-block: var(--wpea-space--sm); padding-inline: var(--wpea-space--md); font-size: var(--wpea-text--lg); }
+.wpea .wpea-input--s,
+.wpea input.wpea-input--s { padding-block: calc(var(--wpea-space--xs) * .7); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--sm); }
+
+.wpea .wpea-input--m,
+.wpea input.wpea-input--m { padding-block: var(--wpea-space--xs); padding-inline: var(--wpea-space--sm); font-size: var(--wpea-text--md); }
+
+.wpea .wpea-input--l,
+.wpea input.wpea-input--l { padding-block: var(--wpea-space--sm); padding-inline: var(--wpea-space--md); font-size: var(--wpea-text--lg); }
+
+.wpea .wpea-input--xl,
+.wpea input.wpea-input--xl { padding-block: calc(var(--wpea-space--sm) * 1.2); padding-inline: calc(var(--wpea-space--md) * 1.2); font-size: var(--wpea-text--xl); }
+
+.wpea .wpea-input--2xl,
+.wpea input.wpea-input--2xl { padding-block: calc(var(--wpea-space--sm) * 1.4); padding-inline: calc(var(--wpea-space--md) * 1.4); font-size: var(--wpea-text--2xl); }
 
 /* Select dropdown arrow (keeps our appearance across WP) */
 .wpea .wpea-select {
@@ -1500,7 +1506,7 @@
    ========================= */
 .wpea-toast-container {
   position: fixed;
-  z-index: 9999;
+  z-index: 9999999;
   pointer-events: none;
   display: flex;
   flex-direction: column;
@@ -1523,6 +1529,9 @@
 
 .wpea-toast {
   pointer-events: auto;
+  font-family: var(--wpea-font-sans);
+  font-size: var(--wpea-fs-base);
+  line-height: 1.5;
   background: var(--wpea-surface--panel);
   color: var(--wpea-surface--text);
   border: 1px solid var(--wpea-surface--border);

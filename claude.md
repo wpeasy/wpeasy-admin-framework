@@ -2,8 +2,42 @@
 
 ## Files
 - wpea-framework.css - main framework file
+- wpea-framework-settings.css - configurable settings (imported by wpea-framework.css)
 - wpea-wp-resets.css - resets to overcome default WP Admin styles
 - test-ui.html - Sample HTML for usage of the framework for admin UI
+
+## CSS Variable Verification
+
+**IMPORTANT:** Before using any `var(--wpea-*)` CSS variable, verify it exists in the framework. Do not hallucinate or assume variables exist.
+
+### How to Verify Variables Exist
+
+1. Check `wpea-framework-settings.css` for base settings (fonts, colors, spacing base values, radius, animation durations, switch sizes, input styles, popover styles)
+2. Check `wpea-framework.css` :root block for computed tokens (color variants, spacing scale, text sizes, shadows, surfaces)
+
+### Key Variable Categories
+
+**Defined in wpea-framework-settings.css:**
+- `--wpea-fs-base`, `--wpea-scale`, `--wpea-font-sans`
+- `--wpea-color--*-light`, `--wpea-color--*-dark` (base palette)
+- `--wpea-color--success`, `--wpea-color--warning`, `--wpea-color--danger`, `--wpea-color--info`
+- `--wpea-space-base`, `--wpea-radius--*`, `--wpea-anim-duration--*`
+- `--wpea-switch-*`, `--wpea-input--*`, `--wpea-popover--*`
+
+**Computed in wpea-framework.css :root:**
+- `--wpea-color--primary`, `--wpea-color--secondary`, `--wpea-color--neutral` (light-dark resolved)
+- `--wpea-color--*-l-1` to `--wpea-color--*-l-10` (lightened variants)
+- `--wpea-color--*-d-1` to `--wpea-color--*-d-10` (darkened variants)
+- `--wpea-color--*-t-10` to `--wpea-color--*-t-100` (transparent variants)
+- `--wpea-space--xs`, `--wpea-space--sm`, `--wpea-space--md`, `--wpea-space--lg`, `--wpea-space--xl`, `--wpea-space--2xl`
+- `--wpea-text--xs`, `--wpea-text--sm`, `--wpea-text--md`, `--wpea-text--lg`, `--wpea-text--xl`, `--wpea-text--2xl`, `--wpea-text--3xl`, `--wpea-text--4xl`
+- `--wpea-shadow--sm`, `--wpea-shadow--md`, `--wpea-shadow--lg`, `--wpea-shadow--xl`
+- `--wpea-surface--bg`, `--wpea-surface--muted`, `--wpea-surface--panel`, `--wpea-surface--border`, `--wpea-surface--divider`, `--wpea-surface--text`, `--wpea-surface--text-muted`
+
+### Base Classes
+
+- `.wpea` - Base styling for top-level layout wrapper and modals mounted in document.body (font, colors, flex column layout)
+- `.wpea-full` - Add to `.wpea` for full-screen apps/modals (adds `min-height: 100vh`)
 
 ## Light/Dark Mode Usage
 

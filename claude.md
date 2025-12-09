@@ -4,7 +4,7 @@
 - wpea-framework.css - main framework file
 - wpea-framework-settings.css - configurable settings (imported by wpea-framework.css)
 - wpea-wp-resets.css - resets to overcome default WP Admin styles
-- test-ui.html - Sample HTML for usage of the framework for admin UI
+- svelte-app/ - Svelte 5 demo application showcasing all components
 
 ## CSS Variable Verification
 
@@ -450,3 +450,4 @@ const config = {
 
 export default config;
 ```
+- note that these components are intended for a UI. All Svelte  state should be Global, with teh exception of local state for Component status

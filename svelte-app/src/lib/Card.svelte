@@ -6,6 +6,8 @@
     hover?: boolean;
     title?: string;
     subtitle?: string;
+    class?: string;
+    style?: string;
     header?: Snippet;
     actions?: Snippet;
     children?: Snippet;
@@ -16,6 +18,8 @@
     hover = false,
     title,
     subtitle,
+    class: className = '',
+    style,
     header,
     actions,
     children
@@ -26,7 +30,7 @@
   let hasHeader = $derived(title || subtitle || header || actions);
 </script>
 
-<div class="wpea-card {mutedClass} {hoverClass}">
+<div class="wpea-card {mutedClass} {hoverClass} {className}" {style}>
   {#if hasHeader}
     <div class="wpea-card__header">
       <div>

@@ -10,6 +10,9 @@
   type Props<T = any> = {
     columns: Column<T>[];
     data: T[];
+    striped?: boolean;
+    class?: string;
+    style?: string;
     thead?: Snippet;
     tbody?: Snippet;
   };
@@ -17,12 +20,15 @@
   let {
     columns = [],
     data = [],
+    striped = false,
+    class: className = '',
+    style,
     thead,
     tbody
   }: Props = $props();
 </script>
 
-<table class="wpea-table">
+<table class="wpea-table {striped ? 'wpea-table--striped' : ''} {className}" {style}>
   <thead>
     {#if thead}
       {@render thead()}

@@ -30,14 +30,14 @@
     onTabChange?.(tabId);
   }
 
-  let variantClass = $derived(variant ? `wpea-tabs--${variant}` : '');
+  let variantClass = $derived(variant ? `wpea-vtabs--${variant}` : '');
 </script>
 
-<div class="wpea-tabs {variantClass} {className}" {style}>
-  <div class="wpea-tabs__list" role="tablist">
+<div class="wpea-vtabs {variantClass} {className}" {style}>
+  <div class="wpea-vtabs__list" role="tablist">
     {#each tabs as tab}
       <button
-        class="wpea-tabs__tab"
+        class="wpea-vtabs__tab"
         role="tab"
         aria-selected={activeTab === tab.id}
         onclick={() => selectTab(tab.id)}
@@ -47,13 +47,15 @@
     {/each}
   </div>
 
-  {#each tabs as tab}
-    <div
-      class="wpea-tabs__panel"
-      role="tabpanel"
-      aria-hidden={activeTab !== tab.id}
-    >
-      {@render tab.content()}
-    </div>
-  {/each}
+  <div class="wpea-vtabs__content">
+    {#each tabs as tab}
+      <div
+        class="wpea-vtabs__panel"
+        role="tabpanel"
+        aria-hidden={activeTab !== tab.id}
+      >
+        {@render tab.content()}
+      </div>
+    {/each}
+  </div>
 </div>

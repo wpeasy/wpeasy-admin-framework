@@ -12,6 +12,8 @@
     confirmLabel?: string;
     iconOnly?: boolean;
     ariaLabel?: string;
+    class?: string;
+    style?: string;
   };
 
   let {
@@ -24,7 +26,9 @@
     defaultLabel = 'Delete',
     confirmLabel = 'Confirm?',
     iconOnly = false,
-    ariaLabel
+    ariaLabel,
+    class: className = '',
+    style
   }: Props = $props();
 
   let isConfirm = $state(false);
@@ -82,7 +86,7 @@
   );
 
   const buttonClass = $derived(
-    `wpea-btn-double-opt-in ${variantClass} ${iconOnlyClass}`.trim()
+    `wpea-btn-double-opt-in ${variantClass} ${iconOnlyClass} ${className}`.trim()
   );
 
   const buttonAriaLabel = $derived(
@@ -93,6 +97,7 @@
 <button
   type="button"
   class={buttonClass}
+  {style}
   data-confirm={isConfirm}
   disabled={disabled}
   onclick={handleClick}

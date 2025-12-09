@@ -21,12 +21,16 @@
   type Props = {
     toasts?: ToastItem[];
     position?: ToastPosition;
+    class?: string;
+    style?: string;
     onClose?: (id: string) => void;
   };
 
   let {
     toasts = $bindable([]),
     position = 'top-right',
+    class: className = '',
+    style,
     onClose
   }: Props = $props();
 
@@ -56,7 +60,7 @@
   let positionClass = $derived(`wpea-toast-container--${position}`);
 </script>
 
-<div class="wpea-toast-container {positionClass}">
+<div class="wpea-toast-container {positionClass} {className}" {style}>
   {#each toasts as toast (toast.id)}
     {@const isClosing = closingToasts.has(toast.id)}
     {@const variantClass = toast.variant ? `wpea-toast--${toast.variant}` : ''}

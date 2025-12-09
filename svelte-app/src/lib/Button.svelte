@@ -7,6 +7,8 @@
     size?: Size;
     disabled?: boolean;
     type?: 'button' | 'submit' | 'reset';
+    class?: string;
+    style?: string;
     onclick?: () => void;
     children?: Snippet;
   };
@@ -16,6 +18,8 @@
     size,
     disabled = false,
     type = 'button',
+    class: className = '',
+    style,
     onclick,
     children
   }: Props = $props();
@@ -25,7 +29,8 @@
 </script>
 
 <button
-  class="wpea-btn {variantClass} {sizeClass}"
+  class="wpea-btn {variantClass} {sizeClass} {className}"
+  {style}
   {type}
   {disabled}
   onclick={onclick}

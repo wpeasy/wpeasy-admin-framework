@@ -12,6 +12,8 @@
     variant?: ColorVariant;
     openItems?: string[];
     multiple?: boolean;
+    class?: string;
+    style?: string;
     onToggle?: (itemId: string, isOpen: boolean) => void;
   };
 
@@ -20,6 +22,8 @@
     variant,
     openItems = $bindable([]),
     multiple = false,
+    class: className = '',
+    style,
     onToggle
   }: Props = $props();
 
@@ -42,7 +46,7 @@
   let variantClass = $derived(variant ? `wpea-accordion--${variant}` : '');
 </script>
 
-<div class="wpea-accordion {variantClass}">
+<div class="wpea-accordion {variantClass} {className}" {style}>
   {#each items as item}
     {@const isOpen = openItems.includes(item.id)}
     <div class="wpea-accordion__item">

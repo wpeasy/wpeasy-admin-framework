@@ -17,6 +17,8 @@
     showPopover?: boolean;
     popoverPosition?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'right';
     popoverSize?: 'xs' | 's' | 'm';
+    class?: string;
+    style?: string;
   };
 
   let {
@@ -28,7 +30,9 @@
     iconOnly = false,
     showPopover = false,
     popoverPosition = 'top',
-    popoverSize = 'xs'
+    popoverSize = 'xs',
+    class: className = '',
+    style
   }: Props = $props();
 
   function handleClick(option: ToggleOption) {
@@ -52,7 +56,7 @@
   const sizeClass = $derived(`wpea-popover__content--${popoverSize}`);
 </script>
 
-<div class={containerClass} role="group" aria-label={ariaLabel}>
+<div class="{containerClass} {className}" {style} role="group" aria-label={ariaLabel}>
   {#each options as option}
     {#if showPopover && iconOnly}
       <div class="wpea-popover">

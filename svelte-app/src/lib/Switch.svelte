@@ -8,6 +8,8 @@
     size?: Size;
     color?: ColorVariant;
     label?: string;
+    class?: string;
+    style?: string;
     onchange?: (checked: boolean) => void;
   };
 
@@ -18,6 +20,8 @@
     size,
     color,
     label,
+    class: className = '',
+    style,
     onchange
   }: Props = $props();
 
@@ -31,7 +35,7 @@
   let colorClass = $derived(color ? `wpea-switch--${color}` : '');
 </script>
 
-<div class="wpea-control">
+<div class="wpea-control {className}" {style}>
   <label class="wpea-switch {sizeClass} {colorClass}" for={id}>
     <input
       type="checkbox"

@@ -6,6 +6,8 @@
     position?: 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'right';
     size?: 'xs' | 's' | 'm';
     visible?: boolean;
+    class?: string;
+    style?: string;
     children?: Snippet;
   };
 
@@ -14,6 +16,8 @@
     position = 'top',
     size = 'm',
     visible = false,
+    class: className = '',
+    style,
     children
   }: Props = $props();
 
@@ -26,7 +30,7 @@
   );
 </script>
 
-<div class="wpea-popover">
+<div class="wpea-popover {className}" {style}>
   {#if children}
     {@render children()}
   {/if}

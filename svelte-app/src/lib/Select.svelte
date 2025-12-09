@@ -9,6 +9,8 @@
     required?: boolean;
     label?: string;
     help?: string;
+    class?: string;
+    style?: string;
     options?: Array<{ value: string; label: string }>;
     children?: Snippet;
     onchange?: (value: string) => void;
@@ -22,6 +24,8 @@
     required = false,
     label,
     help,
+    class: className = '',
+    style,
     options = [],
     children,
     onchange
@@ -40,7 +44,8 @@
       <label class="wpea-label" for={id}>{label}</label>
     {/if}
     <select
-      class="wpea-select"
+      class="wpea-select {className}"
+      {style}
       {id}
       {name}
       {disabled}
@@ -62,7 +67,8 @@
   </div>
 {:else}
   <select
-    class="wpea-select"
+    class="wpea-select {className}"
+    {style}
     {id}
     {name}
     {disabled}

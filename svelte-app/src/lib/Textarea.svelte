@@ -10,6 +10,8 @@
     rows?: number;
     label?: string;
     help?: string;
+    class?: string;
+    style?: string;
     oninput?: (value: string) => void;
     onchange?: (value: string) => void;
   };
@@ -25,6 +27,8 @@
     rows = 4,
     label,
     help,
+    class: className = '',
+    style,
     oninput,
     onchange
   }: Props = $props();
@@ -48,7 +52,8 @@
       <label class="wpea-label" for={id}>{label}</label>
     {/if}
     <textarea
-      class="wpea-textarea"
+      class="wpea-textarea {className}"
+      {style}
       {id}
       {name}
       {placeholder}
@@ -66,7 +71,8 @@
   </div>
 {:else}
   <textarea
-    class="wpea-textarea"
+    class="wpea-textarea {className}"
+    {style}
     {id}
     {name}
     {placeholder}

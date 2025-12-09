@@ -13,6 +13,8 @@
     size?: Size;
     label?: string;
     help?: string;
+    class?: string;
+    style?: string;
     oninput?: (value: string) => void;
     onchange?: (value: string) => void;
   };
@@ -29,6 +31,8 @@
     size,
     label,
     help,
+    class: className = '',
+    style,
     oninput,
     onchange
   }: Props = $props();
@@ -54,7 +58,8 @@
       <label class="wpea-label" for={id}>{label}</label>
     {/if}
     <input
-      class="wpea-input {sizeClass}"
+      class="wpea-input {sizeClass} {className}"
+      {style}
       {type}
       {id}
       {name}
@@ -72,7 +77,8 @@
   </div>
 {:else}
   <input
-    class="wpea-input {sizeClass}"
+    class="wpea-input {sizeClass} {className}"
+    {style}
     {type}
     {id}
     {name}

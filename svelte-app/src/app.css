@@ -77,6 +77,65 @@ html {
   border-block-end: 2px solid var(--wpea-surface--border);
 }
 
+/* Component documentation panel layout */
+.component-panel {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: var(--wpea-space--lg);
+}
+
+.component-panel__demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wpea-space--md);
+}
+
+.component-panel__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wpea-space--md);
+  font-size: var(--wpea-text--sm);
+}
+
+.component-panel__notes {
+  color: var(--wpea-surface--text-muted);
+  line-height: 1.6;
+}
+
+.component-panel__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--wpea-text--xs);
+}
+
+.component-panel__table th,
+.component-panel__table td {
+  padding: var(--wpea-space--xs) var(--wpea-space--sm);
+  text-align: left;
+  border-bottom: 1px solid var(--wpea-surface--divider);
+}
+
+.component-panel__table th {
+  font-weight: 600;
+  color: var(--wpea-surface--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.component-panel__table code {
+  background: var(--wpea-surface--muted);
+  padding: 0.1em 0.4em;
+  border-radius: var(--wpea-radius--sm);
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+@container (max-width: 47.99rem) {
+  .component-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* Hamburger menu */
 .hamburger {
   display: none;

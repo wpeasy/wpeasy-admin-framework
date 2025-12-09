@@ -8,6 +8,7 @@
   import Card from './lib/Card.svelte';
   import Switch from './lib/Switch.svelte';
   import Input from './lib/Input.svelte';
+  import NumberInput from './lib/NumberInput.svelte';
   import Select from './lib/Select.svelte';
   import Textarea from './lib/Textarea.svelte';
   import Radio from './lib/Radio.svelte';
@@ -595,21 +596,38 @@
         <Card title="Number Input">
           <div class="component-panel">
             <div class="component-panel__demo">
-              <Input
-                id="demo-number"
-                type="number"
-                label="Quantity"
-                bind:value={state.demoNumber}
-              />
+              <Stack>
+                <NumberInput
+                  id="demo-number"
+                  label="Quantity"
+                  bind:value={state.demoNumber}
+                  min={0}
+                  max={100}
+                  step={1}
+                  help="Custom styled number input with spinner controls"
+                />
+                <NumberInput
+                  id="demo-number-step"
+                  label="Price (step: 5)"
+                  bind:value={state.demoNumberStep}
+                  min={0}
+                  max={500}
+                  step={5}
+                />
+              </Stack>
             </div>
             <div class="component-panel__info">
               <div class="component-panel__notes">
-                Number input with increment/decrement controls. Use <code>type="number"</code> prop.
+                Custom number input with styled increment/decrement buttons matching the AdvancedSelect aesthetic.
               </div>
               <table class="component-panel__table">
-                <thead><tr><th>Prop</th><th>Value</th></tr></thead>
+                <thead><tr><th>Prop</th><th>Description</th></tr></thead>
                 <tbody>
-                  <tr><td><code>type</code></td><td><code>"number"</code></td></tr>
+                  <tr><td><code>min</code></td><td>Minimum value</td></tr>
+                  <tr><td><code>max</code></td><td>Maximum value</td></tr>
+                  <tr><td><code>step</code></td><td>Increment amount (default: 1)</td></tr>
+                  <tr><td><code>disabled</code></td><td>Disable input</td></tr>
+                  <tr><td><code>readonly</code></td><td>Read-only mode</td></tr>
                 </tbody>
               </table>
             </div>

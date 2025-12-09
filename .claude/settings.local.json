@@ -9,7 +9,8 @@
       "Bash(xcopy:*)",
       "Bash(del \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-app\\src\\lib\\Checkbox.svelte\")",
       "mcp__ide__getDiagnostics",
-      "Bash(npm run check:*)"
+      "Bash(npm run check:*)",
+      "Bash(npm run build:*)"
     ],
     "deny": [],
     "ask": []

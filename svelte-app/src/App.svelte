@@ -690,7 +690,7 @@
         </Card>
 
         <!-- MultiSelect -->
-        <Card title="MultiSelect (Select2-style)">
+        <Card title="MultiSelect">
           <div class="component-panel">
             <div class="component-panel__demo">
               <MultiSelect
@@ -703,15 +703,15 @@
             </div>
             <div class="component-panel__info">
               <div class="component-panel__notes">
-                Select2-style multiselect with search, tags, and keyboard navigation. Supports <code>clearable</code>, <code>searchable</code>, and <code>maxItems</code> props.
+                Multiselect with search, tags, and keyboard navigation. Supports <code>clearable</code>, <code>searchable</code>, and <code>maxItems</code> props.
               </div>
               <table class="component-panel__table">
                 <thead><tr><th>Class</th><th>Description</th></tr></thead>
                 <tbody>
-                  <tr><td><code>.wpea-select2</code></td><td>Container</td></tr>
-                  <tr><td><code>.wpea-select2__control</code></td><td>Input area</td></tr>
-                  <tr><td><code>.wpea-select2__tag</code></td><td>Selected item tag</td></tr>
-                  <tr><td><code>.wpea-select2__menu</code></td><td>Dropdown menu</td></tr>
+                  <tr><td><code>.wpea-multiselect</code></td><td>Container</td></tr>
+                  <tr><td><code>.wpea-multiselect__control</code></td><td>Input area</td></tr>
+                  <tr><td><code>.wpea-multiselect__tag</code></td><td>Selected item tag</td></tr>
+                  <tr><td><code>.wpea-multiselect__menu</code></td><td>Dropdown menu</td></tr>
                 </tbody>
               </table>
             </div>

@@ -10,7 +10,10 @@
       "Bash(del \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-app\\src\\lib\\Checkbox.svelte\")",
       "mcp__ide__getDiagnostics",
       "Bash(npm run check:*)",
-      "Bash(npm run build:*)"
+      "Bash(npm run build:*)",
+      "Bash(mkdir:*)",
+      "Bash(copy \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-app\\public\\vite.svg\" \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-spa\\public\\vite.svg\")",
+      "Bash(del \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-spa\\src\\lib\\DragPreview.svelte\")"
     ],
     "deny": [],
     "ask": []

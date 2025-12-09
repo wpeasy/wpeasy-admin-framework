@@ -451,3 +451,4 @@ const config = {
 export default config;
 ```
 - note that these components are intended for a UI. All Svelte  state should be Global, with teh exception of local state for Component status
+- ensure all code you create for this app are based on Svelte 5 patterns.

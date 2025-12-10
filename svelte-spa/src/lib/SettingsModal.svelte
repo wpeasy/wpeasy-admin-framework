@@ -8,9 +8,13 @@
     setLeftShortcutAlign,
     setRightShortcutAlign,
     setBottomShortcutAlign,
+    resetLayout,
     type VerticalAlign,
     type HorizontalAlign
   } from '../state/layout.svelte';
+  import { resetPanels } from '../state/panels.svelte';
+  import DoubleOptInButton from './DoubleOptInButton.svelte';
+  import Switch from './Switch.svelte';
 
   let activeTab = $state<'layout' | 'general'>('layout');
 
@@ -67,39 +71,30 @@
         <div class="settings-section">
           <h3 class="settings-section-title">Panel Visibility</h3>
           <div class="settings-group">
-            <label class="settings-switch-row">
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  checked={layout.leftPanelVisible}
-                  onchange={(e) => setLeftPanelVisible(e.currentTarget.checked)}
-                />
-                <span class="slider"></span>
-              </label>
-              <span>Left Panel</span>
-            </label>
-            <label class="settings-switch-row">
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  checked={layout.rightPanelVisible}
-                  onchange={(e) => setRightPanelVisible(e.currentTarget.checked)}
-                />
-                <span class="slider"></span>
-              </label>
-              <span>Right Panel</span>
-            </label>
-            <label class="settings-switch-row">
-              <label class="switch">
-                <input
-                  type="checkbox"
-                  checked={layout.bottomPanelVisible}
-                  onchange={(e) => setBottomPanelVisible(e.currentTarget.checked)}
-                />
-                <span class="slider"></span>
-              </label>
-              <span>Bottom Panel</span>
-            </label>
+            <div class="settings-switch-row">
+              <Switch
+                size="xs"
+                checked={layout.leftPanelVisible}
+                onchange={(checked) => setLeftPanelVisible(checked)}
+                label="Left Panel"
+              />
+            </div>
+            <div class="settings-switch-row">
+              <Switch
+                size="xs"
+                checked={layout.rightPanelVisible}
+                onchange={(checked) => setRightPanelVisible(checked)}
+                label="Right Panel"
+              />
+            </div>
+            <div class="settings-switch-row">
+              <Switch
+                size="xs"
+                checked={layout.bottomPanelVisible}
+                onchange={(checked) => setBottomPanelVisible(checked)}
+                label="Bottom Panel"
+              />
+            </div>
           </div>
         </div>
 
@@ -252,10 +247,43 @@
       {:else if activeTab === 'general'}
         <!-- General Tab -->
         <div class="settings-section">
-          <h3 class="settings-section-title">General Settings</h3>
+          <h3 class="settings-section-title">Reset</h3>
           <div class="settings-group">
-            <div class="settings-item">
-              <span>General settings will go here</span>
+            <div class="settings-reset-row">
+              <DoubleOptInButton
+                onClick={resetPanels}
+                defaultLabel="Reset"
+                confirmLabel="Confirm?"
+                timeout={3000}
+              />
+              <div class="reset-info">
+                <span class="reset-label">Reset Panels</span>
+                <span class="reset-description">Restore panel arrangement to defaults</span>
+              </div>
+            </div>
+            <div class="settings-reset-row">
+              <DoubleOptInButton
+                onClick={resetLayout}
+                defaultLabel="Reset"
+                confirmLabel="Confirm?"
+                timeout={3000}
+              />
+              <div class="reset-info">
+                <span class="reset-label">Reset UI size and visibility</span>
+                <span class="reset-description">Restore layout sizes and visibility to defaults</span>
+              </div>
+            </div>
+            <div class="settings-reset-row">
+              <DoubleOptInButton
+                onClick={() => { resetPanels(); resetLayout(); }}
+                defaultLabel="Reset"
+                confirmLabel="Confirm?"
+                timeout={3000}
+              />
+              <div class="reset-info">
+                <span class="reset-label">Reset All UI</span>
+                <span class="reset-description">Restore all UI settings to defaults</span>
+              </div>
             </div>
           </div>
         </div>
@@ -393,59 +421,6 @@
     color: var(--wpea-surface--text);
   }
 
-  /* Switch row */
-  .settings-switch-row {
-    display: flex;
-    align-items: center;
-    gap: var(--wpea-space--sm);
-    font-size: var(--wpea-text--sm);
-    color: var(--wpea-surface--text);
-    cursor: pointer;
-  }
-
-  /* Toggle switch */
-  .switch {
-    position: relative;
-    display: inline-block;
-    width: 36px;
-    height: 20px;
-  }
-
-  .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-
-  .slider {
-    position: absolute;
-    cursor: pointer;
-    inset: 0;
-    background-color: var(--wpea-surface--border);
-    border-radius: 20px;
-    transition: 0.2s;
-  }
-
-  .slider:before {
-    position: absolute;
-    content: "";
-    height: 14px;
-    width: 14px;
-    left: 3px;
-    bottom: 3px;
-    background-color: white;
-    border-radius: 50%;
-    transition: 0.2s;
-  }
-
-  input:checked + .slider {
-    background-color: var(--wpea-color--primary);
-  }
-
-  input:checked + .slider:before {
-    transform: translateX(16px);
-  }
-
   /* Alignment row */
   .settings-align-row {
     display: flex;
@@ -517,5 +492,30 @@
 
   .settings-btn-secondary:hover {
     background: var(--wpea-surface--elev-1);
+  }
+
+  /* Reset row */
+  .settings-reset-row {
+    display: flex;
+    align-items: center;
+    gap: var(--wpea-space--md);
+    padding: var(--wpea-space--xs) 0;
+  }
+
+  .reset-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .reset-label {
+    font-size: var(--wpea-text--sm);
+    font-weight: 500;
+    color: var(--wpea-surface--text);
+  }
+
+  .reset-description {
+    font-size: var(--wpea-text--xs);
+    color: var(--wpea-surface--text-muted);
   }
 </style>

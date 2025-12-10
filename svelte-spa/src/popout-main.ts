@@ -1,3 +1,4 @@
+import '../../wpea-wp-resets.css';
 import '../../wpea-framework.css';
 import PopoutPanel from './PopoutPanel.svelte';
 import { mount } from 'svelte';

@@ -289,6 +289,26 @@ export function isPanelExtracted(panelId: string): boolean {
   return panelsState.extractedPanels.some(p => p.id === panelId);
 }
 
+// Reset panels to defaults
+export function resetPanels() {
+  // Deep copy panels to avoid reference issues
+  panelsState.panels = {
+    'left': [...defaults.panels['left'].map(p => ({ ...p }))],
+    'right': [...defaults.panels['right'].map(p => ({ ...p }))],
+    'bottom-left': [...defaults.panels['bottom-left'].map(p => ({ ...p }))],
+    'bottom-center': [...defaults.panels['bottom-center'].map(p => ({ ...p }))],
+    'bottom-right': [...defaults.panels['bottom-right'].map(p => ({ ...p }))]
+  };
+  panelsState.floatingPanels = [];
+  panelsState.extractedPanels = [];
+  panelsState.panelSizes = {};
+  panelsState.draggingPanel = null;
+  panelsState.dragSource = null;
+  panelsState.dragOffset = null;
+  saveToStorage(panelsState);
+  broadcastStateChange();
+}
+
 // Get extracted panel data
 export function getExtractedPanel(panelId: string): ExtractedPanel | undefined {
   return panelsState.extractedPanels.find(p => p.id === panelId);

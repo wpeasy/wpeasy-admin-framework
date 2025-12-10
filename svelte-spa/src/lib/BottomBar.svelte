@@ -18,12 +18,13 @@
       <ResizeHandle position="top" target="bottom" />
 
       <div class="bottom-panel-content">
-        <div class="bottom-section bottom-left">
+        <div class="bottom-section bottom-left" style="width: {layout.bottomLeftWidth}px;">
           <PanelDropZone containerId="bottom-left">
             {#each bottomLeftPanels as panel (panel.id)}
               <Panel id={panel.id} title={panel.title} containerId="bottom-left" />
             {/each}
           </PanelDropZone>
+          <ResizeHandle position="right" target="bottom-left" variant="secondary" />
         </div>
 
         <div class="bottom-section bottom-center">
@@ -34,7 +35,8 @@
           </PanelDropZone>
         </div>
 
-        <div class="bottom-section bottom-right">
+        <div class="bottom-section bottom-right" style="width: {layout.bottomRightWidth}px;">
+          <ResizeHandle position="left" target="bottom-right" variant="secondary" />
           <PanelDropZone containerId="bottom-right">
             {#each bottomRightPanels as panel (panel.id)}
               <Panel id={panel.id} title={panel.title} containerId="bottom-right" />
@@ -72,22 +74,28 @@
   }
 
   .bottom-section {
+    position: relative;
     display: flex;
     flex-direction: column;
     overflow: hidden;
   }
 
   .bottom-left {
-    flex: 1;
+    flex-shrink: 0;
+    min-width: 100px;
+    max-width: 600px;
     border-right: 1px solid var(--wpea-surface--divider);
   }
 
   .bottom-center {
-    flex: 2;
+    flex: 1;
+    min-width: 100px;
   }
 
   .bottom-right {
-    flex: 1;
+    flex-shrink: 0;
+    min-width: 100px;
+    max-width: 600px;
     border-left: 1px solid var(--wpea-surface--divider);
   }
 </style>

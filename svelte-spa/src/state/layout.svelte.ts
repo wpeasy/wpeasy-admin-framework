@@ -23,6 +23,8 @@ export interface LayoutState {
   bottomPanelHeight: number;
   leftPanelWidth: number;
   rightPanelWidth: number;
+  bottomLeftWidth: number;
+  bottomRightWidth: number;
 
   // Panel visibility
   topPanelVisible: boolean;
@@ -61,6 +63,8 @@ const defaults: LayoutState = {
   bottomPanelHeight: 200,
   leftPanelWidth: 250,
   rightPanelWidth: 250,
+  bottomLeftWidth: 250,
+  bottomRightWidth: 250,
 
   topPanelVisible: true,
   bottomPanelVisible: true,
@@ -125,6 +129,16 @@ export function setRightPanelWidth(width: number) {
 
 export function setBottomPanelHeight(height: number) {
   layout.bottomPanelHeight = Math.max(layout.minPanelSize, Math.min(layout.maxPanelSize, height));
+  saveToStorage(layout);
+}
+
+export function setBottomLeftWidth(width: number) {
+  layout.bottomLeftWidth = Math.max(layout.minPanelSize, Math.min(layout.maxPanelSize, width));
+  saveToStorage(layout);
+}
+
+export function setBottomRightWidth(width: number) {
+  layout.bottomRightWidth = Math.max(layout.minPanelSize, Math.min(layout.maxPanelSize, width));
   saveToStorage(layout);
 }
 
@@ -194,6 +208,29 @@ export function setContentFrameWidth(width: number | null) {
 
 // Reset to defaults
 export function resetLayout() {
-  Object.assign(layout, defaults);
+  layout.topPanelHeight = defaults.topPanelHeight;
+  layout.bottomPanelHeight = defaults.bottomPanelHeight;
+  layout.leftPanelWidth = defaults.leftPanelWidth;
+  layout.rightPanelWidth = defaults.rightPanelWidth;
+  layout.bottomLeftWidth = defaults.bottomLeftWidth;
+  layout.bottomRightWidth = defaults.bottomRightWidth;
+  layout.topPanelVisible = defaults.topPanelVisible;
+  layout.bottomPanelVisible = defaults.bottomPanelVisible;
+  layout.leftPanelVisible = defaults.leftPanelVisible;
+  layout.rightPanelVisible = defaults.rightPanelVisible;
+  layout.leftIconBarVisible = defaults.leftIconBarVisible;
+  layout.rightIconBarVisible = defaults.rightIconBarVisible;
+  layout.bottomIconBarVisible = defaults.bottomIconBarVisible;
+  layout.minPanelSize = defaults.minPanelSize;
+  layout.maxPanelSize = defaults.maxPanelSize;
+  layout.iconBarWidth = defaults.iconBarWidth;
+  layout.topBarHeight = defaults.topBarHeight;
+  layout.actionIconSize = defaults.actionIconSize;
+  layout.shortcutIconSize = defaults.shortcutIconSize;
+  layout.leftShortcutAlign = defaults.leftShortcutAlign;
+  layout.rightShortcutAlign = defaults.rightShortcutAlign;
+  layout.bottomShortcutAlign = defaults.bottomShortcutAlign;
+  layout.contentFrameMargin = defaults.contentFrameMargin;
+  layout.contentFrameWidth = defaults.contentFrameWidth;
   saveToStorage(layout);
 }

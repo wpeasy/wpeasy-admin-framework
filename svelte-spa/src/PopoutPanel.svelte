@@ -5,6 +5,7 @@
     dockPanel,
     setupStorageListener
   } from './state/panels.svelte';
+  import { initTheme } from './state/theme.svelte';
 
   // Get panel ID from URL params
   const urlParams = new URLSearchParams(window.location.search);
@@ -16,6 +17,9 @@
   onMount(() => {
     // Set up listener for storage changes from main window
     setupStorageListener();
+
+    // Initialize theme (loads from localStorage and sets up broadcast listener)
+    initTheme();
 
     // Handle window close - dock panel back
     // Use both beforeunload and pagehide for better browser coverage

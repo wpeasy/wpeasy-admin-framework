@@ -98,7 +98,7 @@
         <span></span>
         <span></span>
       </button>
-      <strong class="wpea-text-lg">WPE_Admin</strong>
+      <h1 class="wpea-text-xl" style="margin: 0; font-weight: 600;">WPE_Admin</h1>
       <Badge variant="primary">Svelte 5</Badge>
     </Cluster>
     <Cluster>
@@ -1502,7 +1502,7 @@
             <div class="component-panel__demo">
               <Panel>
                 <div class="wpea-panel__header">
-                  <div class="wpea-heading wpea-heading--sm">Panel Example</div>
+                  <h4 class="wpea-heading wpea-heading--sm">Panel Example</h4>
                 </div>
                 <p>Panels group related content with a subtle background.</p>
                 <Cluster>
@@ -1678,22 +1678,22 @@
 <!-- Scrollable Modal -->
 <Modal bind:open={state.modalScrollable} title="Scrollable Content Modal" size="standard">
   {#snippet children()}
-    <div class="wpea-heading wpea-heading--sm">Custom Scrollbars</div>
+    <h4 class="wpea-heading wpea-heading--sm" style="margin: 0 0 var(--wpea-space--sm) 0;">Custom Scrollbars</h4>
     <p>This modal demonstrates custom styled scrollbars. The scrollbar has a neutral background and primary color thumb.</p>
 
-    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Lorem Ipsum</div>
+    <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Lorem Ipsum</h4>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.</p>
 
-    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">More Content</div>
+    <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">More Content</h4>
     <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 
-    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Additional Section</div>
+    <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Additional Section</h4>
     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.</p>
 
-    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Even More Content</div>
+    <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Even More Content</h4>
     <p>At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.</p>
 
-    <div class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Final Section</div>
+    <h4 class="wpea-heading wpea-heading--sm" style="margin-top: var(--wpea-space--lg);">Final Section</h4>
     <p>Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Itaque earum rerum hic tenetur a sapiente delectus.</p>
 
     <Alert variant="success" style="margin-top: var(--wpea-space--lg);">

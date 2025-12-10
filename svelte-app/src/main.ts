@@ -1,4 +1,5 @@
 import { mount } from 'svelte'
+import '../../wpea-wp-resets.css'
 import '../../wpea-framework.css'
 import './app.css'
 import App from './App.svelte'

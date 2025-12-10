@@ -108,7 +108,7 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    background: var(--wpea-surface--muted);
+    background: var(--wpea-surface--elev-2);
     padding: 0 6px;
   }
 

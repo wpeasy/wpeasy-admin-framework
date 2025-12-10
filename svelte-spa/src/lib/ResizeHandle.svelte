@@ -4,12 +4,14 @@
     setLeftPanelWidth,
     setRightPanelWidth,
     setBottomPanelHeight,
-    setTopPanelHeight
+    setTopPanelHeight,
+    setBottomLeftWidth,
+    setBottomRightWidth
   } from '../state/layout.svelte';
 
   type Props = {
     position: 'left' | 'right' | 'top' | 'bottom';
-    target: 'left' | 'right' | 'top' | 'bottom';
+    target: 'left' | 'right' | 'top' | 'bottom' | 'bottom-left' | 'bottom-right';
     variant?: 'primary' | 'secondary';
   };
 
@@ -41,6 +43,12 @@
         break;
       case 'bottom':
         startSize = layout.bottomPanelHeight;
+        break;
+      case 'bottom-left':
+        startSize = layout.bottomLeftWidth;
+        break;
+      case 'bottom-right':
+        startSize = layout.bottomRightWidth;
         break;
     }
 
@@ -75,6 +83,16 @@
         // Dragging top edge of bottom panel
         delta = startPos - e.clientY;
         setBottomPanelHeight(startSize + delta);
+        break;
+      case 'bottom-left':
+        // Dragging right edge of bottom-left section
+        delta = e.clientX - startPos;
+        setBottomLeftWidth(startSize + delta);
+        break;
+      case 'bottom-right':
+        // Dragging left edge of bottom-right section
+        delta = startPos - e.clientX;
+        setBottomRightWidth(startSize + delta);
         break;
     }
   }

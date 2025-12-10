@@ -6,6 +6,7 @@
     setupStorageListener
   } from './state/panels.svelte';
   import { initTheme } from './state/theme.svelte';
+  import { DockIcon } from './lib/icons';
 
   // Get panel ID from URL params
   const urlParams = new URLSearchParams(window.location.search);
@@ -55,10 +56,7 @@
     <div class="popout-header">
       <span class="popout-title">{panel.title}</span>
       <button class="popout-dock-btn" onclick={handleDock} title="Dock back to main window">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="9 11 12 14 22 4"></polyline>
-          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
-        </svg>
+        <DockIcon size={16} />
       </button>
     </div>
     <div class="popout-body">

@@ -33,14 +33,14 @@
     display: flex;
     flex-shrink: 0;
     height: 100%;
-    border-right: 1px solid var(--wpea-surface--border);
+    border-right: 1px solid var(--wpea-surface--divider);
   }
 
   .left-panel {
     position: relative;
     display: flex;
     flex-direction: column;
-    background: var(--wpea-surface--panel);
+    background: var(--wpea-surface--elev-2);
     min-width: 100px;
     max-width: 600px;
     overflow: hidden;

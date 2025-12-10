@@ -71,9 +71,9 @@ const defaults: PanelsState = {
   panels: {
     'left': [{ id: 'demo-panel-left', title: 'Explorer' }],
     'right': [{ id: 'demo-panel-right', title: 'Properties' }],
-    'bottom-left': [],
+    'bottom-left': [{ id: 'demo-panel-bottom-left', title: 'Output' }],
     'bottom-center': [{ id: 'demo-panel-bottom', title: 'Console' }],
-    'bottom-right': []
+    'bottom-right': [{ id: 'demo-panel-bottom-right', title: 'Problems' }]
   },
   floatingPanels: [],
   extractedPanels: [],
@@ -293,11 +293,11 @@ export function isPanelExtracted(panelId: string): boolean {
 export function resetPanels() {
   // Deep copy panels to avoid reference issues
   panelsState.panels = {
-    'left': [...defaults.panels['left'].map(p => ({ ...p }))],
-    'right': [...defaults.panels['right'].map(p => ({ ...p }))],
-    'bottom-left': [...defaults.panels['bottom-left'].map(p => ({ ...p }))],
-    'bottom-center': [...defaults.panels['bottom-center'].map(p => ({ ...p }))],
-    'bottom-right': [...defaults.panels['bottom-right'].map(p => ({ ...p }))]
+    'left': defaults.panels['left'].map(p => ({ ...p })),
+    'right': defaults.panels['right'].map(p => ({ ...p })),
+    'bottom-left': defaults.panels['bottom-left'].map(p => ({ ...p })),
+    'bottom-center': defaults.panels['bottom-center'].map(p => ({ ...p })),
+    'bottom-right': defaults.panels['bottom-right'].map(p => ({ ...p }))
   };
   panelsState.floatingPanels = [];
   panelsState.extractedPanels = [];

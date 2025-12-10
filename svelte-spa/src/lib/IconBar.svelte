@@ -1,6 +1,16 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
+  import type { Snippet, Component } from 'svelte';
   import { layout, setLeftShortcutAlign, setRightShortcutAlign, setBottomShortcutAlign } from '../state/layout.svelte';
+  import { uiState } from '../state/ui.svelte';
+  import Popover from './Popover.svelte';
+  import {
+    AlignTopIcon,
+    AlignCenterVerticalIcon,
+    AlignBottomIcon,
+    AlignLeftIcon,
+    AlignCenterHorizontalIcon,
+    AlignRightIcon
+  } from './icons';
 
   type Props = {
     position: 'left' | 'right' | 'bottom';
@@ -36,49 +46,51 @@
   }
 
   // Icons and titles for vertical alignment (left/right bars)
-  const verticalIcons = {
+  const verticalConfig = {
     top: {
       title: 'Align top (click for center)',
-      // Align top icon
-      path: 'M4 4h16M4 4v4M20 4v4M8 8h8v8H8z'
+      icon: AlignTopIcon
     },
     center: {
       title: 'Align center (click for bottom)',
-      // Align center icon
-      path: 'M4 12h16M8 6h8v12H8z'
+      icon: AlignCenterVerticalIcon
     },
     bottom: {
       title: 'Align bottom (click for top)',
-      // Align bottom icon
-      path: 'M4 20h16M4 20v-4M20 20v-4M8 8h8v8H8z'
+      icon: AlignBottomIcon
     }
   };
 
   // Icons and titles for horizontal alignment (bottom bar)
-  const horizontalIcons = {
+  const horizontalConfig = {
     left: {
       title: 'Align left (click for center)',
-      // Align left icon
-      path: 'M4 4v16M4 4h4M4 20h4M8 8v8h8V8z'
+      icon: AlignLeftIcon
     },
     center: {
       title: 'Align center (click for right)',
-      // Align center icon
-      path: 'M12 4v16M6 8h12v8H6z'
+      icon: AlignCenterHorizontalIcon
     },
     right: {
       title: 'Align right (click for left)',
-      // Align right icon
-      path: 'M20 4v16M20 4h-4M20 20h-4M8 8v8h8V8z'
+      icon: AlignRightIcon
     }
   };
 
-  let currentIcon = $derived(() => {
+  let CurrentIcon = $derived(() => {
     const align = currentAlignment();
     if (position === 'left' || position === 'right') {
-      return verticalIcons[align as keyof typeof verticalIcons];
+      return verticalConfig[align as keyof typeof verticalConfig].icon;
     }
-    return horizontalIcons[align as keyof typeof horizontalIcons];
+    return horizontalConfig[align as keyof typeof horizontalConfig].icon;
+  });
+
+  let currentTitle = $derived(() => {
+    const align = currentAlignment();
+    if (position === 'left' || position === 'right') {
+      return verticalConfig[align as keyof typeof verticalConfig].title;
+    }
+    return horizontalConfig[align as keyof typeof horizontalConfig].title;
   });
 
   // Map alignment to justify-content value
@@ -90,18 +102,39 @@
   });
 
   let isVertical = $derived(position === 'left' || position === 'right');
+
+  // Popover position based on icon bar position
+  let popoverPosition = $derived(() => {
+    if (position === 'left') return 'right';
+    if (position === 'right') return 'left';
+    return 'right'; // bottom bar - align button is on the left
+  });
+
+  let isHovered = $state(false);
 </script>
 
+{#snippet iconBtn()}
+  {@const Icon = CurrentIcon()}
+  <Icon size={14} />
+{/snippet}
+
 <div class="icon-bar icon-bar--{position}">
-  <button
-    class="icon-bar__toggle-btn"
-    onclick={cycleAlignment}
-    title={currentIcon().title}
+  <Popover
+    content={currentTitle()}
+    position={popoverPosition()}
+    size="xs"
+    visible={isHovered}
+    enabled={uiState.showActionPopovers}
   >
-    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d={currentIcon().path}></path>
-    </svg>
-  </button>
+    <button
+      class="icon-bar__toggle-btn"
+      onclick={cycleAlignment}
+      onmouseenter={() => isHovered = true}
+      onmouseleave={() => isHovered = false}
+    >
+      {@render iconBtn()}
+    </button>
+  </Popover>
   <div class="icon-bar__scroll" style="justify-content: {justifyContent()}">
     {#if children}
       {@render children()}
@@ -135,6 +168,10 @@
   .icon-bar--bottom {
     flex-direction: row;
     border-top: 1px solid var(--wpea-surface--border);
+    overflow: visible;
+    /* Extra padding to allow popovers to appear above without clipping */
+    margin-top: -24px;
+    padding-top: 24px;
   }
 
   .icon-bar__toggle-btn {
@@ -181,8 +218,7 @@
 
   .icon-bar--bottom .icon-bar__scroll {
     flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: visible;
   }
 
   .placeholder-icon {

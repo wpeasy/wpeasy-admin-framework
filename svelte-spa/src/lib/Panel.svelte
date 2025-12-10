@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import { startDrag, endDrag, extractPanel, type ContainerId, type PanelData } from '../state/panels.svelte';
+  import { ExternalLinkIcon } from './icons';
 
   type Props = {
     id?: string;
@@ -71,11 +72,7 @@
       <span class="panel-title">{title}</span>
     {/if}
     <button class="panel-extract-btn" onclick={handleExtract} title="Open in new window">
-      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-        <polyline points="15 3 21 3 21 9"></polyline>
-        <line x1="10" y1="14" x2="21" y2="3"></line>
-      </svg>
+      <ExternalLinkIcon size={12} />
     </button>
   </div>
 
@@ -115,7 +112,7 @@
     display: flex;
     align-items: center;
     padding: 2px 4px;
-    background: var(--wpea-surface--elev-1);
+    background: light-dark(var(--wpea-color--primary-l-9), var(--wpea-color--primary-d-7));
     border-bottom: 1px solid var(--wpea-surface--border);
     flex-shrink: 0;
     cursor: grab;

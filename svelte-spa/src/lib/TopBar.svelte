@@ -1,10 +1,11 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import { layout, setLeftPanelVisible, setRightPanelVisible, setBottomPanelVisible } from '../state/layout.svelte';
-  import { openSettingsModal } from '../state/ui.svelte';
+  import { layout, setLeftPanelVisible, setRightPanelVisible, setBottomPanelVisible, setLeftIconBarVisible, setRightIconBarVisible, setBottomIconBarVisible } from '../state/layout.svelte';
+  import { openSettingsModal, enterPreviewMode, uiState, setShowContainerWidths } from '../state/ui.svelte';
   import { theme, cycleTheme } from '../state/theme.svelte';
-  import ResizeHandle from './ResizeHandle.svelte';
   import Switch from './Switch.svelte';
+  import ActionButton from './ActionButton.svelte';
+  import { SunIcon, MoonIcon, MonitorIcon, SettingsIcon, EyeIcon, SaveIcon } from './icons';
 
   type Props = {
     left?: Snippet;
@@ -45,25 +46,22 @@
     }
   });
 
-  const themeIcons = {
+  const themeConfig = {
     light: {
       title: 'Light mode (click for dark)',
-      // Sun icon
-      path: 'M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z'
+      icon: SunIcon
     },
     dark: {
       title: 'Dark mode (click for system)',
-      // Moon icon
-      path: 'M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z'
+      icon: MoonIcon
     },
     system: {
       title: 'System preference (click for light)',
-      // Monitor icon
-      path: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M4 6h16M4 6a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V8a2 2 0 00-2-2M4 6h16'
+      icon: MonitorIcon
     }
   };
 
-  let currentIcon = $derived(themeIcons[theme.mode]);
+  let currentTheme = $derived(themeConfig[theme.mode]);
 </script>
 
 <div class="topbar" style="height: {layout.topBarHeight}px;">
@@ -83,33 +81,25 @@
     {#if right}
       {@render right()}
     {/if}
-    <button
-      class="topbar-icon-btn"
-      style="width: {layout.actionIconSize}px; height: {layout.actionIconSize}px;"
+    <ActionButton
+      icon={currentTheme.icon}
+      label={currentTheme.title}
+      size={layout.actionIconSize}
       onclick={cycleTheme}
-      title={currentIcon.title}
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width={layout.actionIconSize * 0.6} height={layout.actionIconSize * 0.6} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d={currentIcon.path}></path>
-      </svg>
-    </button>
+    />
     <div class="settings-menu-container" bind:this={menuRef}>
-      <button
-        class="topbar-icon-btn"
-        class:active={settingsMenuOpen}
-        style="width: {layout.actionIconSize}px; height: {layout.actionIconSize}px;"
+      <ActionButton
+        icon={SettingsIcon}
+        label="Settings"
+        size={layout.actionIconSize}
         onclick={toggleSettingsMenu}
-        title="Settings"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" width={layout.actionIconSize * 0.6} height={layout.actionIconSize * 0.6} viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="3"></circle>
-          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-        </svg>
-      </button>
+        active={settingsMenuOpen}
+      />
 
       {#if settingsMenuOpen}
         <div class="settings-menu">
           <div class="settings-menu-section">
+            <span class="settings-menu-label">Panels</span>
             <div class="settings-menu-item">
               <Switch
                 size="xs"
@@ -136,15 +126,64 @@
             </div>
           </div>
           <div class="settings-menu-divider"></div>
+          <div class="settings-menu-section">
+            <span class="settings-menu-label">Shortcut Bars</span>
+            <div class="settings-menu-item">
+              <Switch
+                size="xs"
+                checked={layout.leftIconBarVisible}
+                onchange={(checked) => setLeftIconBarVisible(checked)}
+              />
+              <span>Left Shortcuts</span>
+            </div>
+            <div class="settings-menu-item">
+              <Switch
+                size="xs"
+                checked={layout.rightIconBarVisible}
+                onchange={(checked) => setRightIconBarVisible(checked)}
+              />
+              <span>Right Shortcuts</span>
+            </div>
+            <div class="settings-menu-item">
+              <Switch
+                size="xs"
+                checked={layout.bottomIconBarVisible}
+                onchange={(checked) => setBottomIconBarVisible(checked)}
+              />
+              <span>Bottom Shortcuts</span>
+            </div>
+          </div>
+          <div class="settings-menu-divider"></div>
+          <div class="settings-menu-section">
+            <span class="settings-menu-label">Content Frame</span>
+            <div class="settings-menu-item">
+              <Switch
+                size="xs"
+                checked={uiState.showContainerWidths}
+                onchange={(checked) => setShowContainerWidths(checked)}
+              />
+              <span>Container Widths</span>
+            </div>
+          </div>
+          <div class="settings-menu-divider"></div>
           <button class="settings-menu-btn" onclick={handleAllSettings}>
             All Settings...
           </button>
         </div>
       {/if}
     </div>
+    <ActionButton
+      icon={EyeIcon}
+      label="Preview"
+      size={layout.actionIconSize}
+      onclick={enterPreviewMode}
+    />
+    <ActionButton
+      icon={SaveIcon}
+      label="Save"
+      size={layout.actionIconSize}
+    />
   </div>
-
-  <ResizeHandle position="bottom" target="top" />
 </div>
 
 <style>
@@ -180,29 +219,6 @@
     justify-content: flex-end;
   }
 
-  .topbar-icon-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0;
-    border: none;
-    border-radius: var(--wpea-radius--sm);
-    background: transparent;
-    color: var(--wpea-surface--text-muted);
-    cursor: pointer;
-    transition: background-color 0.15s, color 0.15s;
-  }
-
-  .topbar-icon-btn:hover {
-    background: var(--wpea-surface--elev-1);
-    color: var(--wpea-surface--text);
-  }
-
-  .topbar-icon-btn:active,
-  .topbar-icon-btn.active {
-    background: var(--wpea-surface--border);
-  }
-
   /* Settings menu */
   .settings-menu-container {
     position: relative;
@@ -223,6 +239,16 @@
 
   .settings-menu-section {
     padding: var(--wpea-space--xs);
+  }
+
+  .settings-menu-label {
+    display: block;
+    padding: var(--wpea-space--xs);
+    font-size: var(--wpea-text--xs);
+    font-weight: 600;
+    color: var(--wpea-surface--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
   }
 
   .settings-menu-item {

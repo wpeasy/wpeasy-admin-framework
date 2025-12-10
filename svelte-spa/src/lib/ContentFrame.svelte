@@ -1,5 +1,7 @@
 <script lang="ts">
   import { layout, setContentFrameWidth } from '../state/layout.svelte';
+  import { uiState } from '../state/ui.svelte';
+  import ContainerWidthBadge from './ContainerWidthBadge.svelte';
 
   type Props = {
     src?: string;
@@ -8,10 +10,27 @@
   let { src = '' }: Props = $props();
 
   let wrapperEl: HTMLDivElement;
+  let contentInnerEl: HTMLDivElement;
   let isResizing = $state(false);
   let resizeSide = $state<'left' | 'right' | null>(null);
   let startX = 0;
   let startWidth = 0;
+  let contentWidth = $state(0);
+
+  // Track content-inner width using ResizeObserver
+  $effect(() => {
+    if (!contentInnerEl) return;
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        contentWidth = Math.round(entry.contentRect.width);
+      }
+    });
+
+    observer.observe(contentInnerEl);
+
+    return () => observer.disconnect();
+  });
 
   function handleResizeStart(e: MouseEvent, side: 'left' | 'right') {
     e.preventDefault();
@@ -67,8 +86,13 @@
 <div class="content-wrapper" bind:this={wrapperEl}>
   <div
     class="content-inner"
+    bind:this={contentInnerEl}
     style={layout.contentFrameWidth !== null ? `width: ${layout.contentFrameWidth}px;` : ''}
   >
+    {#if uiState.showContainerWidths && contentWidth > 0}
+      <ContainerWidthBadge width={contentWidth} />
+    {/if}
+
     {#if src}
       <iframe
         {src}
@@ -108,7 +132,7 @@
     display: flex;
     justify-content: center;
     overflow: hidden;
-    background: var(--wpea-surface--elev-2);
+    background: var(--wpea-surface--elev-3);
     padding: 0 6px;
   }
 

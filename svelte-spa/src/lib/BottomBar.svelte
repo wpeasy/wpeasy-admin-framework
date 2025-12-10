@@ -1,14 +1,23 @@
 <script lang="ts">
   import { layout } from '../state/layout.svelte';
+  import { uiState, setShowContainerWidths } from '../state/ui.svelte';
   import { getPanelsForContainer } from '../state/panels.svelte';
   import IconBar from './IconBar.svelte';
   import Panel from './Panel.svelte';
   import PanelDropZone from './PanelDropZone.svelte';
   import ResizeHandle from './ResizeHandle.svelte';
+  import Popover from './Popover.svelte';
+  import { RulerIcon } from './icons';
 
   let bottomLeftPanels = $derived(getPanelsForContainer('bottom-left'));
   let bottomCenterPanels = $derived(getPanelsForContainer('bottom-center'));
   let bottomRightPanels = $derived(getPanelsForContainer('bottom-right'));
+
+  let rulerHovered = $state(false);
+
+  function toggleContainerWidths() {
+    setShowContainerWidths(!uiState.showContainerWidths);
+  }
 </script>
 
 <div class="bottom-bar">
@@ -49,7 +58,26 @@
 
   <!-- Far bottom: Icon Shortcuts bar -->
   {#if layout.bottomIconBarVisible}
-    <IconBar position="bottom" />
+    <IconBar position="bottom">
+      <Popover
+        content={uiState.showContainerWidths ? 'Hide container widths' : 'Show container widths'}
+        position="top"
+        size="xs"
+        visible={rulerHovered}
+        enabled={uiState.showActionPopovers}
+      >
+        <button
+          class="shortcut-btn"
+          class:active={uiState.showContainerWidths}
+          onclick={toggleContainerWidths}
+          onmouseenter={() => rulerHovered = true}
+          onmouseleave={() => rulerHovered = false}
+          style="width: {layout.shortcutIconSize}px; height: {layout.shortcutIconSize}px;"
+        >
+          <RulerIcon size={14} />
+        </button>
+      </Popover>
+    </IconBar>
   {/if}
 </div>
 
@@ -61,9 +89,37 @@
     border-top: 1px solid var(--wpea-surface--border);
   }
 
+  .shortcut-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    border-radius: var(--wpea-radius--sm);
+    background: transparent;
+    color: var(--wpea-surface--text-muted);
+    cursor: pointer;
+    transition: background-color 0.15s, color 0.15s;
+  }
+
+  .shortcut-btn:hover {
+    background: var(--wpea-surface--border);
+    color: var(--wpea-color--secondary);
+  }
+
+  .shortcut-btn.active {
+    color: var(--wpea-color--primary);
+  }
+
+  .shortcut-btn.active:hover {
+    background: var(--wpea-surface--border);
+    color: var(--wpea-color--primary);
+  }
+
   .bottom-panel {
     position: relative;
-    background: var(--wpea-surface--panel);
+    background: var(--wpea-surface--elev-2);
+    border-top: 1px solid var(--wpea-surface--divider);
     min-height: 100px;
     max-height: 600px;
   }

@@ -184,6 +184,22 @@ export function setBottomPanelVisible(visible: boolean) {
   saveToStorage(layout);
 }
 
+// Set icon bar visibility
+export function setLeftIconBarVisible(visible: boolean) {
+  layout.leftIconBarVisible = visible;
+  saveToStorage(layout);
+}
+
+export function setRightIconBarVisible(visible: boolean) {
+  layout.rightIconBarVisible = visible;
+  saveToStorage(layout);
+}
+
+export function setBottomIconBarVisible(visible: boolean) {
+  layout.bottomIconBarVisible = visible;
+  saveToStorage(layout);
+}
+
 // Set shortcut alignment
 export function setLeftShortcutAlign(align: VerticalAlign) {
   layout.leftShortcutAlign = align;

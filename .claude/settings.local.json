@@ -14,7 +14,8 @@
       "Bash(mkdir:*)",
       "Bash(copy \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-app\\public\\vite.svg\" \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-spa\\public\\vite.svg\")",
       "Bash(del \"C:\\Users\\Alan.Blair\\LIBRARIES\\wpeasy-admin-framework\\svelte-spa\\src\\lib\\DragPreview.svelte\")",
-      "Bash(copy:*)"
+      "Bash(copy:*)",
+      "Bash(npm install:*)"
     ],
     "deny": [],
     "ask": []

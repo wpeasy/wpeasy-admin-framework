@@ -32,7 +32,12 @@
     --wpea-text--2xl: calc(var(--wpea-text--xl) * var(--wpea-type-scale));         /* ~28px */
     --wpea-text--3xl: calc(var(--wpea-text--2xl) * var(--wpea-type-scale));        /* ~33px */
     --wpea-text--4xl: calc(var(--wpea-text--3xl) * var(--wpea-type-scale));        /* ~40px */
-  
+
+    /* Border radius scale (6px base with 1.67x multiplier) */
+    --wpea-radius--sm: var(--wpea-radius-base);                                    /* 6px */
+    --wpea-radius--md: calc(var(--wpea-radius-base) * var(--wpea-radius-scale));   /* ~10px */
+    --wpea-radius--lg: calc(var(--wpea-radius--md) * var(--wpea-radius-scale));    /* ~17px */
+
     /* Grids */
     --wpea-grid--1: repeat(1, minmax(0, 1fr));
     --wpea-grid--2: repeat(2, minmax(0, 1fr));
@@ -131,22 +136,121 @@
   /* Visibility helpers using container width */
   .wpea-cq .wpea-hide-md-down { display: none !important; }
   @container (min-width: 48rem) { .wpea-hide-md-down { display: initial !important; } }
-  
+
+  /* =========================
+     COMPACT MODE (class-based)
+     Add .wpea-compact to body or container to enable
+     ========================= */
+  .wpea-compact {
+    /* Reduce spacing scale */
+    --wpea-space--xs: calc(var(--wpea-space-base) / 2 * var(--wpea-space-compact));
+    --wpea-space--sm: calc(var(--wpea-space-base) * var(--wpea-space-compact));
+    --wpea-space--md: calc(var(--wpea-space-base) * var(--wpea-space-scale) * var(--wpea-space-compact));
+    --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-space-scale));
+    --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-space-scale));
+    --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-space-scale));
+
+    /* Reduce typography scale */
+    --wpea-text--xs: calc(var(--wpea-fs-base) * var(--wpea-text-compact) / var(--wpea-type-scale));
+    --wpea-text--sm: calc(var(--wpea-fs-base) * var(--wpea-text-compact));
+    --wpea-text--md: calc(var(--wpea-text--sm) * var(--wpea-type-scale));
+    --wpea-text--lg: calc(var(--wpea-text--md) * var(--wpea-type-scale));
+    --wpea-text--xl: calc(var(--wpea-text--lg) * var(--wpea-type-scale));
+    --wpea-text--2xl: calc(var(--wpea-text--xl) * var(--wpea-type-scale));
+    --wpea-text--3xl: calc(var(--wpea-text--2xl) * var(--wpea-type-scale));
+    --wpea-text--4xl: calc(var(--wpea-text--3xl) * var(--wpea-type-scale));
+  }
+
+  /* Compact mode component adjustments */
+  .wpea-compact .wpea-stack { gap: calc(var(--wpea-space--md) * var(--wpea-space-compact)); }
+  .wpea-compact .wpea-stack--sm { gap: calc(var(--wpea-space--sm) * var(--wpea-space-compact)); }
+  .wpea-compact .wpea-stack--lg { gap: calc(var(--wpea-space--lg) * 0.8); }
+  .wpea-compact .wpea-cluster { gap: calc(var(--wpea-space--sm) * 0.6); }
+  .wpea-compact .wpea-cluster--md { gap: calc(var(--wpea-space--md) * 0.7); }
+  .wpea-compact .wpea-cluster--lg { gap: calc(var(--wpea-space--lg) * 0.7); }
+
+  .wpea-compact .wpea-panel,
+  .wpea-compact .wpea-card {
+    padding-block: calc(var(--wpea-space--md) * 0.7);
+    padding-inline: calc(var(--wpea-space--md) * 0.8);
+    gap: calc(var(--wpea-space--md) * 0.7);
+  }
+  .wpea-compact .wpea-panel__header,
+  .wpea-compact .wpea-card__header {
+    padding-block-end: calc(var(--wpea-space--sm) * 0.7);
+    gap: calc(var(--wpea-space--sm) * 0.7);
+  }
+  .wpea-compact .wpea-card__title { font-size: var(--wpea-text--md); }
+  .wpea-compact .wpea-card__actions { gap: calc(var(--wpea-space--sm) * 0.6); }
+
+  .wpea-compact .wpea-heading--sm { font-size: var(--wpea-text--md); }
+  .wpea-compact .wpea-heading--md { font-size: var(--wpea-text--lg); }
+  .wpea-compact .wpea-heading--lg { font-size: var(--wpea-text--xl); }
+
+  .wpea-compact .wpea-field { gap: .25rem; }
+  .wpea-compact .wpea-input,
+  .wpea-compact .wpea-select,
+  .wpea-compact .wpea-textarea {
+    padding-block: calc(var(--wpea-space--sm) * 0.4);
+    padding-inline: calc(var(--wpea-space--sm) * 0.7);
+  }
+
+  .wpea-compact .wpea-btn {
+    padding-block: calc(var(--wpea-space--sm) * 0.4);
+    padding-inline: calc(var(--wpea-space--md) * 0.75);
+    gap: .4em;
+  }
+
+  .wpea-compact .wpea-tabs { gap: calc(var(--wpea-space--md) * 0.7); }
+  .wpea-compact .wpea-tabs__list { gap: calc(var(--wpea-space--xs) * 0.6); }
+  .wpea-compact .wpea-tabs__tab {
+    padding: calc(var(--wpea-space--sm) * 0.6) calc(var(--wpea-space--md) * 0.7);
+    font-size: var(--wpea-text--sm);
+  }
+
+  .wpea-compact .wpea-vtabs { gap: calc(var(--wpea-space--lg) * 0.7); }
+  .wpea-compact .wpea-vtabs__list {
+    gap: calc(var(--wpea-space--xs) * 0.6);
+    min-width: 140px;
+  }
+  .wpea-compact .wpea-vtabs__tab {
+    padding: calc(var(--wpea-space--sm) * 0.6) calc(var(--wpea-space--md) * 0.7);
+    font-size: var(--wpea-text--sm);
+  }
+
+  .wpea-compact .wpea-accordion { gap: calc(var(--wpea-space--sm) * 0.6); }
+  .wpea-compact .wpea-accordion__header {
+    padding: calc(var(--wpea-space--md) * 0.7);
+    font-size: var(--wpea-text--sm);
+  }
+  .wpea-compact .wpea-accordion__body { padding: calc(var(--wpea-space--md) * 0.7); }
+
+  .wpea-compact .wpea-table th,
+  .wpea-compact .wpea-table td {
+    padding-block: .4rem;
+    padding-inline: .6rem;
+  }
+
+  .wpea-compact .wpea-alert {
+    padding-block: calc(var(--wpea-space--sm) * 0.7);
+    padding-inline: calc(var(--wpea-space--sm) * 0.8);
+  }
+
   /* Density (container-style query) */
   @container style(--wpea-density: compact) {
     /* Apply to all elements inside the container */
     * {
-      /* Reduce spacing scale (70% of normal) */
-      --wpea-space--xs: calc(var(--wpea-space-base) / 2 * 0.7);
-      --wpea-space--sm: calc(var(--wpea-space-base) * 0.7);
-      --wpea-space--md: calc(var(--wpea-space-base) * var(--wpea-space-scale) * 0.7);
+      /* Reduce spacing scale (uses --wpea-space-compact multiplier) */
+      --wpea-space--xs: calc(var(--wpea-space-base) / 2 * var(--wpea-space-compact));
+      --wpea-space--sm: calc(var(--wpea-space-base) * var(--wpea-space-compact));
+      --wpea-space--md: calc(var(--wpea-space-base) * var(--wpea-space-scale) * var(--wpea-space-compact));
       --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-space-scale));
       --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-space-scale));
       --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-space-scale));
 
-      /* Reduce typography scale (90% of baseline) */
-      --wpea-text--xs: calc(var(--wpea-fs-base) * 0.9 / var(--wpea-type-scale));
-      --wpea-text--sm: calc(var(--wpea-fs-base) * 0.9);
+      /* Reduce typography scale (uses --wpea-text-compact multiplier) */
+      --wpea-text--xs: calc(var(--wpea-fs-base) * var(--wpea-text-compact) / var(--wpea-type-scale));
+      --wpea-text--sm: calc(var(--wpea-fs-base) * var(--wpea-text-compact));
       --wpea-text--md: calc(var(--wpea-text--sm) * var(--wpea-type-scale));
       --wpea-text--lg: calc(var(--wpea-text--md) * var(--wpea-type-scale));
       --wpea-text--xl: calc(var(--wpea-text--lg) * var(--wpea-type-scale));
@@ -156,8 +260,8 @@
     }
 
     /* Layout components - tighter spacing */
-    .wpea-stack { gap: calc(var(--wpea-space--md) * 0.7); }
-    .wpea-stack--sm { gap: calc(var(--wpea-space--sm) * 0.7); }
+    .wpea-stack { gap: calc(var(--wpea-space--md) * var(--wpea-space-compact)); }
+    .wpea-stack--sm { gap: calc(var(--wpea-space--sm) * var(--wpea-space-compact)); }
     .wpea-stack--lg { gap: calc(var(--wpea-space--lg) * 0.8); }
     .wpea-cluster { gap: calc(var(--wpea-space--sm) * 0.6); }
     .wpea-cluster--md { gap: calc(var(--wpea-space--md) * 0.7); }
@@ -561,83 +665,83 @@
 
   /* Switch size variants */
   .wpea-switch--xs {
-    width: var(--wpea-switch-width-xs);
-    height: var(--wpea-switch-height-xs);
+    width: var(--wpea-switch-width--xs);
+    height: var(--wpea-switch-height--xs);
   }
 
   .wpea-switch--xs .wpea-switch__slider {
-    border-radius: calc(var(--wpea-switch-height-xs) / 2);
+    border-radius: calc(var(--wpea-switch-height--xs) / 2);
   }
 
   .wpea-switch--xs .wpea-switch__slider::before {
-    width: var(--wpea-switch-knob-size-xs);
-    height: var(--wpea-switch-knob-size-xs);
-    top: var(--wpea-switch-knob-offset-xs);
-    left: var(--wpea-switch-knob-offset-xs);
+    width: var(--wpea-switch-knob-size--xs);
+    height: var(--wpea-switch-knob-size--xs);
+    top: var(--wpea-switch-knob-offset--xs);
+    left: var(--wpea-switch-knob-offset--xs);
   }
 
   .wpea-switch--xs input:checked + .wpea-switch__slider::before {
-    transform: translateX(var(--wpea-switch-translate-xs));
+    transform: translateX(var(--wpea-switch-translate--xs));
   }
 
   .wpea-switch--s {
-    width: var(--wpea-switch-width-s);
-    height: var(--wpea-switch-height-s);
+    width: var(--wpea-switch-width--s);
+    height: var(--wpea-switch-height--s);
   }
 
   .wpea-switch--s .wpea-switch__slider {
-    border-radius: calc(var(--wpea-switch-height-s) / 2);
+    border-radius: calc(var(--wpea-switch-height--s) / 2);
   }
 
   .wpea-switch--s .wpea-switch__slider::before {
-    width: var(--wpea-switch-knob-size-s);
-    height: var(--wpea-switch-knob-size-s);
-    top: var(--wpea-switch-knob-offset-s);
-    left: var(--wpea-switch-knob-offset-s);
+    width: var(--wpea-switch-knob-size--s);
+    height: var(--wpea-switch-knob-size--s);
+    top: var(--wpea-switch-knob-offset--s);
+    left: var(--wpea-switch-knob-offset--s);
   }
 
   .wpea-switch--s input:checked + .wpea-switch__slider::before {
-    transform: translateX(var(--wpea-switch-translate-s));
+    transform: translateX(var(--wpea-switch-translate--s));
   }
 
   .wpea-switch--m {
-    width: var(--wpea-switch-width-m);
-    height: var(--wpea-switch-height-m);
+    width: var(--wpea-switch-width--m);
+    height: var(--wpea-switch-height--m);
   }
 
   .wpea-switch--m .wpea-switch__slider {
-    border-radius: calc(var(--wpea-switch-height-m) / 2);
+    border-radius: calc(var(--wpea-switch-height--m) / 2);
   }
 
   .wpea-switch--m .wpea-switch__slider::before {
-    width: var(--wpea-switch-knob-size-m);
-    height: var(--wpea-switch-knob-size-m);
-    top: var(--wpea-switch-knob-offset-m);
-    left: var(--wpea-switch-knob-offset-m);
+    width: var(--wpea-switch-knob-size--m);
+    height: var(--wpea-switch-knob-size--m);
+    top: var(--wpea-switch-knob-offset--m);
+    left: var(--wpea-switch-knob-offset--m);
   }
 
   .wpea-switch--m input:checked + .wpea-switch__slider::before {
-    transform: translateX(var(--wpea-switch-translate-m));
+    transform: translateX(var(--wpea-switch-translate--m));
   }
 
   .wpea-switch--l {
-    width: var(--wpea-switch-width-l);
-    height: var(--wpea-switch-height-l);
+    width: var(--wpea-switch-width--l);
+    height: var(--wpea-switch-height--l);
   }
 
   .wpea-switch--l .wpea-switch__slider {
-    border-radius: calc(var(--wpea-switch-height-l) / 2);
+    border-radius: calc(var(--wpea-switch-height--l) / 2);
   }
 
   .wpea-switch--l .wpea-switch__slider::before {
-    width: var(--wpea-switch-knob-size-l);
-    height: var(--wpea-switch-knob-size-l);
-    top: var(--wpea-switch-knob-offset-l);
-    left: var(--wpea-switch-knob-offset-l);
+    width: var(--wpea-switch-knob-size--l);
+    height: var(--wpea-switch-knob-size--l);
+    top: var(--wpea-switch-knob-offset--l);
+    left: var(--wpea-switch-knob-offset--l);
   }
 
   .wpea-switch--l input:checked + .wpea-switch__slider::before {
-    transform: translateX(var(--wpea-switch-translate-l));
+    transform: translateX(var(--wpea-switch-translate--l));
   }
 
   /* Switch color variants */
@@ -2319,6 +2423,9 @@
 .wpea-vtabs__content {
   flex: 1;
   min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--wpea-space--lg);
 }
 
 .wpea-vtabs__panel {

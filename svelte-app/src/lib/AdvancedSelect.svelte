@@ -398,7 +398,7 @@
               onkeydown={(e) => { if (e.key === 'Enter' || e.key === ' ') handleCreate(); }}
               onmouseenter={() => highlightedIndex = filteredOptions.length}
             >
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-right: 6px;">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" style="margin-right: var(--wpea-space--xs);">
                 <path d="M7 2.5V11.5M2.5 7H11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
               </svg>
               Create "{searchQuery}"

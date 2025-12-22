@@ -16,8 +16,9 @@
      --wpea-fs-base: the baseline font size (used for --sm)
      --wpea-type-scale: ratio for scaling text sizes up/down
      --------------------------------------------------------- */
-  --wpea-fs-base: 13px;
-  --wpea-type-scale: 1.2;
+  --wpea-fs-base: var(--wpea-fs-base-override, 13px);
+  --wpea-type-scale: var(--wpea-type-scale-override, 1.2);
+  --wpea-text-compact: var(--wpea-text-compact-override, 0.9);
 
   /* ---------------------------------------------------------
      FONT FAMILY
@@ -30,22 +31,28 @@
      BRAND COLORS
      Set your primary, secondary, and neutral colors here.
      Light and dark variants for light/dark mode support.
+     Use --wpea-color--*-light-override / --wpea-color--*-dark-override to customize
      --------------------------------------------------------- */
-  --wpea-color--primary-light: #a402ba;
-  --wpea-color--primary-dark: #a402ba;
-  --wpea-color--secondary-light: #32a8ac;
-  --wpea-color--secondary-dark: #32a8ac;
-  --wpea-color--neutral-light: #777777;
-  --wpea-color--neutral-dark: #9aa0a6;
+  --wpea-color--primary-light: var(--wpea-color--primary-light-override, #a402ba);
+  --wpea-color--primary-dark: var(--wpea-color--primary-dark-override, #a402ba);
+  --wpea-color--secondary-light: var(--wpea-color--secondary-light-override, #32a8ac);
+  --wpea-color--secondary-dark: var(--wpea-color--secondary-dark-override, #32a8ac);
+  --wpea-color--neutral-light: var(--wpea-color--neutral-light-override, #777777);
+  --wpea-color--neutral-dark: var(--wpea-color--neutral-dark-override, #9aa0a6);
 
   /* ---------------------------------------------------------
-     SEMANTIC COLORS
-     Status and feedback colors
+     SEMANTIC COLORS (Base Values)
+     Light/dark pairs for status and feedback colors
+     Use --wpea-color--*-light-override / --wpea-color--*-dark-override to customize
      --------------------------------------------------------- */
-  --wpea-color--success: #22c55e;
-  --wpea-color--warning: #f59e0b;
-  --wpea-color--danger: #ef4444;
-  --wpea-color--info: #3b82f6;
+  --wpea-color--success-light: var(--wpea-color--success-light-override, #22c55e);
+  --wpea-color--success-dark: var(--wpea-color--success-dark-override, #4ade80);
+  --wpea-color--warning-light: var(--wpea-color--warning-light-override, #f59e0b);
+  --wpea-color--warning-dark: var(--wpea-color--warning-dark-override, #fbbf24);
+  --wpea-color--danger-light: var(--wpea-color--danger-light-override, #ef4444);
+  --wpea-color--danger-dark: var(--wpea-color--danger-dark-override, #f87171);
+  --wpea-color--info-light: var(--wpea-color--info-light-override, #3b82f6);
+  --wpea-color--info-dark: var(--wpea-color--info-dark-override, #60a5fa);
 
   /* ---------------------------------------------------------
      FIXED COLORS
@@ -57,15 +64,17 @@
      SPACING
      Based on 8px grid with 1.5x multiplier
      --------------------------------------------------------- */
-  --wpea-space-base: 8px;
-  --wpea-space-scale: 1.5;
+  --wpea-space-base: var(--wpea-space-base-override, 8px);
+  --wpea-space-scale: var(--wpea-space-scale-override, 1.5);
+  --wpea-space-compact: var(--wpea-space-compact-override, 0.7);
 
   /* ---------------------------------------------------------
      BORDER RADII
+     Based on base value with scale multiplier (like spacing)
+     Default: 6px base with 1.67x scale → 6, 10, 17px
      --------------------------------------------------------- */
-  --wpea-radius--sm: 6px;
-  --wpea-radius--md: 10px;
-  --wpea-radius--lg: 16px;
+  --wpea-radius-base: var(--wpea-radius-base-override, 6px);
+  --wpea-radius-scale: var(--wpea-radius-scale-override, 1.67);
   --wpea-radius--xl: 999px;
 
   /* ---------------------------------------------------------
@@ -78,7 +87,7 @@
   /* ---------------------------------------------------------
      SWITCH DIMENSIONS
      --------------------------------------------------------- */
-  /* Default */
+  /* Default (same as small) */
   --wpea-switch-width: 32px;
   --wpea-switch-height: 18px;
   --wpea-switch-knob-size: 12px;
@@ -86,32 +95,32 @@
   --wpea-switch-translate: 14px;
 
   /* Extra Small */
-  --wpea-switch-width-xs: 20px;
-  --wpea-switch-height-xs: 12px;
-  --wpea-switch-knob-size-xs: 6px;
-  --wpea-switch-knob-offset-xs: 2px;
-  --wpea-switch-translate-xs: 8px;
+  --wpea-switch-width--xs: 20px;
+  --wpea-switch-height--xs: 12px;
+  --wpea-switch-knob-size--xs: 6px;
+  --wpea-switch-knob-offset--xs: 2px;
+  --wpea-switch-translate--xs: 8px;
 
   /* Small */
-  --wpea-switch-width-s: 32px;
-  --wpea-switch-height-s: 18px;
-  --wpea-switch-knob-size-s: 12px;
-  --wpea-switch-knob-offset-s: 2px;
-  --wpea-switch-translate-s: 14px;
+  --wpea-switch-width--s: 32px;
+  --wpea-switch-height--s: 18px;
+  --wpea-switch-knob-size--s: 12px;
+  --wpea-switch-knob-offset--s: 2px;
+  --wpea-switch-translate--s: 14px;
 
   /* Medium */
-  --wpea-switch-width-m: 44px;
-  --wpea-switch-height-m: 24px;
-  --wpea-switch-knob-size-m: 18px;
-  --wpea-switch-knob-offset-m: 2px;
-  --wpea-switch-translate-m: 26px;
+  --wpea-switch-width--m: 44px;
+  --wpea-switch-height--m: 24px;
+  --wpea-switch-knob-size--m: 18px;
+  --wpea-switch-knob-offset--m: 2px;
+  --wpea-switch-translate--m: 26px;
 
   /* Large */
-  --wpea-switch-width-l: 56px;
-  --wpea-switch-height-l: 30px;
-  --wpea-switch-knob-size-l: 24px;
-  --wpea-switch-knob-offset-l: 2px;
-  --wpea-switch-translate-l: 26px;
+  --wpea-switch-width--l: 56px;
+  --wpea-switch-height--l: 30px;
+  --wpea-switch-knob-size--l: 24px;
+  --wpea-switch-knob-offset--l: 2px;
+  --wpea-switch-translate--l: 26px;
 
   /* ---------------------------------------------------------
      CONTROL GAP
@@ -134,6 +143,14 @@
   --wpea-color--primary: light-dark(var(--wpea-color--primary-light), var(--wpea-color--primary-dark));
   --wpea-color--secondary: light-dark(var(--wpea-color--secondary-light), var(--wpea-color--secondary-dark));
   --wpea-color--neutral: light-dark(var(--wpea-color--neutral-light), var(--wpea-color--neutral-dark));
+
+  /* ---------------------------------------------------------
+     SEMANTIC COLORS (light-dark resolved)
+     --------------------------------------------------------- */
+  --wpea-color--success: light-dark(var(--wpea-color--success-light), var(--wpea-color--success-dark));
+  --wpea-color--warning: light-dark(var(--wpea-color--warning-light), var(--wpea-color--warning-dark));
+  --wpea-color--danger: light-dark(var(--wpea-color--danger-light), var(--wpea-color--danger-dark));
+  --wpea-color--info: light-dark(var(--wpea-color--info-light), var(--wpea-color--info-dark));
 
   /* ---------------------------------------------------------
      PRIMARY COLOR VARIANTS
@@ -408,7 +425,7 @@
   );
   --wpea-surface--muted: light-dark(
     var(--wpea-color--neutral-l-9),
-    var(--wpea-color--neutral-d-9)
+    var(--wpea-color--neutral-d-7)
   );
   --wpea-surface--panel: light-dark(
     var(--wpea-color--white),

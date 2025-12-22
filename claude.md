@@ -39,6 +39,24 @@
 - `.wpea` - Base styling for top-level layout wrapper and modals mounted in document.body (font, colors, flex column layout)
 - `.wpea-full` - Add to `.wpea` for full-screen apps/modals (adds `min-height: 100vh`)
 
+### Layout Pattern: Content Containers with Gap
+
+**IMPORTANT:** When creating content areas that contain multiple cards, sections, or info boxes, the parent container MUST use flex column with gap:
+
+```css
+.my-content-area {
+  display: flex;
+  flex-direction: column;
+  gap: var(--wpea-space--lg);
+}
+```
+
+The framework provides this pattern in:
+- `.wpea-vtabs__content` - Vertical tabs content area
+- `.wpea-tabs__panel` - Horizontal tabs panel
+
+If creating custom containers for cards/sections, always include flex column with gap to ensure proper spacing.
+
 ## Light/Dark Mode Usage
 
 The framework now uses the CSS `light-dark()` function for automatic light/dark mode support. This modern approach eliminates the need for separate dark mode classes or media queries.

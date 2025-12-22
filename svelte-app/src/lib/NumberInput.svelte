@@ -55,9 +55,23 @@
     onchange?.(value);
   }
 
+  // Round to avoid floating point precision issues
+  function roundToPrecision(num: number, precision: number): number {
+    const factor = Math.pow(10, precision);
+    return Math.round(num * factor) / factor;
+  }
+
+  // Get decimal places from step value
+  function getDecimalPlaces(num: number): number {
+    const str = num.toString();
+    const decimal = str.indexOf('.');
+    return decimal === -1 ? 0 : str.length - decimal - 1;
+  }
+
   function increment() {
     if (disabled || readonly) return;
-    let newValue = value + step;
+    const precision = getDecimalPlaces(step);
+    let newValue = roundToPrecision(value + step, precision);
     if (max !== undefined && newValue > max) newValue = max;
     value = newValue;
     oninput?.(value);
@@ -66,7 +80,8 @@
 
   function decrement() {
     if (disabled || readonly) return;
-    let newValue = value - step;
+    const precision = getDecimalPlaces(step);
+    let newValue = roundToPrecision(value - step, precision);
     if (min !== undefined && newValue < min) newValue = min;
     value = newValue;
     oninput?.(value);

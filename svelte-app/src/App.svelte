@@ -26,6 +26,7 @@
   import Toggle3State from './lib/Toggle3State.svelte';
   import DoubleOptInButton from './lib/DoubleOptInButton.svelte';
   import Popover from './lib/Popover.svelte';
+  import FrameworkSettings from './lib/FrameworkSettings.svelte';
 
   // State and constants
   import {
@@ -143,6 +144,7 @@
       <a href="#accordions" class={state.activeSection === 'accordions' ? 'active' : ''}>Accordions</a>
       <a href="#cards-panels" class={state.activeSection === 'cards-panels' ? 'active' : ''}>Cards & Panels</a>
       <a href="#modals" class={state.activeSection === 'modals' ? 'active' : ''}>Modals</a>
+      <a href="#framework-settings" class={state.activeSection === 'framework-settings' ? 'active' : ''}>Framework Settings</a>
     </nav>
   </aside>
 
@@ -1579,6 +1581,41 @@
                   <tr><td><code>.wpea-modal__footer</code></td><td>Action buttons</td></tr>
                   <tr><td><code>.wpea-modal--large</code></td><td>Large size</td></tr>
                   <tr><td><code>.wpea-modal--fullscreen</code></td><td>Fullscreen</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Card>
+      </Stack>
+    </section>
+
+    <!-- FRAMEWORK SETTINGS -->
+    <section id="framework-settings" class="demo-section">
+      <h2 class="demo-section__title">Framework Settings</h2>
+
+      <Stack>
+        <Card title="Display Settings">
+          <div class="component-panel">
+            <div class="component-panel__demo component-panel__demo--full">
+              <FrameworkSettings
+                bind:settings={state.frameworkSettings}
+                onchange={(s) => console.log('Settings changed:', s)}
+              />
+            </div>
+            <div class="component-panel__info">
+              <div class="component-panel__notes">
+                The FrameworkSettings component provides a complete UI for customizing the framework's appearance. It includes theme mode switching, compact mode, color pickers for brand and semantic colors, and sliders for spacing, typography, and border radius scales.
+              </div>
+              <table class="component-panel__table">
+                <thead>
+                  <tr>
+                    <th>Prop</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr><td><code>settings</code></td><td>Bindable FrameworkDisplaySettings object</td></tr>
+                  <tr><td><code>onchange</code></td><td>Callback when settings change</td></tr>
                 </tbody>
               </table>
             </div>

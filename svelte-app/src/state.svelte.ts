@@ -1,5 +1,6 @@
 import { createRawSnippet } from 'svelte';
 import type { AdvancedSelectOption } from './lib/AdvancedSelect.svelte';
+import { defaultFrameworkSettings, type FrameworkDisplaySettings } from './lib/FrameworkSettings.svelte';
 
 // =============================================================================
 // App State Object - wrapping $state in an object makes it importable/mutable
@@ -75,7 +76,10 @@ export const state = $state({
   modalScrollable: false,
 
   // Misc States (Demo)
-  viewMode: 'grid'
+  viewMode: 'grid',
+
+  // Framework Settings (Demo)
+  frameworkSettings: { ...defaultFrameworkSettings } as FrameworkDisplaySettings
 });
 
 // =============================================================================

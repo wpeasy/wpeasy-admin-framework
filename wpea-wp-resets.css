@@ -267,6 +267,9 @@ body:has(.wpea){
 .wpea textarea {
   margin: 0;
   font-family: var(--wpea-font-sans);
+  background: var(--wpea-surface--panel);
+  color: var(--wpea-surface--text);
+  border-color: var(--wpea-surface--border);
 }
 
 .wpea button {

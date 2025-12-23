@@ -22,6 +22,8 @@
     --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-space-scale));      /* 18px */
     --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-space-scale));      /* 27px */
     --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-space-scale));     /* 40px */
+    --wpea-space--3xl: calc(var(--wpea-space--2xl) * var(--wpea-space-scale));    /* 60px */
+    --wpea-space--4xl: calc(var(--wpea-space--3xl) * var(--wpea-space-scale));    /* 90px */
 
     /* Typography scale (--sm as baseline, 1.2x ratio) */
     --wpea-text--xs: calc(var(--wpea-fs-base) / var(--wpea-type-scale));          /* ~11px */
@@ -149,6 +151,8 @@
     --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-space-scale));
     --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-space-scale));
     --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-space-scale));
+    --wpea-space--3xl: calc(var(--wpea-space--2xl) * var(--wpea-space-scale));
+    --wpea-space--4xl: calc(var(--wpea-space--3xl) * var(--wpea-space-scale));
 
     /* Reduce typography scale */
     --wpea-text--xs: calc(var(--wpea-fs-base) * var(--wpea-text-compact) / var(--wpea-type-scale));
@@ -247,6 +251,8 @@
       --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-space-scale));
       --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-space-scale));
       --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-space-scale));
+      --wpea-space--3xl: calc(var(--wpea-space--2xl) * var(--wpea-space-scale));
+      --wpea-space--4xl: calc(var(--wpea-space--3xl) * var(--wpea-space-scale));
 
       /* Reduce typography scale (uses --wpea-text-compact multiplier) */
       --wpea-text--xs: calc(var(--wpea-fs-base) * var(--wpea-text-compact) / var(--wpea-type-scale));

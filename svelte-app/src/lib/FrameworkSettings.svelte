@@ -235,6 +235,19 @@
     notifyChange();
   }
 
+  // Computed spacing values (affected by compact mode)
+  const computedSpacing = $derived({
+    xs: settings.compact_mode
+      ? (sliderState.space_base / 2 * settings.compact_multiplier).toFixed(1)
+      : (sliderState.space_base / 2).toFixed(1),
+    sm: settings.compact_mode
+      ? (sliderState.space_base * settings.compact_multiplier).toFixed(1)
+      : sliderState.space_base.toFixed(1),
+    md: settings.compact_mode
+      ? (sliderState.space_base * sliderState.space_scale * settings.compact_multiplier).toFixed(1)
+      : (sliderState.space_base * sliderState.space_scale).toFixed(1),
+  });
+
   // Color definitions for iteration
   const brandColors = [
     { key: 'primary', label: 'Primary' },
@@ -258,21 +271,33 @@
     settings[`${key}_${variant}` as keyof FrameworkDisplaySettings] = value as never;
     notifyChange();
   }
+
+  // Color palette definitions
+  const paletteColors = ['primary', 'secondary', 'neutral'] as const;
+  const lightVariants = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const darkVariants = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  const transparencyVariants = [10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+
+  // Copy to clipboard functionality
+  let copiedVar = $state<string | null>(null);
+
+  async function copyToClipboard(varName: string) {
+    try {
+      await navigator.clipboard.writeText(varName);
+      copiedVar = varName;
+      setTimeout(() => {
+        copiedVar = null;
+      }, 1500);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  }
 </script>
 
 <div class="wpea-framework-settings {className}" {style}>
   <div class="wpea-framework-settings__grid">
     <!-- General Card -->
     <Card title="General">
-      <div class="wpea-framework-settings__switches">
-        <Switch
-          id="compact_mode"
-          bind:checked={settings.compact_mode}
-          label="Compact Mode"
-        />
-        <small class="wpea-help">Reduce spacing and padding for a more compact interface.</small>
-      </div>
-
       <div class="wpea-framework-settings__form-group">
         <span class="wpea-label" id="theme-mode-label">Theme Mode</span>
         <Toggle3State
@@ -371,13 +396,35 @@
 
   <!-- Spacing & Typography Card (full width) -->
   <Card title="Spacing & Typography" subtitle="Adjust the spacing and typography scale">
+    <!-- Compact Mode Row (full width) -->
+    <div class="wpea-framework-settings__compact-row">
+      <Switch
+        id="compact_mode"
+        bind:checked={settings.compact_mode}
+        label="Compact Mode"
+      />
+      {#if settings.compact_mode}
+        <div class="wpea-framework-settings__compact-multiplier">
+          <span class="wpea-framework-settings__compact-multiplier-label">Multiplier</span>
+          <NumberInput
+            bind:value={settings.compact_multiplier}
+            min={0.5}
+            max={0.9}
+            step={0.05}
+            size="s"
+            onchange={() => notifyChange()}
+          />
+        </div>
+      {/if}
+    </div>
+
     <div class="wpea-framework-settings__layout-split">
-      <!-- Settings Column -->
+      <!-- Left Column: Spacing & Radii -->
       <div class="wpea-framework-settings__layout-settings">
         <div class="wpea-framework-settings__layout-row">
           <div class="wpea-framework-settings__layout-label">
             <span>Spacing Base</span>
-            <small>Base unit ({sliderState.space_base}px)</small>
+            <small>Base unit → xs: {computedSpacing.xs}px, sm: {computedSpacing.sm}px, md: {computedSpacing.md}px</small>
           </div>
           <div class="wpea-framework-settings__layout-control">
             <input
@@ -389,7 +436,13 @@
               oninput={(e) => sliderState.space_base = Number((e.target as HTMLInputElement).value)}
               onchange={(e) => { settings.space_base = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
-            <span class="wpea-framework-settings__layout-value">{sliderState.space_base}px</span>
+            <span class="wpea-framework-settings__layout-value">
+              {#if settings.compact_mode}
+                {(sliderState.space_base * settings.compact_multiplier).toFixed(1)}px
+              {:else}
+                {sliderState.space_base}px
+              {/if}
+            </span>
           </div>
         </div>
 
@@ -409,44 +462,6 @@
               onchange={(e) => { settings.space_scale = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">{sliderState.space_scale.toFixed(1)}</span>
-          </div>
-        </div>
-
-        <div class="wpea-framework-settings__layout-row">
-          <div class="wpea-framework-settings__layout-label">
-            <span>Font Base</span>
-            <small>Base size ({sliderState.font_base}px)</small>
-          </div>
-          <div class="wpea-framework-settings__layout-control">
-            <input
-              type="range"
-              min="11"
-              max="18"
-              step="1"
-              value={sliderState.font_base}
-              oninput={(e) => sliderState.font_base = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.font_base = Number((e.target as HTMLInputElement).value); notifyChange(); }}
-            />
-            <span class="wpea-framework-settings__layout-value">{sliderState.font_base}px</span>
-          </div>
-        </div>
-
-        <div class="wpea-framework-settings__layout-row">
-          <div class="wpea-framework-settings__layout-label">
-            <span>Type Scale</span>
-            <small>Ratio ({sliderState.type_scale.toFixed(2)})</small>
-          </div>
-          <div class="wpea-framework-settings__layout-control">
-            <input
-              type="range"
-              min="1.1"
-              max="1.5"
-              step="0.05"
-              value={sliderState.type_scale}
-              oninput={(e) => sliderState.type_scale = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.type_scale = Number((e.target as HTMLInputElement).value); notifyChange(); }}
-            />
-            <span class="wpea-framework-settings__layout-value">{sliderState.type_scale.toFixed(2)}</span>
           </div>
         </div>
 
@@ -487,29 +502,56 @@
             <span class="wpea-framework-settings__layout-value">{sliderState.radius_scale.toFixed(2)}</span>
           </div>
         </div>
-
-        {#if settings.compact_mode}
-          <div class="wpea-framework-settings__layout-row">
-            <div class="wpea-framework-settings__layout-label">
-              <span>Compact Multiplier</span>
-              <small>Spacing reduction (0.5-0.9)</small>
-            </div>
-            <div class="wpea-framework-settings__layout-control">
-              <NumberInput
-                bind:value={settings.compact_multiplier}
-                min={0.5}
-                max={0.9}
-                step={0.05}
-                size="s"
-                onchange={() => notifyChange()}
-              />
-            </div>
-          </div>
-        {/if}
       </div>
 
-      <!-- Preview Column -->
-      <div class="wpea-framework-settings__layout-preview">
+      <!-- Right Column: Typography -->
+      <div class="wpea-framework-settings__layout-settings">
+        <div class="wpea-framework-settings__layout-row">
+          <div class="wpea-framework-settings__layout-label">
+            <span>Font Base</span>
+            <small>Base size ({sliderState.font_base}px)</small>
+          </div>
+          <div class="wpea-framework-settings__layout-control">
+            <input
+              type="range"
+              min="11"
+              max="18"
+              step="1"
+              value={sliderState.font_base}
+              oninput={(e) => sliderState.font_base = Number((e.target as HTMLInputElement).value)}
+              onchange={(e) => { settings.font_base = Number((e.target as HTMLInputElement).value); notifyChange(); }}
+            />
+            <span class="wpea-framework-settings__layout-value">{sliderState.font_base}px</span>
+          </div>
+        </div>
+
+        <div class="wpea-framework-settings__layout-row">
+          <div class="wpea-framework-settings__layout-label">
+            <span>Type Scale</span>
+            <small>Ratio ({sliderState.type_scale.toFixed(2)})</small>
+          </div>
+          <div class="wpea-framework-settings__layout-control">
+            <input
+              type="range"
+              min="1.1"
+              max="1.5"
+              step="0.05"
+              value={sliderState.type_scale}
+              oninput={(e) => sliderState.type_scale = Number((e.target as HTMLInputElement).value)}
+              onchange={(e) => { settings.type_scale = Number((e.target as HTMLInputElement).value); notifyChange(); }}
+            />
+            <span class="wpea-framework-settings__layout-value">{sliderState.type_scale.toFixed(2)}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </Card>
+
+  <!-- Preview Card (full width) -->
+  <Card title="Preview" subtitle="Live preview of your settings">
+    <div class="wpea-framework-settings__preview-split">
+      <!-- Left Column: Samples -->
+      <div class="wpea-framework-settings__preview-samples">
         <div class="wpea-framework-settings__preview-section">
           <span class="wpea-framework-settings__preview-label">Typography</span>
           <div class="wpea-framework-settings__preview-typography">
@@ -538,6 +580,78 @@
             <div class="wpea-framework-settings__radius-box wpea-framework-settings__radius-box--lg"><span>lg</span></div>
           </div>
         </div>
+      </div>
+
+      <!-- Right Column: Color Palettes -->
+      <div class="wpea-framework-settings__preview-extra">
+        {#each paletteColors as colorName}
+          <div class="wpea-framework-settings__palette">
+            <span class="wpea-framework-settings__palette-label">{colorName}</span>
+            <div class="wpea-framework-settings__palette-grid">
+              <!-- Base color: 2 cols x 3 rows -->
+              <button
+                type="button"
+                class="wpea-framework-settings__palette-base"
+                class:wpea-framework-settings__palette-swatch--copied={copiedVar === `var(--wpea-color--${colorName})`}
+                style="background-color: var(--wpea-color--{colorName});"
+                onclick={() => copyToClipboard(`var(--wpea-color--${colorName})`)}
+                title={`var(--wpea-color--${colorName})`}
+              >
+                <span class="wpea-framework-settings__palette-tooltip">
+                  {copiedVar === `var(--wpea-color--${colorName})` ? 'Copied!' : `var(--wpea-color--${colorName})`}
+                </span>
+              </button>
+
+              <!-- Light variants: 10 columns -->
+              {#each lightVariants as n, i}
+                <button
+                  type="button"
+                  class="wpea-framework-settings__palette-swatch"
+                  class:wpea-framework-settings__palette-swatch--copied={copiedVar === `var(--wpea-color--${colorName}-l-${n})`}
+                  style="background-color: var(--wpea-color--{colorName}-l-{n}); grid-row: 1; grid-column: {i + 3};"
+                  onclick={() => copyToClipboard(`var(--wpea-color--${colorName}-l-${n})`)}
+                  title={`var(--wpea-color--${colorName}-l-${n})`}
+                >
+                  <span class="wpea-framework-settings__palette-tooltip">
+                    {copiedVar === `var(--wpea-color--${colorName}-l-${n})` ? 'Copied!' : `var(--wpea-color--${colorName}-l-${n})`}
+                  </span>
+                </button>
+              {/each}
+
+              <!-- Dark variants: 10 columns -->
+              {#each darkVariants as n, i}
+                <button
+                  type="button"
+                  class="wpea-framework-settings__palette-swatch"
+                  class:wpea-framework-settings__palette-swatch--copied={copiedVar === `var(--wpea-color--${colorName}-d-${n})`}
+                  style="background-color: var(--wpea-color--{colorName}-d-{n}); grid-row: 2; grid-column: {i + 3};"
+                  onclick={() => copyToClipboard(`var(--wpea-color--${colorName}-d-${n})`)}
+                  title={`var(--wpea-color--${colorName}-d-${n})`}
+                >
+                  <span class="wpea-framework-settings__palette-tooltip">
+                    {copiedVar === `var(--wpea-color--${colorName}-d-${n})` ? 'Copied!' : `var(--wpea-color--${colorName}-d-${n})`}
+                  </span>
+                </button>
+              {/each}
+
+              <!-- Transparency variants: 10 columns -->
+              {#each transparencyVariants as n, i}
+                <button
+                  type="button"
+                  class="wpea-framework-settings__palette-swatch wpea-framework-settings__palette-swatch--transparent"
+                  class:wpea-framework-settings__palette-swatch--copied={copiedVar === `var(--wpea-color--${colorName}-t-${n})`}
+                  style="--swatch-color: var(--wpea-color--{colorName}-t-{n}); grid-row: 3; grid-column: {i + 3};"
+                  onclick={() => copyToClipboard(`var(--wpea-color--${colorName}-t-${n})`)}
+                  title={`var(--wpea-color--${colorName}-t-${n})`}
+                >
+                  <span class="wpea-framework-settings__palette-tooltip">
+                    {copiedVar === `var(--wpea-color--${colorName}-t-${n})` ? 'Copied!' : `var(--wpea-color--${colorName}-t-${n})`}
+                  </span>
+                </button>
+              {/each}
+            </div>
+          </div>
+        {/each}
       </div>
     </div>
   </Card>
@@ -571,15 +685,32 @@
     }
   }
 
-  .wpea-framework-settings__switches {
-    margin-bottom: var(--wpea-space--lg);
-  }
-
   .wpea-framework-settings__form-group {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--wpea-space--xs);
+  }
+
+  /* Compact Mode Row */
+  .wpea-framework-settings__compact-row {
+    display: flex;
+    align-items: center;
+    gap: var(--wpea-space--xl);
+    padding-bottom: var(--wpea-space--md);
+    margin-bottom: var(--wpea-space--sm);
+    border-bottom: 1px solid var(--wpea-surface--border);
+  }
+
+  .wpea-framework-settings__compact-multiplier {
+    display: flex;
+    align-items: center;
+    gap: var(--wpea-space--sm);
+  }
+
+  .wpea-framework-settings__compact-multiplier-label {
+    font-size: var(--wpea-text--sm);
+    color: var(--wpea-surface--text-muted);
   }
 
   /* Color Columns */
@@ -909,8 +1040,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: var(--wpea-space--2xl);
-    height: var(--wpea-space--2xl);
+    width: var(--wpea-space--4xl);
+    height: var(--wpea-space--4xl);
     background: var(--wpea-surface--panel);
     border: 1px solid var(--wpea-surface--border);
     box-shadow: var(--wpea-shadow--md);
@@ -930,6 +1061,158 @@
 
   .wpea-framework-settings__radius-box--lg {
     border-radius: var(--wpea-radius--lg);
+  }
+
+  /* Preview Split */
+  .wpea-framework-settings__preview-split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--wpea-space--xl);
+  }
+
+  @container (max-width: 700px) {
+    .wpea-framework-settings__preview-split {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .wpea-framework-settings__preview-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wpea-space--lg);
+    padding: var(--wpea-space--lg);
+    background: var(--wpea-surface--bg);
+    border: 1px solid var(--wpea-surface--border);
+    border-radius: var(--wpea-radius--md);
+  }
+
+  .wpea-framework-settings__preview-extra {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wpea-space--lg);
+  }
+
+  /* Color Palette */
+  .wpea-framework-settings__palette {
+    display: flex;
+    flex-direction: column;
+    gap: var(--wpea-space--xs);
+  }
+
+  .wpea-framework-settings__palette-label {
+    font-size: var(--wpea-text--xs);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--wpea-surface--text-muted);
+  }
+
+  .wpea-framework-settings__palette-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .wpea-framework-settings__palette-base {
+    grid-column: 1 / 3;
+    grid-row: 1 / 4;
+    position: relative;
+    border: none;
+    border-radius: var(--wpea-radius--sm);
+    cursor: pointer;
+    min-height: var(--wpea-space--3xl);
+    transition: transform var(--wpea-anim-duration--fast), box-shadow var(--wpea-anim-duration--fast);
+  }
+
+  .wpea-framework-settings__palette-base:hover {
+    transform: scale(1.02);
+    box-shadow: var(--wpea-shadow--md);
+    z-index: 1;
+  }
+
+  .wpea-framework-settings__palette-base:hover .wpea-framework-settings__palette-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .wpea-framework-settings__palette-swatch {
+    position: relative;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    aspect-ratio: 1;
+    min-height: var(--wpea-space--lg);
+    transition: transform var(--wpea-anim-duration--fast), box-shadow var(--wpea-anim-duration--fast);
+  }
+
+  /* Corner radius for first and last swatches in each row */
+  .wpea-framework-settings__palette-swatch[style*="grid-column: 12"][style*="grid-row: 1"] {
+    border-top-right-radius: var(--wpea-radius--sm);
+  }
+
+  .wpea-framework-settings__palette-swatch[style*="grid-column: 12"][style*="grid-row: 3"] {
+    border-bottom-right-radius: var(--wpea-radius--sm);
+  }
+
+  .wpea-framework-settings__palette-swatch:hover {
+    transform: scale(1.15);
+    box-shadow: var(--wpea-shadow--md);
+    z-index: 2;
+    border-radius: var(--wpea-radius--sm);
+  }
+
+  .wpea-framework-settings__palette-swatch:hover .wpea-framework-settings__palette-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .wpea-framework-settings__palette-swatch--copied {
+    outline: 2px solid var(--wpea-color--success);
+    outline-offset: 1px;
+    z-index: 3;
+  }
+
+  .wpea-framework-settings__palette-tooltip {
+    position: absolute;
+    bottom: calc(100% + var(--wpea-space--xs));
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    background: var(--wpea-surface--panel);
+    border: 1px solid var(--wpea-surface--border);
+    border-radius: var(--wpea-radius--sm);
+    padding: var(--wpea-space--xs) var(--wpea-space--sm);
+    font-size: var(--wpea-text--xs);
+    font-family: var(--wpea-font-mono, monospace);
+    color: var(--wpea-surface--text);
+    white-space: nowrap;
+    box-shadow: var(--wpea-shadow--md);
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity var(--wpea-anim-duration--fast), transform var(--wpea-anim-duration--fast), visibility var(--wpea-anim-duration--fast);
+    pointer-events: none;
+    z-index: 100;
+  }
+
+  /* Transparency swatches need a checkered background */
+  .wpea-framework-settings__palette-swatch--transparent {
+    background-image:
+      linear-gradient(45deg, #ccc 25%, transparent 25%),
+      linear-gradient(-45deg, #ccc 25%, transparent 25%),
+      linear-gradient(45deg, transparent 75%, #ccc 75%),
+      linear-gradient(-45deg, transparent 75%, #ccc 75%);
+    background-size: 6px 6px;
+    background-position: 0 0, 0 3px, 3px -3px, -3px 0px;
+    background-color: #fff;
+  }
+
+  .wpea-framework-settings__palette-swatch--transparent::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: var(--swatch-color);
   }
 
   /* Actions */

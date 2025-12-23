@@ -154,28 +154,33 @@
 
   /* ---------------------------------------------------------
      PRIMARY COLOR VARIANTS
-     Lightened, darkened, and transparent versions
+     Lightened (-l-*): visually lighter in current mode
+     Darkened (-d-*): visually darker in current mode
+     Transparent (-t-*): transparency levels
+
+     Uses light-dark() to invert directions so variants maintain
+     their semantic meaning regardless of color scheme.
      --------------------------------------------------------- */
-  --wpea-color--primary-l-1:  color-mix(in oklab, var(--wpea-color--primary), white 10%);
-  --wpea-color--primary-l-2:  color-mix(in oklab, var(--wpea-color--primary), white 20%);
-  --wpea-color--primary-l-3:  color-mix(in oklab, var(--wpea-color--primary), white 30%);
-  --wpea-color--primary-l-4:  color-mix(in oklab, var(--wpea-color--primary), white 40%);
-  --wpea-color--primary-l-5:  color-mix(in oklab, var(--wpea-color--primary), white 50%);
-  --wpea-color--primary-l-6:  color-mix(in oklab, var(--wpea-color--primary), white 60%);
-  --wpea-color--primary-l-7:  color-mix(in oklab, var(--wpea-color--primary), white 70%);
-  --wpea-color--primary-l-8:  color-mix(in oklab, var(--wpea-color--primary), white 80%);
-  --wpea-color--primary-l-9:  color-mix(in oklab, var(--wpea-color--primary), white 90%);
-  --wpea-color--primary-l-10: color-mix(in oklab, var(--wpea-color--primary), white 100%);
-  --wpea-color--primary-d-1:  color-mix(in oklab, var(--wpea-color--primary), black 10%);
-  --wpea-color--primary-d-2:  color-mix(in oklab, var(--wpea-color--primary), black 20%);
-  --wpea-color--primary-d-3:  color-mix(in oklab, var(--wpea-color--primary), black 30%);
-  --wpea-color--primary-d-4:  color-mix(in oklab, var(--wpea-color--primary), black 40%);
-  --wpea-color--primary-d-5:  color-mix(in oklab, var(--wpea-color--primary), black 50%);
-  --wpea-color--primary-d-6:  color-mix(in oklab, var(--wpea-color--primary), black 60%);
-  --wpea-color--primary-d-7:  color-mix(in oklab, var(--wpea-color--primary), black 70%);
-  --wpea-color--primary-d-8:  color-mix(in oklab, var(--wpea-color--primary), black 80%);
-  --wpea-color--primary-d-9:  color-mix(in oklab, var(--wpea-color--primary), black 90%);
-  --wpea-color--primary-d-10: color-mix(in oklab, var(--wpea-color--primary), black 100%);
+  --wpea-color--primary-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 10%), color-mix(in oklab, var(--wpea-color--primary), black 10%));
+  --wpea-color--primary-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 20%), color-mix(in oklab, var(--wpea-color--primary), black 20%));
+  --wpea-color--primary-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 30%), color-mix(in oklab, var(--wpea-color--primary), black 30%));
+  --wpea-color--primary-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 40%), color-mix(in oklab, var(--wpea-color--primary), black 40%));
+  --wpea-color--primary-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 50%), color-mix(in oklab, var(--wpea-color--primary), black 50%));
+  --wpea-color--primary-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 60%), color-mix(in oklab, var(--wpea-color--primary), black 60%));
+  --wpea-color--primary-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 70%), color-mix(in oklab, var(--wpea-color--primary), black 70%));
+  --wpea-color--primary-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 80%), color-mix(in oklab, var(--wpea-color--primary), black 80%));
+  --wpea-color--primary-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--primary), white 90%), color-mix(in oklab, var(--wpea-color--primary), black 90%));
+  --wpea-color--primary-l-10: light-dark(color-mix(in oklab, var(--wpea-color--primary), white 100%), color-mix(in oklab, var(--wpea-color--primary), black 100%));
+  --wpea-color--primary-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 10%), color-mix(in oklab, var(--wpea-color--primary), white 10%));
+  --wpea-color--primary-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 20%), color-mix(in oklab, var(--wpea-color--primary), white 20%));
+  --wpea-color--primary-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 30%), color-mix(in oklab, var(--wpea-color--primary), white 30%));
+  --wpea-color--primary-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 40%), color-mix(in oklab, var(--wpea-color--primary), white 40%));
+  --wpea-color--primary-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 50%), color-mix(in oklab, var(--wpea-color--primary), white 50%));
+  --wpea-color--primary-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 60%), color-mix(in oklab, var(--wpea-color--primary), white 60%));
+  --wpea-color--primary-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 70%), color-mix(in oklab, var(--wpea-color--primary), white 70%));
+  --wpea-color--primary-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 80%), color-mix(in oklab, var(--wpea-color--primary), white 80%));
+  --wpea-color--primary-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--primary), black 90%), color-mix(in oklab, var(--wpea-color--primary), white 90%));
+  --wpea-color--primary-d-10: light-dark(color-mix(in oklab, var(--wpea-color--primary), black 100%), color-mix(in oklab, var(--wpea-color--primary), white 100%));
   --wpea-color--primary-t-10: color-mix(in oklab, var(--wpea-color--primary), transparent 90%);
   --wpea-color--primary-t-20: color-mix(in oklab, var(--wpea-color--primary), transparent 80%);
   --wpea-color--primary-t-30: color-mix(in oklab, var(--wpea-color--primary), transparent 70%);
@@ -190,26 +195,26 @@
   /* ---------------------------------------------------------
      SECONDARY COLOR VARIANTS
      --------------------------------------------------------- */
-  --wpea-color--secondary-l-1:  color-mix(in oklab, var(--wpea-color--secondary), white 10%);
-  --wpea-color--secondary-l-2:  color-mix(in oklab, var(--wpea-color--secondary), white 20%);
-  --wpea-color--secondary-l-3:  color-mix(in oklab, var(--wpea-color--secondary), white 30%);
-  --wpea-color--secondary-l-4:  color-mix(in oklab, var(--wpea-color--secondary), white 40%);
-  --wpea-color--secondary-l-5:  color-mix(in oklab, var(--wpea-color--secondary), white 50%);
-  --wpea-color--secondary-l-6:  color-mix(in oklab, var(--wpea-color--secondary), white 60%);
-  --wpea-color--secondary-l-7:  color-mix(in oklab, var(--wpea-color--secondary), white 70%);
-  --wpea-color--secondary-l-8:  color-mix(in oklab, var(--wpea-color--secondary), white 80%);
-  --wpea-color--secondary-l-9:  color-mix(in oklab, var(--wpea-color--secondary), white 90%);
-  --wpea-color--secondary-l-10: color-mix(in oklab, var(--wpea-color--secondary), white 100%);
-  --wpea-color--secondary-d-1:  color-mix(in oklab, var(--wpea-color--secondary), black 10%);
-  --wpea-color--secondary-d-2:  color-mix(in oklab, var(--wpea-color--secondary), black 20%);
-  --wpea-color--secondary-d-3:  color-mix(in oklab, var(--wpea-color--secondary), black 30%);
-  --wpea-color--secondary-d-4:  color-mix(in oklab, var(--wpea-color--secondary), black 40%);
-  --wpea-color--secondary-d-5:  color-mix(in oklab, var(--wpea-color--secondary), black 50%);
-  --wpea-color--secondary-d-6:  color-mix(in oklab, var(--wpea-color--secondary), black 60%);
-  --wpea-color--secondary-d-7:  color-mix(in oklab, var(--wpea-color--secondary), black 70%);
-  --wpea-color--secondary-d-8:  color-mix(in oklab, var(--wpea-color--secondary), black 80%);
-  --wpea-color--secondary-d-9:  color-mix(in oklab, var(--wpea-color--secondary), black 90%);
-  --wpea-color--secondary-d-10: color-mix(in oklab, var(--wpea-color--secondary), black 100%);
+  --wpea-color--secondary-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 10%), color-mix(in oklab, var(--wpea-color--secondary), black 10%));
+  --wpea-color--secondary-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 20%), color-mix(in oklab, var(--wpea-color--secondary), black 20%));
+  --wpea-color--secondary-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 30%), color-mix(in oklab, var(--wpea-color--secondary), black 30%));
+  --wpea-color--secondary-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 40%), color-mix(in oklab, var(--wpea-color--secondary), black 40%));
+  --wpea-color--secondary-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 50%), color-mix(in oklab, var(--wpea-color--secondary), black 50%));
+  --wpea-color--secondary-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 60%), color-mix(in oklab, var(--wpea-color--secondary), black 60%));
+  --wpea-color--secondary-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 70%), color-mix(in oklab, var(--wpea-color--secondary), black 70%));
+  --wpea-color--secondary-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 80%), color-mix(in oklab, var(--wpea-color--secondary), black 80%));
+  --wpea-color--secondary-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 90%), color-mix(in oklab, var(--wpea-color--secondary), black 90%));
+  --wpea-color--secondary-l-10: light-dark(color-mix(in oklab, var(--wpea-color--secondary), white 100%), color-mix(in oklab, var(--wpea-color--secondary), black 100%));
+  --wpea-color--secondary-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 10%), color-mix(in oklab, var(--wpea-color--secondary), white 10%));
+  --wpea-color--secondary-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 20%), color-mix(in oklab, var(--wpea-color--secondary), white 20%));
+  --wpea-color--secondary-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 30%), color-mix(in oklab, var(--wpea-color--secondary), white 30%));
+  --wpea-color--secondary-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 40%), color-mix(in oklab, var(--wpea-color--secondary), white 40%));
+  --wpea-color--secondary-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 50%), color-mix(in oklab, var(--wpea-color--secondary), white 50%));
+  --wpea-color--secondary-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 60%), color-mix(in oklab, var(--wpea-color--secondary), white 60%));
+  --wpea-color--secondary-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 70%), color-mix(in oklab, var(--wpea-color--secondary), white 70%));
+  --wpea-color--secondary-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 80%), color-mix(in oklab, var(--wpea-color--secondary), white 80%));
+  --wpea-color--secondary-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 90%), color-mix(in oklab, var(--wpea-color--secondary), white 90%));
+  --wpea-color--secondary-d-10: light-dark(color-mix(in oklab, var(--wpea-color--secondary), black 100%), color-mix(in oklab, var(--wpea-color--secondary), white 100%));
   --wpea-color--secondary-t-10: color-mix(in oklab, var(--wpea-color--secondary), transparent 90%);
   --wpea-color--secondary-t-20: color-mix(in oklab, var(--wpea-color--secondary), transparent 80%);
   --wpea-color--secondary-t-30: color-mix(in oklab, var(--wpea-color--secondary), transparent 70%);
@@ -224,26 +229,26 @@
   /* ---------------------------------------------------------
      NEUTRAL COLOR VARIANTS
      --------------------------------------------------------- */
-  --wpea-color--neutral-l-1:  color-mix(in oklab, var(--wpea-color--neutral), white 10%);
-  --wpea-color--neutral-l-2:  color-mix(in oklab, var(--wpea-color--neutral), white 20%);
-  --wpea-color--neutral-l-3:  color-mix(in oklab, var(--wpea-color--neutral), white 30%);
-  --wpea-color--neutral-l-4:  color-mix(in oklab, var(--wpea-color--neutral), white 40%);
-  --wpea-color--neutral-l-5:  color-mix(in oklab, var(--wpea-color--neutral), white 50%);
-  --wpea-color--neutral-l-6:  color-mix(in oklab, var(--wpea-color--neutral), white 60%);
-  --wpea-color--neutral-l-7:  color-mix(in oklab, var(--wpea-color--neutral), white 70%);
-  --wpea-color--neutral-l-8:  color-mix(in oklab, var(--wpea-color--neutral), white 80%);
-  --wpea-color--neutral-l-9:  color-mix(in oklab, var(--wpea-color--neutral), white 90%);
-  --wpea-color--neutral-l-10: color-mix(in oklab, var(--wpea-color--neutral), white 100%);
-  --wpea-color--neutral-d-1:  color-mix(in oklab, var(--wpea-color--neutral), black 10%);
-  --wpea-color--neutral-d-2:  color-mix(in oklab, var(--wpea-color--neutral), black 20%);
-  --wpea-color--neutral-d-3:  color-mix(in oklab, var(--wpea-color--neutral), black 30%);
-  --wpea-color--neutral-d-4:  color-mix(in oklab, var(--wpea-color--neutral), black 40%);
-  --wpea-color--neutral-d-5:  color-mix(in oklab, var(--wpea-color--neutral), black 50%);
-  --wpea-color--neutral-d-6:  color-mix(in oklab, var(--wpea-color--neutral), black 60%);
-  --wpea-color--neutral-d-7:  color-mix(in oklab, var(--wpea-color--neutral), black 70%);
-  --wpea-color--neutral-d-8:  color-mix(in oklab, var(--wpea-color--neutral), black 80%);
-  --wpea-color--neutral-d-9:  color-mix(in oklab, var(--wpea-color--neutral), black 90%);
-  --wpea-color--neutral-d-10: color-mix(in oklab, var(--wpea-color--neutral), black 100%);
+  --wpea-color--neutral-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 10%), color-mix(in oklab, var(--wpea-color--neutral), black 10%));
+  --wpea-color--neutral-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 20%), color-mix(in oklab, var(--wpea-color--neutral), black 20%));
+  --wpea-color--neutral-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 30%), color-mix(in oklab, var(--wpea-color--neutral), black 30%));
+  --wpea-color--neutral-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 40%), color-mix(in oklab, var(--wpea-color--neutral), black 40%));
+  --wpea-color--neutral-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 50%), color-mix(in oklab, var(--wpea-color--neutral), black 50%));
+  --wpea-color--neutral-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 60%), color-mix(in oklab, var(--wpea-color--neutral), black 60%));
+  --wpea-color--neutral-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 70%), color-mix(in oklab, var(--wpea-color--neutral), black 70%));
+  --wpea-color--neutral-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 80%), color-mix(in oklab, var(--wpea-color--neutral), black 80%));
+  --wpea-color--neutral-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 90%), color-mix(in oklab, var(--wpea-color--neutral), black 90%));
+  --wpea-color--neutral-l-10: light-dark(color-mix(in oklab, var(--wpea-color--neutral), white 100%), color-mix(in oklab, var(--wpea-color--neutral), black 100%));
+  --wpea-color--neutral-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 10%), color-mix(in oklab, var(--wpea-color--neutral), white 10%));
+  --wpea-color--neutral-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 20%), color-mix(in oklab, var(--wpea-color--neutral), white 20%));
+  --wpea-color--neutral-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 30%), color-mix(in oklab, var(--wpea-color--neutral), white 30%));
+  --wpea-color--neutral-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 40%), color-mix(in oklab, var(--wpea-color--neutral), white 40%));
+  --wpea-color--neutral-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 50%), color-mix(in oklab, var(--wpea-color--neutral), white 50%));
+  --wpea-color--neutral-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 60%), color-mix(in oklab, var(--wpea-color--neutral), white 60%));
+  --wpea-color--neutral-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 70%), color-mix(in oklab, var(--wpea-color--neutral), white 70%));
+  --wpea-color--neutral-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 80%), color-mix(in oklab, var(--wpea-color--neutral), white 80%));
+  --wpea-color--neutral-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 90%), color-mix(in oklab, var(--wpea-color--neutral), white 90%));
+  --wpea-color--neutral-d-10: light-dark(color-mix(in oklab, var(--wpea-color--neutral), black 100%), color-mix(in oklab, var(--wpea-color--neutral), white 100%));
   --wpea-color--neutral-t-10: color-mix(in oklab, var(--wpea-color--neutral), transparent 90%);
   --wpea-color--neutral-t-20: color-mix(in oklab, var(--wpea-color--neutral), transparent 80%);
   --wpea-color--neutral-t-30: color-mix(in oklab, var(--wpea-color--neutral), transparent 70%);
@@ -258,26 +263,26 @@
   /* ---------------------------------------------------------
      SUCCESS COLOR VARIANTS
      --------------------------------------------------------- */
-  --wpea-color--success-l-1:  color-mix(in oklab, var(--wpea-color--success), white 10%);
-  --wpea-color--success-l-2:  color-mix(in oklab, var(--wpea-color--success), white 20%);
-  --wpea-color--success-l-3:  color-mix(in oklab, var(--wpea-color--success), white 30%);
-  --wpea-color--success-l-4:  color-mix(in oklab, var(--wpea-color--success), white 40%);
-  --wpea-color--success-l-5:  color-mix(in oklab, var(--wpea-color--success), white 50%);
-  --wpea-color--success-l-6:  color-mix(in oklab, var(--wpea-color--success), white 60%);
-  --wpea-color--success-l-7:  color-mix(in oklab, var(--wpea-color--success), white 70%);
-  --wpea-color--success-l-8:  color-mix(in oklab, var(--wpea-color--success), white 80%);
-  --wpea-color--success-l-9:  color-mix(in oklab, var(--wpea-color--success), white 90%);
-  --wpea-color--success-l-10: color-mix(in oklab, var(--wpea-color--success), white 100%);
-  --wpea-color--success-d-1:  color-mix(in oklab, var(--wpea-color--success), black 10%);
-  --wpea-color--success-d-2:  color-mix(in oklab, var(--wpea-color--success), black 20%);
-  --wpea-color--success-d-3:  color-mix(in oklab, var(--wpea-color--success), black 30%);
-  --wpea-color--success-d-4:  color-mix(in oklab, var(--wpea-color--success), black 40%);
-  --wpea-color--success-d-5:  color-mix(in oklab, var(--wpea-color--success), black 50%);
-  --wpea-color--success-d-6:  color-mix(in oklab, var(--wpea-color--success), black 60%);
-  --wpea-color--success-d-7:  color-mix(in oklab, var(--wpea-color--success), black 70%);
-  --wpea-color--success-d-8:  color-mix(in oklab, var(--wpea-color--success), black 80%);
-  --wpea-color--success-d-9:  color-mix(in oklab, var(--wpea-color--success), black 90%);
-  --wpea-color--success-d-10: color-mix(in oklab, var(--wpea-color--success), black 100%);
+  --wpea-color--success-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 10%), color-mix(in oklab, var(--wpea-color--success), black 10%));
+  --wpea-color--success-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 20%), color-mix(in oklab, var(--wpea-color--success), black 20%));
+  --wpea-color--success-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 30%), color-mix(in oklab, var(--wpea-color--success), black 30%));
+  --wpea-color--success-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 40%), color-mix(in oklab, var(--wpea-color--success), black 40%));
+  --wpea-color--success-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 50%), color-mix(in oklab, var(--wpea-color--success), black 50%));
+  --wpea-color--success-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 60%), color-mix(in oklab, var(--wpea-color--success), black 60%));
+  --wpea-color--success-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 70%), color-mix(in oklab, var(--wpea-color--success), black 70%));
+  --wpea-color--success-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 80%), color-mix(in oklab, var(--wpea-color--success), black 80%));
+  --wpea-color--success-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--success), white 90%), color-mix(in oklab, var(--wpea-color--success), black 90%));
+  --wpea-color--success-l-10: light-dark(color-mix(in oklab, var(--wpea-color--success), white 100%), color-mix(in oklab, var(--wpea-color--success), black 100%));
+  --wpea-color--success-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 10%), color-mix(in oklab, var(--wpea-color--success), white 10%));
+  --wpea-color--success-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 20%), color-mix(in oklab, var(--wpea-color--success), white 20%));
+  --wpea-color--success-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 30%), color-mix(in oklab, var(--wpea-color--success), white 30%));
+  --wpea-color--success-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 40%), color-mix(in oklab, var(--wpea-color--success), white 40%));
+  --wpea-color--success-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 50%), color-mix(in oklab, var(--wpea-color--success), white 50%));
+  --wpea-color--success-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 60%), color-mix(in oklab, var(--wpea-color--success), white 60%));
+  --wpea-color--success-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 70%), color-mix(in oklab, var(--wpea-color--success), white 70%));
+  --wpea-color--success-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 80%), color-mix(in oklab, var(--wpea-color--success), white 80%));
+  --wpea-color--success-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--success), black 90%), color-mix(in oklab, var(--wpea-color--success), white 90%));
+  --wpea-color--success-d-10: light-dark(color-mix(in oklab, var(--wpea-color--success), black 100%), color-mix(in oklab, var(--wpea-color--success), white 100%));
   --wpea-color--success-t-10: color-mix(in oklab, var(--wpea-color--success), transparent 90%);
   --wpea-color--success-t-20: color-mix(in oklab, var(--wpea-color--success), transparent 80%);
   --wpea-color--success-t-30: color-mix(in oklab, var(--wpea-color--success), transparent 70%);
@@ -292,26 +297,26 @@
   /* ---------------------------------------------------------
      WARNING COLOR VARIANTS
      --------------------------------------------------------- */
-  --wpea-color--warning-l-1:  color-mix(in oklab, var(--wpea-color--warning), white 10%);
-  --wpea-color--warning-l-2:  color-mix(in oklab, var(--wpea-color--warning), white 20%);
-  --wpea-color--warning-l-3:  color-mix(in oklab, var(--wpea-color--warning), white 30%);
-  --wpea-color--warning-l-4:  color-mix(in oklab, var(--wpea-color--warning), white 40%);
-  --wpea-color--warning-l-5:  color-mix(in oklab, var(--wpea-color--warning), white 50%);
-  --wpea-color--warning-l-6:  color-mix(in oklab, var(--wpea-color--warning), white 60%);
-  --wpea-color--warning-l-7:  color-mix(in oklab, var(--wpea-color--warning), white 70%);
-  --wpea-color--warning-l-8:  color-mix(in oklab, var(--wpea-color--warning), white 80%);
-  --wpea-color--warning-l-9:  color-mix(in oklab, var(--wpea-color--warning), white 90%);
-  --wpea-color--warning-l-10: color-mix(in oklab, var(--wpea-color--warning), white 100%);
-  --wpea-color--warning-d-1:  color-mix(in oklab, var(--wpea-color--warning), black 10%);
-  --wpea-color--warning-d-2:  color-mix(in oklab, var(--wpea-color--warning), black 20%);
-  --wpea-color--warning-d-3:  color-mix(in oklab, var(--wpea-color--warning), black 30%);
-  --wpea-color--warning-d-4:  color-mix(in oklab, var(--wpea-color--warning), black 40%);
-  --wpea-color--warning-d-5:  color-mix(in oklab, var(--wpea-color--warning), black 50%);
-  --wpea-color--warning-d-6:  color-mix(in oklab, var(--wpea-color--warning), black 60%);
-  --wpea-color--warning-d-7:  color-mix(in oklab, var(--wpea-color--warning), black 70%);
-  --wpea-color--warning-d-8:  color-mix(in oklab, var(--wpea-color--warning), black 80%);
-  --wpea-color--warning-d-9:  color-mix(in oklab, var(--wpea-color--warning), black 90%);
-  --wpea-color--warning-d-10: color-mix(in oklab, var(--wpea-color--warning), black 100%);
+  --wpea-color--warning-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 10%), color-mix(in oklab, var(--wpea-color--warning), black 10%));
+  --wpea-color--warning-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 20%), color-mix(in oklab, var(--wpea-color--warning), black 20%));
+  --wpea-color--warning-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 30%), color-mix(in oklab, var(--wpea-color--warning), black 30%));
+  --wpea-color--warning-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 40%), color-mix(in oklab, var(--wpea-color--warning), black 40%));
+  --wpea-color--warning-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 50%), color-mix(in oklab, var(--wpea-color--warning), black 50%));
+  --wpea-color--warning-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 60%), color-mix(in oklab, var(--wpea-color--warning), black 60%));
+  --wpea-color--warning-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 70%), color-mix(in oklab, var(--wpea-color--warning), black 70%));
+  --wpea-color--warning-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 80%), color-mix(in oklab, var(--wpea-color--warning), black 80%));
+  --wpea-color--warning-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--warning), white 90%), color-mix(in oklab, var(--wpea-color--warning), black 90%));
+  --wpea-color--warning-l-10: light-dark(color-mix(in oklab, var(--wpea-color--warning), white 100%), color-mix(in oklab, var(--wpea-color--warning), black 100%));
+  --wpea-color--warning-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 10%), color-mix(in oklab, var(--wpea-color--warning), white 10%));
+  --wpea-color--warning-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 20%), color-mix(in oklab, var(--wpea-color--warning), white 20%));
+  --wpea-color--warning-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 30%), color-mix(in oklab, var(--wpea-color--warning), white 30%));
+  --wpea-color--warning-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 40%), color-mix(in oklab, var(--wpea-color--warning), white 40%));
+  --wpea-color--warning-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 50%), color-mix(in oklab, var(--wpea-color--warning), white 50%));
+  --wpea-color--warning-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 60%), color-mix(in oklab, var(--wpea-color--warning), white 60%));
+  --wpea-color--warning-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 70%), color-mix(in oklab, var(--wpea-color--warning), white 70%));
+  --wpea-color--warning-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 80%), color-mix(in oklab, var(--wpea-color--warning), white 80%));
+  --wpea-color--warning-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--warning), black 90%), color-mix(in oklab, var(--wpea-color--warning), white 90%));
+  --wpea-color--warning-d-10: light-dark(color-mix(in oklab, var(--wpea-color--warning), black 100%), color-mix(in oklab, var(--wpea-color--warning), white 100%));
   --wpea-color--warning-t-10: color-mix(in oklab, var(--wpea-color--warning), transparent 90%);
   --wpea-color--warning-t-20: color-mix(in oklab, var(--wpea-color--warning), transparent 80%);
   --wpea-color--warning-t-30: color-mix(in oklab, var(--wpea-color--warning), transparent 70%);
@@ -326,26 +331,26 @@
   /* ---------------------------------------------------------
      DANGER COLOR VARIANTS
      --------------------------------------------------------- */
-  --wpea-color--danger-l-1:  color-mix(in oklab, var(--wpea-color--danger), white 10%);
-  --wpea-color--danger-l-2:  color-mix(in oklab, var(--wpea-color--danger), white 20%);
-  --wpea-color--danger-l-3:  color-mix(in oklab, var(--wpea-color--danger), white 30%);
-  --wpea-color--danger-l-4:  color-mix(in oklab, var(--wpea-color--danger), white 40%);
-  --wpea-color--danger-l-5:  color-mix(in oklab, var(--wpea-color--danger), white 50%);
-  --wpea-color--danger-l-6:  color-mix(in oklab, var(--wpea-color--danger), white 60%);
-  --wpea-color--danger-l-7:  color-mix(in oklab, var(--wpea-color--danger), white 70%);
-  --wpea-color--danger-l-8:  color-mix(in oklab, var(--wpea-color--danger), white 80%);
-  --wpea-color--danger-l-9:  color-mix(in oklab, var(--wpea-color--danger), white 90%);
-  --wpea-color--danger-l-10: color-mix(in oklab, var(--wpea-color--danger), white 100%);
-  --wpea-color--danger-d-1:  color-mix(in oklab, var(--wpea-color--danger), black 10%);
-  --wpea-color--danger-d-2:  color-mix(in oklab, var(--wpea-color--danger), black 20%);
-  --wpea-color--danger-d-3:  color-mix(in oklab, var(--wpea-color--danger), black 30%);
-  --wpea-color--danger-d-4:  color-mix(in oklab, var(--wpea-color--danger), black 40%);
-  --wpea-color--danger-d-5:  color-mix(in oklab, var(--wpea-color--danger), black 50%);
-  --wpea-color--danger-d-6:  color-mix(in oklab, var(--wpea-color--danger), black 60%);
-  --wpea-color--danger-d-7:  color-mix(in oklab, var(--wpea-color--danger), black 70%);
-  --wpea-color--danger-d-8:  color-mix(in oklab, var(--wpea-color--danger), black 80%);
-  --wpea-color--danger-d-9:  color-mix(in oklab, var(--wpea-color--danger), black 90%);
-  --wpea-color--danger-d-10: color-mix(in oklab, var(--wpea-color--danger), black 100%);
+  --wpea-color--danger-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 10%), color-mix(in oklab, var(--wpea-color--danger), black 10%));
+  --wpea-color--danger-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 20%), color-mix(in oklab, var(--wpea-color--danger), black 20%));
+  --wpea-color--danger-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 30%), color-mix(in oklab, var(--wpea-color--danger), black 30%));
+  --wpea-color--danger-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 40%), color-mix(in oklab, var(--wpea-color--danger), black 40%));
+  --wpea-color--danger-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 50%), color-mix(in oklab, var(--wpea-color--danger), black 50%));
+  --wpea-color--danger-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 60%), color-mix(in oklab, var(--wpea-color--danger), black 60%));
+  --wpea-color--danger-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 70%), color-mix(in oklab, var(--wpea-color--danger), black 70%));
+  --wpea-color--danger-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 80%), color-mix(in oklab, var(--wpea-color--danger), black 80%));
+  --wpea-color--danger-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--danger), white 90%), color-mix(in oklab, var(--wpea-color--danger), black 90%));
+  --wpea-color--danger-l-10: light-dark(color-mix(in oklab, var(--wpea-color--danger), white 100%), color-mix(in oklab, var(--wpea-color--danger), black 100%));
+  --wpea-color--danger-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 10%), color-mix(in oklab, var(--wpea-color--danger), white 10%));
+  --wpea-color--danger-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 20%), color-mix(in oklab, var(--wpea-color--danger), white 20%));
+  --wpea-color--danger-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 30%), color-mix(in oklab, var(--wpea-color--danger), white 30%));
+  --wpea-color--danger-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 40%), color-mix(in oklab, var(--wpea-color--danger), white 40%));
+  --wpea-color--danger-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 50%), color-mix(in oklab, var(--wpea-color--danger), white 50%));
+  --wpea-color--danger-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 60%), color-mix(in oklab, var(--wpea-color--danger), white 60%));
+  --wpea-color--danger-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 70%), color-mix(in oklab, var(--wpea-color--danger), white 70%));
+  --wpea-color--danger-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 80%), color-mix(in oklab, var(--wpea-color--danger), white 80%));
+  --wpea-color--danger-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--danger), black 90%), color-mix(in oklab, var(--wpea-color--danger), white 90%));
+  --wpea-color--danger-d-10: light-dark(color-mix(in oklab, var(--wpea-color--danger), black 100%), color-mix(in oklab, var(--wpea-color--danger), white 100%));
   --wpea-color--danger-t-10: color-mix(in oklab, var(--wpea-color--danger), transparent 90%);
   --wpea-color--danger-t-20: color-mix(in oklab, var(--wpea-color--danger), transparent 80%);
   --wpea-color--danger-t-30: color-mix(in oklab, var(--wpea-color--danger), transparent 70%);
@@ -360,26 +365,26 @@
   /* ---------------------------------------------------------
      INFO COLOR VARIANTS
      --------------------------------------------------------- */
-  --wpea-color--info-l-1:  color-mix(in oklab, var(--wpea-color--info), white 10%);
-  --wpea-color--info-l-2:  color-mix(in oklab, var(--wpea-color--info), white 20%);
-  --wpea-color--info-l-3:  color-mix(in oklab, var(--wpea-color--info), white 30%);
-  --wpea-color--info-l-4:  color-mix(in oklab, var(--wpea-color--info), white 40%);
-  --wpea-color--info-l-5:  color-mix(in oklab, var(--wpea-color--info), white 50%);
-  --wpea-color--info-l-6:  color-mix(in oklab, var(--wpea-color--info), white 60%);
-  --wpea-color--info-l-7:  color-mix(in oklab, var(--wpea-color--info), white 70%);
-  --wpea-color--info-l-8:  color-mix(in oklab, var(--wpea-color--info), white 80%);
-  --wpea-color--info-l-9:  color-mix(in oklab, var(--wpea-color--info), white 90%);
-  --wpea-color--info-l-10: color-mix(in oklab, var(--wpea-color--info), white 100%);
-  --wpea-color--info-d-1:  color-mix(in oklab, var(--wpea-color--info), black 10%);
-  --wpea-color--info-d-2:  color-mix(in oklab, var(--wpea-color--info), black 20%);
-  --wpea-color--info-d-3:  color-mix(in oklab, var(--wpea-color--info), black 30%);
-  --wpea-color--info-d-4:  color-mix(in oklab, var(--wpea-color--info), black 40%);
-  --wpea-color--info-d-5:  color-mix(in oklab, var(--wpea-color--info), black 50%);
-  --wpea-color--info-d-6:  color-mix(in oklab, var(--wpea-color--info), black 60%);
-  --wpea-color--info-d-7:  color-mix(in oklab, var(--wpea-color--info), black 70%);
-  --wpea-color--info-d-8:  color-mix(in oklab, var(--wpea-color--info), black 80%);
-  --wpea-color--info-d-9:  color-mix(in oklab, var(--wpea-color--info), black 90%);
-  --wpea-color--info-d-10: color-mix(in oklab, var(--wpea-color--info), black 100%);
+  --wpea-color--info-l-1:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 10%), color-mix(in oklab, var(--wpea-color--info), black 10%));
+  --wpea-color--info-l-2:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 20%), color-mix(in oklab, var(--wpea-color--info), black 20%));
+  --wpea-color--info-l-3:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 30%), color-mix(in oklab, var(--wpea-color--info), black 30%));
+  --wpea-color--info-l-4:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 40%), color-mix(in oklab, var(--wpea-color--info), black 40%));
+  --wpea-color--info-l-5:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 50%), color-mix(in oklab, var(--wpea-color--info), black 50%));
+  --wpea-color--info-l-6:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 60%), color-mix(in oklab, var(--wpea-color--info), black 60%));
+  --wpea-color--info-l-7:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 70%), color-mix(in oklab, var(--wpea-color--info), black 70%));
+  --wpea-color--info-l-8:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 80%), color-mix(in oklab, var(--wpea-color--info), black 80%));
+  --wpea-color--info-l-9:  light-dark(color-mix(in oklab, var(--wpea-color--info), white 90%), color-mix(in oklab, var(--wpea-color--info), black 90%));
+  --wpea-color--info-l-10: light-dark(color-mix(in oklab, var(--wpea-color--info), white 100%), color-mix(in oklab, var(--wpea-color--info), black 100%));
+  --wpea-color--info-d-1:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 10%), color-mix(in oklab, var(--wpea-color--info), white 10%));
+  --wpea-color--info-d-2:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 20%), color-mix(in oklab, var(--wpea-color--info), white 20%));
+  --wpea-color--info-d-3:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 30%), color-mix(in oklab, var(--wpea-color--info), white 30%));
+  --wpea-color--info-d-4:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 40%), color-mix(in oklab, var(--wpea-color--info), white 40%));
+  --wpea-color--info-d-5:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 50%), color-mix(in oklab, var(--wpea-color--info), white 50%));
+  --wpea-color--info-d-6:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 60%), color-mix(in oklab, var(--wpea-color--info), white 60%));
+  --wpea-color--info-d-7:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 70%), color-mix(in oklab, var(--wpea-color--info), white 70%));
+  --wpea-color--info-d-8:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 80%), color-mix(in oklab, var(--wpea-color--info), white 80%));
+  --wpea-color--info-d-9:  light-dark(color-mix(in oklab, var(--wpea-color--info), black 90%), color-mix(in oklab, var(--wpea-color--info), white 90%));
+  --wpea-color--info-d-10: light-dark(color-mix(in oklab, var(--wpea-color--info), black 100%), color-mix(in oklab, var(--wpea-color--info), white 100%));
   --wpea-color--info-t-10: color-mix(in oklab, var(--wpea-color--info), transparent 90%);
   --wpea-color--info-t-20: color-mix(in oklab, var(--wpea-color--info), transparent 80%);
   --wpea-color--info-t-30: color-mix(in oklab, var(--wpea-color--info), transparent 70%);
@@ -393,14 +398,16 @@
 
   /* ---------------------------------------------------------
      DERIVED TEXT COLORS (from neutral variants)
+     Note: In dark mode, -d-* goes toward white (light text)
+           In light mode, -d-* goes toward black (dark text)
      --------------------------------------------------------- */
   --wpea-color--text: light-dark(
     var(--wpea-color--neutral-d-7),
-    var(--wpea-color--neutral-l-4)
+    var(--wpea-color--neutral-d-4)
   );
   --wpea-color--text-muted: light-dark(
     var(--wpea-color--neutral-d-2),
-    var(--wpea-color--neutral-l-1) 
+    var(--wpea-color--neutral-d-1)
   );
 
   /* ---------------------------------------------------------
@@ -408,7 +415,7 @@
      --------------------------------------------------------- */
   --wpea-color--heading: light-dark(
     var(--wpea-color--primary-d-3),
-    var(--wpea-color--primary-l-2)
+    var(--wpea-color--primary-d-2)
   );
   --wpea-color--heading1: var(--wpea-color--neutral);
   --wpea-color--heading2: var(--wpea-color--text);
@@ -418,44 +425,47 @@
 
   /* ---------------------------------------------------------
      SURFACE COLORS (using neutral variants)
+     Note: In dark mode, -l-* goes toward black (dark backgrounds)
+           In light mode, -l-* goes toward white (light backgrounds)
      --------------------------------------------------------- */
   --wpea-surface--bg: light-dark(
     var(--wpea-color--white),
-    var(--wpea-color--neutral-d-9)
+    var(--wpea-color--neutral-l-9)
   );
   --wpea-surface--muted: light-dark(
     var(--wpea-color--neutral-l-9),
-    var(--wpea-color--neutral-d-7)
+    var(--wpea-color--neutral-l-7)
   );
   --wpea-surface--panel: light-dark(
     var(--wpea-color--white),
-    var(--wpea-color--neutral-d-8)
+    var(--wpea-color--neutral-l-8)
   );
   --wpea-surface--border: light-dark(
     var(--wpea-color--neutral-l-8),
-    var(--wpea-color--neutral-d-7)
+    var(--wpea-color--neutral-l-7)
   );
   --wpea-surface--divider: light-dark(
     var(--wpea-color--neutral-l-7),
-    var(--wpea-color--neutral-d-5)
+    var(--wpea-color--neutral-l-5)
   );
   --wpea-surface--text: var(--wpea-color--text);
   --wpea-surface--text-muted: var(--wpea-color--text-muted);
 
   /* ---------------------------------------------------------
      ELEVATION SURFACES (using neutral variants)
+     Higher elevation = lighter in dark mode (toward panel)
      --------------------------------------------------------- */
   --wpea-surface--elev-1: light-dark(
     var(--wpea-color--neutral-l-9),
-    var(--wpea-color--neutral-d-8)
+    var(--wpea-color--neutral-l-8)
   );
   --wpea-surface--elev-2: light-dark(
     var(--wpea-color--neutral-l-8),
-    var(--wpea-color--neutral-d-7)
+    var(--wpea-color--neutral-l-7)
   );
   --wpea-surface--elev-3: light-dark(
     var(--wpea-color--neutral-l-7),
-    var(--wpea-color--neutral-d-6)
+    var(--wpea-color--neutral-l-6)
   );
 
   /* ---------------------------------------------------------
@@ -463,23 +473,23 @@
      --------------------------------------------------------- */
   --wpea-input--bg: light-dark(
     var(--wpea-color--white),
-    var(--wpea-color--neutral-d-9)
+    var(--wpea-color--neutral-l-9)
   );
   --wpea-input--bg-hover: light-dark(
     var(--wpea-color--neutral-l-10),
-    var(--wpea-color--neutral-d-8)
+    var(--wpea-color--neutral-l-8)
   );
   --wpea-input--bg-focus: light-dark(
     var(--wpea-color--white),
-    var(--wpea-color--neutral-d-10)
+    var(--wpea-color--neutral-l-10)
   );
   --wpea-input--border: light-dark(
     var(--wpea-color--neutral-l-7),
-    var(--wpea-color--neutral-d-6)
+    var(--wpea-color--neutral-l-6)
   );
   --wpea-input--border-hover: light-dark(
     var(--wpea-color--neutral-l-5),
-    var(--wpea-color--neutral-d-4)
+    var(--wpea-color--neutral-l-4)
   );
   --wpea-input--border-focus: light-dark(
     var(--wpea-color--primary-light),
@@ -487,7 +497,7 @@
   );
   --wpea-input--placeholder: light-dark(
     var(--wpea-color--neutral-l-4),
-    var(--wpea-color--neutral-d-3)
+    var(--wpea-color--neutral-l-3)
   );
 
   /* ---------------------------------------------------------
@@ -495,7 +505,7 @@
      --------------------------------------------------------- */
   --wpea-select-option--bg: light-dark(
     var(--wpea-color--white),
-    var(--wpea-color--neutral-d-9)
+    var(--wpea-color--neutral-l-9)
   );
 
   /* ---------------------------------------------------------
@@ -503,14 +513,14 @@
      --------------------------------------------------------- */
   --wpea-popover--bg: light-dark(
     var(--wpea-color--white),
-    var(--wpea-color--neutral-d-7)
+    var(--wpea-color--neutral-l-7)
   );
   --wpea-popover--text: light-dark(
     var(--wpea-color--neutral-d-9),
-    var(--wpea-color--neutral-l-8)
+    var(--wpea-color--neutral-d-8)
   );
   --wpea-popover--border: light-dark(
     var(--wpea-color--neutral-l-7),
-    var(--wpea-color--neutral-d-5)
+    var(--wpea-color--neutral-l-5)
   );
 }

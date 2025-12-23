@@ -877,7 +877,7 @@
     border-radius: 3px;
     background: light-dark(
       var(--wpea-color--neutral-l-7),
-      var(--wpea-color--neutral-d-5)
+      var(--wpea-color--neutral-l-5)
     );
   }
 
@@ -886,7 +886,7 @@
     border-radius: 3px;
     background: light-dark(
       var(--wpea-color--neutral-l-7),
-      var(--wpea-color--neutral-d-5)
+      var(--wpea-color--neutral-l-5)
     );
   }
 

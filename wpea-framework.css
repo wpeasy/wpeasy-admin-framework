@@ -1424,8 +1424,9 @@
     --_bg-hover: var(--wpea-color--neutral-d-2);
     --_fg: var(--wpea-color--white);
     --_shadow: var(--wpea-shadow--s);
-  
+
     display:inline-flex; align-items:center; justify-content:center; gap:.6em;
+    width: fit-content;
     font-size: var(--wpea-text--md);
     padding-block: calc(var(--wpea-space--sm) * .6);
     padding-inline: var(--wpea-space--md);
@@ -1460,7 +1461,7 @@
   }
   .wpea-table th, .wpea-table td { padding-block: .75rem; padding-inline: 1rem; border-block-start: 1px solid var(--wpea-surface--divider); }
   .wpea-table thead th { background: var(--wpea-surface--muted); text-align:left; font-weight:600; }
-  .wpea-table--striped tbody tr:nth-child(odd) { background: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-d-6)); }
+  .wpea-table--striped tbody tr:nth-child(odd) { background: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-l-6)); }
   .wpea-table--striped tbody tr:nth-child(even) { background: transparent; }
 
   /* Alerts */

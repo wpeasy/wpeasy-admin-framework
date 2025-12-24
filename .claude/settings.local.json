@@ -17,7 +17,8 @@
       "Bash(copy:*)",
       "Bash(npm install:*)",
       "Bash(grep:*)",
-      "Bash(move \"C:\\\\Users\\\\Alan.Blair\\\\LIBRARIES\\\\wpeasy-admin-framework\\\\svelte-app\\\\src\\\\lib\\\\IconSun.svelte\" \"C:\\\\Users\\\\Alan.Blair\\\\LIBRARIES\\\\wpeasy-admin-framework\\\\svelte-app\\\\src\\\\lib\\\\Icons\"\" && move \"C:UsersAlan.BlairLIBRARIESwpeasy-admin-frameworksvelte-appsrclibIconMoon.svelte\" \"C:UsersAlan.BlairLIBRARIESwpeasy-admin-frameworksvelte-appsrclibIcons\"\")"
+      "Bash(move \"C:\\\\Users\\\\Alan.Blair\\\\LIBRARIES\\\\wpeasy-admin-framework\\\\svelte-app\\\\src\\\\lib\\\\IconSun.svelte\" \"C:\\\\Users\\\\Alan.Blair\\\\LIBRARIES\\\\wpeasy-admin-framework\\\\svelte-app\\\\src\\\\lib\\\\Icons\"\" && move \"C:UsersAlan.BlairLIBRARIESwpeasy-admin-frameworksvelte-appsrclibIconMoon.svelte\" \"C:UsersAlan.BlairLIBRARIESwpeasy-admin-frameworksvelte-appsrclibIcons\"\")",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { ButtonVariant, Size } from './types';
+  import type { ButtonVariant, Size } from '../types';
 
   type Props = {
     variant?: ButtonVariant;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ColorVariant } from './types';
+  import type { ColorVariant } from '../types';
 
   type Option = {
     value: string;

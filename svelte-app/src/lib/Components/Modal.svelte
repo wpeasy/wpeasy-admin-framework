@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
   import { fade } from 'svelte/transition';
-  import { modalSlideUp } from './transitions';
+  import { modalSlideUp } from '../transitions';
 
   type Props = {
     open?: boolean;

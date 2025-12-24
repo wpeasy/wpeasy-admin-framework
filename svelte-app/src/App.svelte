@@ -2,31 +2,33 @@
   import { createRawSnippet } from 'svelte';
 
   // Component imports
-  import Alert from './lib/Alert.svelte';
-  import Badge from './lib/Badge.svelte';
-  import Button from './lib/Button.svelte';
-  import Card from './lib/Card.svelte';
-  import Switch from './lib/Switch.svelte';
-  import Input from './lib/Input.svelte';
-  import NumberInput from './lib/NumberInput.svelte';
-  import Select from './lib/Select.svelte';
-  import Textarea from './lib/Textarea.svelte';
-  import Radio from './lib/Radio.svelte';
-  import Range from './lib/Range.svelte';
-  import MultiSelect from './lib/MultiSelect.svelte';
-  import AdvancedSelect from './lib/AdvancedSelect.svelte';
-  import Panel from './lib/Panel.svelte';
-  import Tabs from './lib/Tabs.svelte';
-  import VerticalTabs from './lib/VerticalTabs.svelte';
-  import Accordion from './lib/Accordion.svelte';
-  import Table from './lib/Table.svelte';
-  import Stack from './lib/Stack.svelte';
-  import Cluster from './lib/Cluster.svelte';
-  import Modal from './lib/Modal.svelte';
-  import Toggle3State from './lib/Toggle3State.svelte';
-  import DoubleOptInButton from './lib/DoubleOptInButton.svelte';
-  import Popover from './lib/Popover.svelte';
-  import FrameworkSettings from './lib/FrameworkSettings.svelte';
+  import {
+    Alert,
+    Badge,
+    Button,
+    Card,
+    Switch,
+    Input,
+    NumberInput,
+    Select,
+    Textarea,
+    Radio,
+    Range,
+    MultiSelect,
+    AdvancedSelect,
+    Panel,
+    Tabs,
+    VerticalTabs,
+    Accordion,
+    Table,
+    Stack,
+    Cluster,
+    Modal,
+    Toggle3State,
+    DoubleOptInButton,
+    Popover,
+    FrameworkSettings
+  } from './lib';
 
   // State and constants
   import {
@@ -1227,6 +1229,16 @@
           <div class="component-panel">
             <div class="component-panel__demo">
               <Table columns={tableColumns} data={tableData}>
+                {#snippet thead()}
+                  <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th class="wpea-hide-md-down">Date</th>
+                    <th></th>
+                  </tr>
+                {/snippet}
                 {#snippet tbody()}
                   {#each tableData as row}
                     <tr>
@@ -1265,10 +1277,20 @@
           </div>
         </Card>
 
-        <Card title="Striped Table">
+        <Card title="Table with props">
           <div class="component-panel">
             <div class="component-panel__demo">
-              <Table columns={tableColumns} data={tableData} striped={true}>
+              <Table columns={tableColumns} data={tableData} striped hover>
+                {#snippet thead()}
+                  <tr>
+                    <th>Order</th>
+                    <th>Customer</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                    <th class="wpea-hide-md-down">Date</th>
+                    <th></th>
+                  </tr>
+                {/snippet}
                 {#snippet tbody()}
                   {#each tableData as row}
                     <tr>
@@ -1287,18 +1309,20 @@
             </div>
             <div class="component-panel__info">
               <div class="component-panel__notes">
-                Add <code>striped</code> prop (or <code>.wpea-table--striped</code> class) for alternating row backgrounds. Improves readability for tables with many rows.
+                Use <code>striped</code> for alternating row backgrounds and <code>hover</code> for row highlight on mouse over. Props can be combined.
               </div>
               <table class="component-panel__table">
                 <thead>
                   <tr>
-                    <th>Class</th>
+                    <th>Prop / Class</th>
                     <th>Description</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr><td><code>.wpea-table--striped</code></td><td>Alternating row colors</td></tr>
-                  <tr><td><code>striped={true}</code></td><td>Svelte component prop</td></tr>
+                  <tr><td><code>striped</code></td><td>Alternating row colors</td></tr>
+                  <tr><td><code>hover</code></td><td>Highlight row on hover</td></tr>
+                  <tr><td><code>.wpea-table--striped</code></td><td>CSS class for striped</td></tr>
+                  <tr><td><code>.wpea-table--hover</code></td><td>CSS class for hover</td></tr>
                 </tbody>
               </table>
             </div>

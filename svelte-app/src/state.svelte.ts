@@ -1,6 +1,6 @@
 import { createRawSnippet } from 'svelte';
-import type { AdvancedSelectOption } from './lib/AdvancedSelect.svelte';
-import { defaultFrameworkSettings, type FrameworkDisplaySettings } from './lib/FrameworkSettings.svelte';
+import { defaultFrameworkSettings } from './lib';
+import type { FrameworkDisplaySettings, AdvancedSelectOption } from './lib';
 
 // =============================================================================
 // App State Object - wrapping $state in an object makes it importable/mutable

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Size, ColorVariant } from './types';
+  import type { Size, ColorVariant } from '../types';
 
   type Props = {
     checked?: boolean;

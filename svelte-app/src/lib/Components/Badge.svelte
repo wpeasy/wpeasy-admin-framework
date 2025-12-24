@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-  import type { ColorVariant } from './types';
+  import type { ColorVariant } from '../types';
 
   type Props = {
     variant?: ColorVariant;

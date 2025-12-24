@@ -4,6 +4,8 @@
     compact_mode: boolean;
     compact_multiplier: number;
     theme_mode: 'light' | 'dark' | 'system';
+    // Application
+    app_max_width: string;
     // Spacing
     space_base: number;
     space_scale: number;
@@ -36,6 +38,7 @@
     compact_mode: false,
     compact_multiplier: 0.7,
     theme_mode: 'system',
+    app_max_width: '2000px',
     space_base: 8,
     space_scale: 1.5,
     font_base: 13,
@@ -65,7 +68,11 @@
   import Toggle3State from './Toggle3State.svelte';
   import DoubleOptInButton from './DoubleOptInButton.svelte';
   import Card from './Card.svelte';
+  import Input from './Input.svelte';
   import NumberInput from './NumberInput.svelte';
+  import Button from './Button.svelte';
+  import IconSun from '../Icons/IconSun.svelte';
+  import IconMoon from '../Icons/IconMoon.svelte';
 
   type Props = {
     settings?: FrameworkDisplaySettings;
@@ -81,8 +88,11 @@
     style
   }: Props = $props();
 
-  // Local slider state for live preview without triggering save during drag
+  // Draft state for live preview (only affects Preview card)
   let sliderState = $state({
+    compact_mode: settings.compact_mode,
+    compact_multiplier: settings.compact_multiplier,
+    app_max_width: settings.app_max_width,
     space_base: settings.space_base,
     space_scale: settings.space_scale,
     font_base: settings.font_base,
@@ -91,15 +101,110 @@
     radius_scale: settings.radius_scale,
   });
 
-  // Sync slider state when settings changes externally
-  $effect(() => {
-    sliderState.space_base = settings.space_base;
-    sliderState.space_scale = settings.space_scale;
-    sliderState.font_base = settings.font_base;
-    sliderState.type_scale = settings.type_scale;
-    sliderState.radius_base = settings.radius_base;
-    sliderState.radius_scale = settings.radius_scale;
+  // Published state (what's currently applied to the app)
+  let publishedState = $state({
+    compact_mode: settings.compact_mode,
+    compact_multiplier: settings.compact_multiplier,
+    app_max_width: settings.app_max_width,
+    space_base: settings.space_base,
+    space_scale: settings.space_scale,
+    font_base: settings.font_base,
+    type_scale: settings.type_scale,
+    radius_base: settings.radius_base,
+    radius_scale: settings.radius_scale,
   });
+
+  // Check if draft differs from published
+  const hasSpacingChanges = $derived(
+    sliderState.compact_mode !== publishedState.compact_mode ||
+    sliderState.compact_multiplier !== publishedState.compact_multiplier ||
+    sliderState.app_max_width !== publishedState.app_max_width ||
+    sliderState.space_base !== publishedState.space_base ||
+    sliderState.space_scale !== publishedState.space_scale ||
+    sliderState.font_base !== publishedState.font_base ||
+    sliderState.type_scale !== publishedState.type_scale ||
+    sliderState.radius_base !== publishedState.radius_base ||
+    sliderState.radius_scale !== publishedState.radius_scale
+  );
+
+  // Generate CSS override variables (uses framework's override pattern)
+  // Must also re-declare base variables so they pick up local overrides
+  function generateOverrideCSS(state: typeof sliderState) {
+    // Apply compact multiplier to spacing if compact mode is enabled
+    const compactMult = state.compact_mode ? ` * ${state.compact_multiplier}` : '';
+
+    return `
+      /* Override variables */
+      --wpea-app-max-width-override: ${state.app_max_width};
+      --wpea-space-base-override: ${state.space_base}px;
+      --wpea-space-scale-override: ${state.space_scale};
+      --wpea-space-compact-override: ${state.compact_multiplier};
+      --wpea-fs-base-override: ${state.font_base}px;
+      --wpea-type-scale-override: ${state.type_scale};
+      --wpea-radius-base-override: ${state.radius_base}px;
+      --wpea-radius-scale-override: ${state.radius_scale};
+
+      /* Re-declare base variables to pick up local overrides */
+      --wpea-app-max-width: var(--wpea-app-max-width-override, 2000px);
+      --wpea-space-base: var(--wpea-space-base-override, 8px);
+      --wpea-space-scale: var(--wpea-space-scale-override, 1.5);
+      --wpea-space-compact: var(--wpea-space-compact-override, 0.7);
+      --wpea-fs-base: var(--wpea-fs-base-override, 13px);
+      --wpea-type-scale: var(--wpea-type-scale-override, 1.2);
+      --wpea-radius-base: var(--wpea-radius-base-override, 6px);
+      --wpea-radius-scale: var(--wpea-radius-scale-override, 1.67);
+
+      /* Re-declare computed spacing values (with compact multiplier if enabled) */
+      --wpea-space--xs: calc(var(--wpea-space-base) / 2${compactMult});
+      --wpea-space--sm: calc(var(--wpea-space-base)${compactMult});
+      --wpea-space--md: calc(var(--wpea-space-base) * var(--wpea-space-scale)${compactMult});
+      --wpea-space--lg: calc(var(--wpea-space--md) * var(--wpea-space-scale));
+      --wpea-space--xl: calc(var(--wpea-space--lg) * var(--wpea-space-scale));
+      --wpea-space--2xl: calc(var(--wpea-space--xl) * var(--wpea-space-scale));
+      --wpea-space--3xl: calc(var(--wpea-space--2xl) * var(--wpea-space-scale));
+      --wpea-space--4xl: calc(var(--wpea-space--3xl) * var(--wpea-space-scale));
+
+      /* Re-declare computed typography values */
+      --wpea-text--xs: calc(var(--wpea-fs-base) / var(--wpea-type-scale));
+      --wpea-text--sm: var(--wpea-fs-base);
+      --wpea-text--md: calc(var(--wpea-fs-base) * var(--wpea-type-scale));
+      --wpea-text--lg: calc(var(--wpea-text--md) * var(--wpea-type-scale));
+      --wpea-text--xl: calc(var(--wpea-text--lg) * var(--wpea-type-scale));
+      --wpea-text--2xl: calc(var(--wpea-text--xl) * var(--wpea-type-scale));
+      --wpea-text--3xl: calc(var(--wpea-text--2xl) * var(--wpea-type-scale));
+      --wpea-text--4xl: calc(var(--wpea-text--3xl) * var(--wpea-type-scale));
+
+      /* Re-declare computed radius values */
+      --wpea-radius--sm: var(--wpea-radius-base);
+      --wpea-radius--md: calc(var(--wpea-radius-base) * var(--wpea-radius-scale));
+      --wpea-radius--lg: calc(var(--wpea-radius--md) * var(--wpea-radius-scale));
+    `;
+  }
+
+  // Apply draft to published and update html
+  function applySpacingChanges() {
+    publishedState.compact_mode = sliderState.compact_mode;
+    publishedState.compact_multiplier = sliderState.compact_multiplier;
+    publishedState.app_max_width = sliderState.app_max_width;
+    publishedState.space_base = sliderState.space_base;
+    publishedState.space_scale = sliderState.space_scale;
+    publishedState.font_base = sliderState.font_base;
+    publishedState.type_scale = sliderState.type_scale;
+    publishedState.radius_base = sliderState.radius_base;
+    publishedState.radius_scale = sliderState.radius_scale;
+
+    // Also update the settings for persistence
+    settings.compact_mode = sliderState.compact_mode;
+    settings.compact_multiplier = sliderState.compact_multiplier;
+    settings.app_max_width = sliderState.app_max_width;
+    settings.space_base = sliderState.space_base;
+    settings.space_scale = sliderState.space_scale;
+    settings.font_base = sliderState.font_base;
+    settings.type_scale = sliderState.type_scale;
+    settings.radius_base = sliderState.radius_base;
+    settings.radius_scale = sliderState.radius_scale;
+    notifyChange();
+  }
 
   // Track which color picker is open
   let colorPickerStates = $state<Record<string, boolean>>({
@@ -134,9 +239,9 @@
     }
   }
 
-  // Apply compact mode via class (works with .wpea-compact CSS rules)
+  // Apply compact mode via class - only for published state
   $effect(() => {
-    if (settings.compact_mode) {
+    if (publishedState.compact_mode) {
       document.body.classList.add('wpea-compact');
     } else {
       document.body.classList.remove('wpea-compact');
@@ -175,32 +280,50 @@
     root.style.setProperty('--wpea-color--info-dark-override', settings.info_dark);
   });
 
-  // Apply spacing, typography, and radius overrides via style element
-  let styleElement: HTMLStyleElement | null = null;
+  // Apply published state to html (the entire app)
+  let publishedStyleElement: HTMLStyleElement | null = null;
 
   $effect(() => {
-    if (!styleElement) {
-      styleElement = document.createElement('style');
-      styleElement.id = 'wpea-framework-settings-overrides';
-      document.head.appendChild(styleElement);
+    if (!publishedStyleElement) {
+      publishedStyleElement = document.createElement('style');
+      publishedStyleElement.id = 'wpea-framework-settings-published';
+      document.head.appendChild(publishedStyleElement);
     }
 
-    styleElement.textContent = `
-      :root {
-        --wpea-space-base: ${sliderState.space_base}px !important;
-        --wpea-space-scale: ${sliderState.space_scale} !important;
-        --wpea-space-compact: ${settings.compact_multiplier} !important;
-        --wpea-fs-base: ${sliderState.font_base}px !important;
-        --wpea-type-scale: ${sliderState.type_scale} !important;
-        --wpea-radius-base: ${sliderState.radius_base}px !important;
-        --wpea-radius-scale: ${sliderState.radius_scale} !important;
+    publishedStyleElement.textContent = `
+      html {
+        ${generateOverrideCSS(publishedState)}
       }
     `;
 
     return () => {
-      if (styleElement) {
-        styleElement.remove();
-        styleElement = null;
+      if (publishedStyleElement) {
+        publishedStyleElement.remove();
+        publishedStyleElement = null;
+      }
+    };
+  });
+
+  // Apply draft state to preview container only
+  let previewStyleElement: HTMLStyleElement | null = null;
+
+  $effect(() => {
+    if (!previewStyleElement) {
+      previewStyleElement = document.createElement('style');
+      previewStyleElement.id = 'wpea-framework-settings-preview';
+      document.head.appendChild(previewStyleElement);
+    }
+
+    previewStyleElement.textContent = `
+      .wpea-framework-settings__preview-container {
+        ${generateOverrideCSS(sliderState)}
+      }
+    `;
+
+    return () => {
+      if (previewStyleElement) {
+        previewStyleElement.remove();
+        previewStyleElement = null;
       }
     };
   });
@@ -212,6 +335,7 @@
 
   // Reset all settings to defaults
   function resetAllToDefaults() {
+    // Reset colors
     settings.primary_light = defaultFrameworkSettings.primary_light;
     settings.primary_dark = defaultFrameworkSettings.primary_dark;
     settings.secondary_light = defaultFrameworkSettings.secondary_light;
@@ -226,25 +350,53 @@
     settings.danger_dark = defaultFrameworkSettings.danger_dark;
     settings.info_light = defaultFrameworkSettings.info_light;
     settings.info_dark = defaultFrameworkSettings.info_dark;
+
+    // Reset spacing/typography settings
+    settings.compact_mode = defaultFrameworkSettings.compact_mode;
+    settings.compact_multiplier = defaultFrameworkSettings.compact_multiplier;
+    settings.app_max_width = defaultFrameworkSettings.app_max_width;
     settings.space_base = defaultFrameworkSettings.space_base;
     settings.space_scale = defaultFrameworkSettings.space_scale;
     settings.font_base = defaultFrameworkSettings.font_base;
     settings.type_scale = defaultFrameworkSettings.type_scale;
     settings.radius_base = defaultFrameworkSettings.radius_base;
     settings.radius_scale = defaultFrameworkSettings.radius_scale;
+
+    // Reset draft state
+    sliderState.compact_mode = defaultFrameworkSettings.compact_mode;
+    sliderState.compact_multiplier = defaultFrameworkSettings.compact_multiplier;
+    sliderState.app_max_width = defaultFrameworkSettings.app_max_width;
+    sliderState.space_base = defaultFrameworkSettings.space_base;
+    sliderState.space_scale = defaultFrameworkSettings.space_scale;
+    sliderState.font_base = defaultFrameworkSettings.font_base;
+    sliderState.type_scale = defaultFrameworkSettings.type_scale;
+    sliderState.radius_base = defaultFrameworkSettings.radius_base;
+    sliderState.radius_scale = defaultFrameworkSettings.radius_scale;
+
+    // Reset published state
+    publishedState.compact_mode = defaultFrameworkSettings.compact_mode;
+    publishedState.compact_multiplier = defaultFrameworkSettings.compact_multiplier;
+    publishedState.app_max_width = defaultFrameworkSettings.app_max_width;
+    publishedState.space_base = defaultFrameworkSettings.space_base;
+    publishedState.space_scale = defaultFrameworkSettings.space_scale;
+    publishedState.font_base = defaultFrameworkSettings.font_base;
+    publishedState.type_scale = defaultFrameworkSettings.type_scale;
+    publishedState.radius_base = defaultFrameworkSettings.radius_base;
+    publishedState.radius_scale = defaultFrameworkSettings.radius_scale;
+
     notifyChange();
   }
 
-  // Computed spacing values (affected by compact mode)
+  // Computed spacing values (affected by compact mode - uses draft state)
   const computedSpacing = $derived({
-    xs: settings.compact_mode
-      ? (sliderState.space_base / 2 * settings.compact_multiplier).toFixed(1)
+    xs: sliderState.compact_mode
+      ? (sliderState.space_base / 2 * sliderState.compact_multiplier).toFixed(1)
       : (sliderState.space_base / 2).toFixed(1),
-    sm: settings.compact_mode
-      ? (sliderState.space_base * settings.compact_multiplier).toFixed(1)
+    sm: sliderState.compact_mode
+      ? (sliderState.space_base * sliderState.compact_multiplier).toFixed(1)
       : sliderState.space_base.toFixed(1),
-    md: settings.compact_mode
-      ? (sliderState.space_base * sliderState.space_scale * settings.compact_multiplier).toFixed(1)
+    md: sliderState.compact_mode
+      ? (sliderState.space_base * sliderState.space_scale * sliderState.compact_multiplier).toFixed(1)
       : (sliderState.space_base * sliderState.space_scale).toFixed(1),
   });
 
@@ -307,7 +459,7 @@
             { value: 'system', label: 'System' },
             { value: 'dark', label: 'Dark' }
           ]}
-          onChange={(val) => applyThemeMode(val as 'light' | 'dark' | 'system')}
+          onChange={(val) => { applyThemeMode(val as 'light' | 'dark' | 'system'); notifyChange(); }}
           ariaLabel="Theme mode selection"
         />
         <small class="wpea-help">Choose the color theme for the admin interface.</small>
@@ -325,7 +477,12 @@
                 <span class="wpea-framework-settings__color-label">{color.label}</span>
                 <div class="wpea-framework-settings__color-swatches">
                   <div class="wpea-framework-settings__color-swatch-group">
-                    <span class="wpea-framework-settings__swatch-label">Light</span>
+                    <button
+                      type="button"
+                      class="wpea-framework-settings__swatch-label"
+                      title="Light mode"
+                      onclick={() => colorPickerStates[`${color.key}_light`] = true}
+                    ><IconSun size={14} /></button>
                     <ColorPicker
                       hex={getColor(color.key, 'light')}
                       bind:isOpen={colorPickerStates[`${color.key}_light`]}
@@ -337,7 +494,12 @@
                     />
                   </div>
                   <div class="wpea-framework-settings__color-swatch-group">
-                    <span class="wpea-framework-settings__swatch-label">Dark</span>
+                    <button
+                      type="button"
+                      class="wpea-framework-settings__swatch-label"
+                      title="Dark mode"
+                      onclick={() => colorPickerStates[`${color.key}_dark`] = true}
+                    ><IconMoon size={14} /></button>
                     <ColorPicker
                       hex={getColor(color.key, 'dark')}
                       bind:isOpen={colorPickerStates[`${color.key}_dark`]}
@@ -362,7 +524,12 @@
                 <span class="wpea-framework-settings__color-label">{color.label}</span>
                 <div class="wpea-framework-settings__color-swatches">
                   <div class="wpea-framework-settings__color-swatch-group">
-                    <span class="wpea-framework-settings__swatch-label">Light</span>
+                    <button
+                      type="button"
+                      class="wpea-framework-settings__swatch-label"
+                      title="Light mode"
+                      onclick={() => colorPickerStates[`${color.key}_light`] = true}
+                    ><IconSun size={14} /></button>
                     <ColorPicker
                       hex={getColor(color.key, 'light')}
                       bind:isOpen={colorPickerStates[`${color.key}_light`]}
@@ -374,7 +541,12 @@
                     />
                   </div>
                   <div class="wpea-framework-settings__color-swatch-group">
-                    <span class="wpea-framework-settings__swatch-label">Dark</span>
+                    <button
+                      type="button"
+                      class="wpea-framework-settings__swatch-label"
+                      title="Dark mode"
+                      onclick={() => colorPickerStates[`${color.key}_dark`] = true}
+                    ><IconMoon size={14} /></button>
                     <ColorPicker
                       hex={getColor(color.key, 'dark')}
                       bind:isOpen={colorPickerStates[`${color.key}_dark`]}
@@ -395,27 +567,44 @@
   </div>
 
   <!-- Spacing & Typography Card (full width) -->
-  <Card title="Spacing & Typography" subtitle="Adjust the spacing and typography scale">
-    <!-- Compact Mode Row (full width) -->
+  <Card title="Spacing & Typography" subtitle="Changes preview below. Click Apply to update the app.">
+    {#snippet actions()}
+      <Button
+        variant={hasSpacingChanges ? 'primary' : 'ghost'}
+        size="s"
+        disabled={!hasSpacingChanges}
+        onclick={applySpacingChanges}
+      >
+        Apply
+      </Button>
+    {/snippet}
+    <!-- Settings Row (full width) -->
     <div class="wpea-framework-settings__compact-row">
       <Switch
         id="compact_mode"
-        bind:checked={settings.compact_mode}
+        bind:checked={sliderState.compact_mode}
         label="Compact Mode"
       />
-      {#if settings.compact_mode}
+      {#if sliderState.compact_mode}
         <div class="wpea-framework-settings__compact-multiplier">
           <span class="wpea-framework-settings__compact-multiplier-label">Multiplier</span>
           <NumberInput
-            bind:value={settings.compact_multiplier}
+            bind:value={sliderState.compact_multiplier}
             min={0.5}
             max={0.9}
             step={0.05}
             size="s"
-            onchange={() => notifyChange()}
           />
         </div>
       {/if}
+      <div class="wpea-framework-settings__max-width">
+        <span class="wpea-framework-settings__max-width-label">Max Width</span>
+        <Input
+          bind:value={sliderState.app_max_width}
+          size="s"
+          style="width: 100px;"
+        />
+      </div>
     </div>
 
     <div class="wpea-framework-settings__layout-split">
@@ -434,11 +623,10 @@
               step="1"
               value={sliderState.space_base}
               oninput={(e) => sliderState.space_base = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.space_base = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">
-              {#if settings.compact_mode}
-                {(sliderState.space_base * settings.compact_multiplier).toFixed(1)}px
+              {#if sliderState.compact_mode}
+                {(sliderState.space_base * sliderState.compact_multiplier).toFixed(1)}px
               {:else}
                 {sliderState.space_base}px
               {/if}
@@ -459,7 +647,6 @@
               step="0.1"
               value={sliderState.space_scale}
               oninput={(e) => sliderState.space_scale = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.space_scale = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">{sliderState.space_scale.toFixed(1)}</span>
           </div>
@@ -478,7 +665,6 @@
               step="1"
               value={sliderState.radius_base}
               oninput={(e) => sliderState.radius_base = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.radius_base = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">{sliderState.radius_base}px</span>
           </div>
@@ -497,7 +683,6 @@
               step="0.1"
               value={sliderState.radius_scale}
               oninput={(e) => sliderState.radius_scale = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.radius_scale = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">{sliderState.radius_scale.toFixed(2)}</span>
           </div>
@@ -519,7 +704,6 @@
               step="1"
               value={sliderState.font_base}
               oninput={(e) => sliderState.font_base = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.font_base = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">{sliderState.font_base}px</span>
           </div>
@@ -538,7 +722,6 @@
               step="0.05"
               value={sliderState.type_scale}
               oninput={(e) => sliderState.type_scale = Number((e.target as HTMLInputElement).value)}
-              onchange={(e) => { settings.type_scale = Number((e.target as HTMLInputElement).value); notifyChange(); }}
             />
             <span class="wpea-framework-settings__layout-value">{sliderState.type_scale.toFixed(2)}</span>
           </div>
@@ -550,14 +733,15 @@
   <!-- Preview Card (full width) -->
   <Card title="Preview" subtitle="Live preview of your settings">
     <div class="wpea-framework-settings__preview-split">
-      <!-- Left Column: Samples -->
-      <div class="wpea-framework-settings__preview-samples">
+      <!-- Left Column: Samples (uses draft/preview styles) -->
+      <div class="wpea-framework-settings__preview-samples wpea-framework-settings__preview-container">
         <div class="wpea-framework-settings__preview-section">
           <span class="wpea-framework-settings__preview-label">Typography</span>
           <div class="wpea-framework-settings__preview-typography">
             <h1 class="wpea-framework-settings__preview-h1">Heading 1</h1>
             <h2 class="wpea-framework-settings__preview-h2">Heading 2</h2>
             <h3 class="wpea-framework-settings__preview-h3">Heading 3</h3>
+            <h4 class="wpea-framework-settings__preview-h4">Heading 4</h4>
           </div>
         </div>
 
@@ -569,6 +753,9 @@
             <div class="wpea-framework-settings__spacing-bar wpea-framework-settings__spacing-bar--md"><span>md</span></div>
             <div class="wpea-framework-settings__spacing-bar wpea-framework-settings__spacing-bar--lg"><span>lg</span></div>
             <div class="wpea-framework-settings__spacing-bar wpea-framework-settings__spacing-bar--xl"><span>xl</span></div>
+            <div class="wpea-framework-settings__spacing-bar wpea-framework-settings__spacing-bar--2xl"><span>2xl</span></div>
+            <div class="wpea-framework-settings__spacing-bar wpea-framework-settings__spacing-bar--3xl"><span>3xl</span></div>
+            <div class="wpea-framework-settings__spacing-bar wpea-framework-settings__spacing-bar--4xl"><span>4xl</span></div>
           </div>
         </div>
 
@@ -713,6 +900,18 @@
     color: var(--wpea-surface--text-muted);
   }
 
+  .wpea-framework-settings__max-width {
+    display: flex;
+    align-items: center;
+    gap: var(--wpea-space--sm);
+    margin-left: auto;
+  }
+
+  .wpea-framework-settings__max-width-label {
+    font-size: var(--wpea-text--sm);
+    color: var(--wpea-surface--text-muted);
+  }
+
   /* Color Columns */
   .wpea-framework-settings__color-columns {
     display: grid;
@@ -772,9 +971,26 @@
   }
 
   .wpea-framework-settings__swatch-label {
-    font-size: var(--wpea-text--xs);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--wpea-space--xs);
+    background: transparent;
+    border: none;
+    border-radius: var(--wpea-radius--sm);
     color: var(--wpea-surface--text-muted);
-    text-transform: uppercase;
+    cursor: pointer;
+    transition: color var(--wpea-anim-duration--fast), background-color var(--wpea-anim-duration--fast);
+  }
+
+  .wpea-framework-settings__swatch-label:hover {
+    color: var(--wpea-surface--text);
+    background-color: var(--wpea-surface--muted);
+  }
+
+  .wpea-framework-settings__swatch-label:focus-visible {
+    outline: none;
+    box-shadow: var(--wpea-focus-shadow);
   }
 
   /* Color Picker Wrapper Styling - using the library's CSS custom properties */
@@ -957,12 +1173,19 @@
   .wpea-framework-settings__preview-typography {
     display: flex;
     flex-direction: column;
-    gap: var(--wpea-space--xs);
+    gap: var(--wpea-space--sm);
   }
 
   .wpea-framework-settings__preview-h1 {
     margin: 0;
     font-size: var(--wpea-text--2xl);
+    font-weight: 600;
+    line-height: 1.2;
+  }
+
+  .wpea-framework-settings__preview-h4 {
+    margin: 0;
+    font-size: var(--wpea-text--md);
     font-weight: 600;
     line-height: 1.2;
   }
@@ -1027,6 +1250,18 @@
 
   .wpea-framework-settings__spacing-bar--xl::before {
     width: var(--wpea-space--xl);
+  }
+
+  .wpea-framework-settings__spacing-bar--2xl::before {
+    width: var(--wpea-space--2xl);
+  }
+
+  .wpea-framework-settings__spacing-bar--3xl::before {
+    width: var(--wpea-space--3xl);
+  }
+
+  .wpea-framework-settings__spacing-bar--4xl::before {
+    width: var(--wpea-space--4xl);
   }
 
   /* Radii Preview */
@@ -1125,16 +1360,22 @@
     transition: transform var(--wpea-anim-duration--fast), box-shadow var(--wpea-anim-duration--fast);
   }
 
-  .wpea-framework-settings__palette-base:hover {
+  .wpea-framework-settings__palette-base:hover:not(:disabled) {
     transform: scale(1.02);
     box-shadow: var(--wpea-shadow--md);
     z-index: 1;
   }
 
-  .wpea-framework-settings__palette-base:hover .wpea-framework-settings__palette-tooltip {
+  .wpea-framework-settings__palette-base:hover:not(:disabled) .wpea-framework-settings__palette-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
+  }
+
+  .wpea-framework-settings__palette-base:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(0.5);
   }
 
   .wpea-framework-settings__palette-swatch {
@@ -1156,17 +1397,23 @@
     border-bottom-right-radius: var(--wpea-radius--sm);
   }
 
-  .wpea-framework-settings__palette-swatch:hover {
+  .wpea-framework-settings__palette-swatch:hover:not(:disabled) {
     transform: scale(1.15);
     box-shadow: var(--wpea-shadow--md);
     z-index: 2;
     border-radius: var(--wpea-radius--sm);
   }
 
-  .wpea-framework-settings__palette-swatch:hover .wpea-framework-settings__palette-tooltip {
+  .wpea-framework-settings__palette-swatch:hover:not(:disabled) .wpea-framework-settings__palette-tooltip {
     opacity: 1;
     visibility: visible;
     transform: translateX(-50%) translateY(0);
+  }
+
+  .wpea-framework-settings__palette-swatch:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+    filter: grayscale(0.5);
   }
 
   .wpea-framework-settings__palette-swatch--copied {

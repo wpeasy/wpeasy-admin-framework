@@ -11,6 +11,7 @@
     columns: Column<T>[];
     data: T[];
     striped?: boolean;
+    hover?: boolean;
     class?: string;
     style?: string;
     thead?: Snippet;
@@ -21,14 +22,22 @@
     columns = [],
     data = [],
     striped = false,
+    hover = false,
     class: className = '',
     style,
     thead,
     tbody
   }: Props = $props();
+
+  let tableClasses = $derived([
+    'wpea-table',
+    striped ? 'wpea-table--striped' : '',
+    hover ? 'wpea-table--hover' : '',
+    className
+  ].filter(Boolean).join(' '));
 </script>
 
-<table class="wpea-table {striped ? 'wpea-table--striped' : ''} {className}" {style}>
+<table class={tableClasses} {style}>
   <thead>
     {#if thead}
       {@render thead()}

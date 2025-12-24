@@ -97,6 +97,7 @@
     background: var(--wpea-surface--bg);
     display: flex;
     flex-direction: column;
+    max-width: var(--wpea-app-max-width);
   }
 
   /* Full-screen container - use for full-page apps and modals */
@@ -1463,6 +1464,8 @@
   .wpea-table thead th { background: var(--wpea-surface--muted); text-align:left; font-weight:600; }
   .wpea-table--striped tbody tr:nth-child(odd) { background: light-dark(var(--wpea-color--neutral-l-9), var(--wpea-color--neutral-l-6)); }
   .wpea-table--striped tbody tr:nth-child(even) { background: transparent; }
+  .wpea-table--hover tbody tr { transition: background-color var(--wpea-anim-duration--fast); }
+  .wpea-table--hover tbody tr:hover { background: light-dark(var(--wpea-color--primary-l-9), var(--wpea-color--primary-l-7)); }
 
   /* Alerts */
   .wpea-alert { border: 1px solid; padding-block: var(--wpea-space--md); padding-inline: var(--wpea-space--md); border-radius: var(--wpea-radius--md); }

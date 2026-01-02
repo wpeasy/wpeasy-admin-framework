@@ -1,11 +1,7 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
-
-  type ToggleOption = {
-    value: string;
-    label: string;
-    icon?: Snippet;
-  };
+  import type { ToggleOption } from '../types';
+  import { isSnippet } from '../utils/renderContent';
 
   type Props = {
     value?: string;
@@ -20,6 +16,11 @@
     class?: string;
     style?: string;
   };
+
+  // Helper to get string label for aria (falls back to value if Snippet)
+  function getAriaLabel(option: ToggleOption): string {
+    return typeof option.label === 'string' ? option.label : option.value;
+  }
 
   let {
     value = $bindable(''),
@@ -64,7 +65,7 @@
           type="button"
           class="wpea-toggle-3state__btn"
           aria-pressed={value === option.value}
-          aria-label={option.label}
+          aria-label={getAriaLabel(option)}
           disabled={disabled}
           onclick={() => handleClick(option)}
           onkeydown={(e) => handleKeydown(e, option)}
@@ -72,10 +73,16 @@
           {#if option.icon}
             {@render option.icon()}
           {/if}
-          <span>{option.label}</span>
+          <span>
+            {#if isSnippet(option.label)}
+              {@render option.label()}
+            {:else}
+              {option.label}
+            {/if}
+          </span>
         </button>
         <div class="wpea-popover__content {positionClass} {sizeClass}">
-          {option.label}
+          {getAriaLabel(option)}
         </div>
       </div>
     {:else}
@@ -83,7 +90,7 @@
         type="button"
         class="wpea-toggle-3state__btn"
         aria-pressed={value === option.value}
-        aria-label={iconOnly ? option.label : undefined}
+        aria-label={iconOnly ? getAriaLabel(option) : undefined}
         disabled={disabled}
         onclick={() => handleClick(option)}
         onkeydown={(e) => handleKeydown(e, option)}
@@ -91,7 +98,13 @@
         {#if option.icon}
           {@render option.icon()}
         {/if}
-        <span>{option.label}</span>
+        <span>
+          {#if isSnippet(option.label)}
+            {@render option.label()}
+          {:else}
+            {option.label}
+          {/if}
+        </span>
       </button>
     {/if}
   {/each}

@@ -1,5 +1,6 @@
 <script lang="ts">
-  import type { Size } from '../types';
+  import type { Size, StringOrSnippet } from '../types';
+  import { isSnippet } from '../utils/renderContent';
 
   type Props = {
     value?: number;
@@ -13,8 +14,8 @@
     max?: number;
     step?: number;
     size?: Size;
-    label?: string;
-    help?: string;
+    label?: StringOrSnippet;
+    help?: StringOrSnippet;
     class?: string;
     style?: string;
     oninput?: (value: number) => void;
@@ -104,7 +105,13 @@
 {#if label || help}
   <div class="wpea-field">
     {#if label}
-      <label class="wpea-label" for={id}>{label}</label>
+      <label class="wpea-label" for={id}>
+        {#if isSnippet(label)}
+          {@render label()}
+        {:else}
+          {label}
+        {/if}
+      </label>
     {/if}
     <div class="wpea-number-wrapper">
       <input
@@ -154,7 +161,13 @@
       </div>
     </div>
     {#if help}
-      <span class="wpea-help">{help}</span>
+      <span class="wpea-help">
+        {#if isSnippet(help)}
+          {@render help()}
+        {:else}
+          {help}
+        {/if}
+      </span>
     {/if}
   </div>
 {:else}

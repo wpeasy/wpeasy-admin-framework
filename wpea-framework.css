@@ -104,7 +104,137 @@
   .wpea-full {
     min-height: 100vh;
   }
-  
+
+  /* =========================
+     EMBEDDED RESETS
+     Use .wpea-embed when framework is embedded inside
+     page builders (Bricks, Elementor, etc.) where global
+     resets cannot be loaded.
+     ========================= */
+
+  /* Embedded container - isolates styles from parent app */
+  .wpea-embed {
+    /* Reset inherited styles from parent */
+    all: revert;
+
+    /* Re-apply WPEA base styles */
+    font-family: var(--wpea-font-sans);
+    font-size: var(--wpea-fs-base);
+    line-height: 1.5;
+    color: var(--wpea-surface--text);
+    background: var(--wpea-surface--bg);
+    box-sizing: border-box;
+  }
+
+  /* Scoped resets within .wpea-embed */
+  .wpea-embed *,
+  .wpea-embed *::before,
+  .wpea-embed *::after {
+    box-sizing: border-box;
+  }
+
+  .wpea-embed h1, .wpea-embed h2, .wpea-embed h3,
+  .wpea-embed h4, .wpea-embed h5, .wpea-embed h6 {
+    margin: 0;
+    padding: 0;
+    font-family: var(--wpea-font-sans);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .wpea-embed p {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+
+  /* Lists in .wpea-embed: styled by default (bullets/numbers) */
+  .wpea-embed ul,
+  .wpea-embed ol {
+    margin: 0;
+    padding: 0 0 0 var(--wpea-space--lg);
+    /* list-style inherited from browser (disc, decimal) */
+  }
+
+  .wpea-embed li {
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+  }
+
+  .wpea-embed dl, .wpea-embed dt, .wpea-embed dd,
+  .wpea-embed blockquote, .wpea-embed pre, .wpea-embed figure,
+  .wpea-embed figcaption, .wpea-embed address {
+    margin: 0;
+    padding: 0;
+  }
+
+  .wpea-embed dt { font-weight: 600; }
+  .wpea-embed address { font-style: normal; }
+
+  .wpea-embed hr {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .wpea-embed table {
+    margin: 0;
+    padding: 0;
+    border-collapse: collapse;
+  }
+
+  .wpea-embed pre, .wpea-embed code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+    font-size: 0.9em;
+  }
+
+  .wpea-embed code {
+    padding: 0.2em 0.4em;
+    background: var(--wpea-surface--muted);
+    border-radius: var(--wpea-radius--sm);
+  }
+
+  .wpea-embed pre code {
+    padding: 0;
+    background: none;
+  }
+
+  .wpea-embed strong, .wpea-embed b { font-weight: 700; }
+  .wpea-embed em, .wpea-embed i { font-style: italic; }
+
+  .wpea-embed a {
+    color: var(--wpea-color--primary);
+    text-decoration: none;
+    transition: color var(--wpea-anim-duration--fast);
+  }
+
+  .wpea-embed a:hover {
+    color: var(--wpea-color--primary-d-2);
+    text-decoration: underline;
+  }
+
+  .wpea-embed input,
+  .wpea-embed select,
+  .wpea-embed textarea,
+  .wpea-embed button {
+    font-family: var(--wpea-font-sans);
+    margin: 0;
+  }
+
+  /* =========================
+     LIST RESET UTILITY
+     Use when lists are for layout, not content
+     ========================= */
+  .wpea-list-reset,
+  .wpea-list-reset ul,
+  .wpea-list-reset ol,
+  ul.wpea-list-reset,
+  ol.wpea-list-reset {
+    padding-left: 0;
+    list-style: none;
+  }
+
   /* =========================
      UTILITIES
      ========================= */

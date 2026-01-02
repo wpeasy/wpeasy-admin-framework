@@ -1,14 +1,10 @@
 <script lang="ts">
   import type { Snippet } from 'svelte';
+  import type { TableColumn } from '../types';
+  import { isSnippet } from '../utils/renderContent';
 
-  type Column<T = any> = {
-    key: string;
-    label: string;
-    render?: (row: T) => any;
-  };
-
-  type Props<T = any> = {
-    columns: Column<T>[];
+  type Props<T = Record<string, unknown>> = {
+    columns: TableColumn<T>[];
     data: T[];
     striped?: boolean;
     hover?: boolean;
@@ -44,7 +40,13 @@
     {:else}
       <tr>
         {#each columns as column}
-          <th>{column.label}</th>
+          <th>
+            {#if isSnippet(column.label)}
+              {@render column.label()}
+            {:else}
+              {column.label}
+            {/if}
+          </th>
         {/each}
       </tr>
     {/if}
